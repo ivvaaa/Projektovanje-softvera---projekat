@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BrokerBP")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0c4faf9389d3c60026f7aa4aa5cff5c47611a6a0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+822884f19fb71684a10e8ffdaab4202116e9a782")]
 [assembly: System.Reflection.AssemblyProductAttribute("BrokerBP")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BrokerBP")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
