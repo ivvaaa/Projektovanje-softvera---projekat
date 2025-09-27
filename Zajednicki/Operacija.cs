@@ -6,7 +6,24 @@ using System.Threading.Tasks;
 
 namespace Zajednicki
 {
-    public class Operacija
+    public enum Operacija
     {
+        PrijaviBibliotekara,
+
+        UbaciKnjigu,
+        PretraziKnjigu,
+        IzmeniKnjigu,
+        ObrisiKnjigu,
+
+        KreirajClana,
+        PretraziClana,
+        IzmeniClana,
+        ObrisiClana,
+
+        KreirajPozajmicu,
+        PretraziPozajmicu,
+        IzmeniPozajmicu
+
+
     }
 }

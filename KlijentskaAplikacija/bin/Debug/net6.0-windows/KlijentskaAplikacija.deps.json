@@ -7,14 +7,44 @@
   "targets": {
     ".NETCoreApp,Version=v6.0": {
       "KlijentskaAplikacija/1.0.0": {
+        "dependencies": {
+          "Domeni": "1.0.0",
+          "Zajednicki": "1.0.0"
+        },
         "runtime": {
           "KlijentskaAplikacija.dll": {}
+        }
+      },
+      "Domeni/1.0.0": {
+        "runtime": {
+          "Domeni.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "Zajednicki/1.0.0": {
+        "runtime": {
+          "Zajednicki.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       }
     }
   },
   "libraries": {
     "KlijentskaAplikacija/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Domeni/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Zajednicki/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ServerskaApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+831049812f463cd1d2212cfbcdbd71a506451736")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c3c6e85bbf9a68683073bcdbffb5bf5f7d53b352")]
 [assembly: System.Reflection.AssemblyProductAttribute("ServerskaApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ServerskaApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

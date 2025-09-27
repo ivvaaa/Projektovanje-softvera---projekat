@@ -1,0 +1,13 @@
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\BrokerBP\bin\Debug\net6.0\BrokerBP.deps.json
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\BrokerBP\bin\Debug\net6.0\BrokerBP.dll
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\BrokerBP\bin\Debug\net6.0\BrokerBP.pdb
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\BrokerBP\obj\Debug\net6.0\BrokerBP.csproj.AssemblyReference.cache
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\BrokerBP\obj\Debug\net6.0\BrokerBP.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\BrokerBP\obj\Debug\net6.0\BrokerBP.AssemblyInfoInputs.cache
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\BrokerBP\obj\Debug\net6.0\BrokerBP.AssemblyInfo.cs
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\BrokerBP\obj\Debug\net6.0\BrokerBP.csproj.CoreCompileInputs.cache
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\BrokerBP\obj\Debug\net6.0\BrokerBP.sourcelink.json
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\BrokerBP\obj\Debug\net6.0\BrokerBP.dll
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\BrokerBP\obj\Debug\net6.0\refint\BrokerBP.dll
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\BrokerBP\obj\Debug\net6.0\BrokerBP.pdb
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\BrokerBP\obj\Debug\net6.0\ref\BrokerBP.dll
