@@ -7,4 +7,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Domeni\Domeni.csproj" />
+    <ProjectReference Include="..\PoslovnaLogika\PoslovnaLogika.csproj" />
+    <ProjectReference Include="..\Zajednicki\Zajednicki.csproj" />
+  </ItemGroup>
+
 </Project>

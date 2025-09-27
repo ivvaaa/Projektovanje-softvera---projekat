@@ -6,4 +6,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BrokerBP\BrokerBP.csproj" />
+    <ProjectReference Include="..\Domeni\Domeni.csproj" />
+    <ProjectReference Include="..\Zajednicki\Zajednicki.csproj" />
+  </ItemGroup>
+
 </Project>

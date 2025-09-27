@@ -1,8 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "p6N4Dn2GhDk=",
+  "dgSpecHash": "VMw0GVW3oZk=",
   "success": true,
-  "projectFilePath": "C:\\Users\\MyPC\\Desktop\\4. godina\\projektovanje softvera\\Projekta - Softveri\\KlijentskaAplikacija\\KlijentskaAplikacija.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "D:\\Projektovanje Softvera\\Projektovanje-softvera---projekat\\KlijentskaAplikacija\\KlijentskaAplikacija.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\iva.kostic\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.36\\microsoft.windowsdesktop.app.ref.6.0.36.nupkg.sha512",
+    "C:\\Users\\iva.kostic\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.36\\microsoft.netcore.app.ref.6.0.36.nupkg.sha512",
+    "C:\\Users\\iva.kostic\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.36\\microsoft.aspnetcore.app.ref.6.0.36.nupkg.sha512",
+    "C:\\Users\\iva.kostic\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\6.0.36\\microsoft.netcore.app.host.win-x64.6.0.36.nupkg.sha512"
+  ],
   "logs": []
 }

@@ -1,5 +1,7 @@
 ﻿
 using Microsoft.Data.SqlClient;
+using Domeni;
+using System.Reflection.Metadata;
 
 namespace BrokerBP
 {
@@ -11,8 +13,10 @@ namespace BrokerBP
         {
             try
             {
-                connection = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Projekat-Softveri;Integrated Security=True;Connect Timeout=30;Encrypt=True;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
+                connection = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Projekat-Softveri;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
                 connection.Open();
+                Console.WriteLine("Uspesno uspostavljena veza sa bazom podataka!");
+
             }
             catch (Exception){
                 Console.WriteLine("Nije uspesno uspostavljena veza sa bazom podataka!");
@@ -22,6 +26,37 @@ namespace BrokerBP
         public void Disconnect()
         {
             connection?.Close();
+        }
+
+        public Bibliotekar GetBibliotekarByUserPass(Bibliotekar b)
+        {
+            try
+            {
+                string upit = $"select idBibliotekar, ime, prezime, username, password "+
+                    "from Bibliotekar where username=@u and password=@p";
+                using SqlCommand cmd = new SqlCommand(upit,connection);
+                cmd.Parameters.AddWithValue("u",b.Username);
+                cmd.Parameters.AddWithValue ("p",b.Password);
+                
+                using SqlDataReader reader = cmd.ExecuteReader();
+                if (reader.Read())
+                {
+                    b.Id = reader.GetInt32(0);
+                    b.Ime = reader.GetString(1);
+                    b.Prezime = reader.GetString(2);
+                    return b;
+                }
+                else
+                {
+                    throw new Exception("Ne postoji bibliotekar sa zadatim podacima!");
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine("Greska pri radu sa bazom.");
+                Console.WriteLine(ex.Message);
+                throw;
+            }
         }
 
 

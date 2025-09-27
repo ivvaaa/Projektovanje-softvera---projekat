@@ -1,0 +1,15 @@
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\ServerskaApp\bin\Debug\net6.0\ServerskaApp.exe
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\ServerskaApp\bin\Debug\net6.0\ServerskaApp.deps.json
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\ServerskaApp\bin\Debug\net6.0\ServerskaApp.runtimeconfig.json
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\ServerskaApp\bin\Debug\net6.0\ServerskaApp.dll
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\ServerskaApp\bin\Debug\net6.0\ServerskaApp.pdb
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\ServerskaApp\obj\Debug\net6.0\ServerskaApp.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\ServerskaApp\obj\Debug\net6.0\ServerskaApp.AssemblyInfoInputs.cache
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\ServerskaApp\obj\Debug\net6.0\ServerskaApp.AssemblyInfo.cs
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\ServerskaApp\obj\Debug\net6.0\ServerskaApp.csproj.CoreCompileInputs.cache
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\ServerskaApp\obj\Debug\net6.0\ServerskaApp.sourcelink.json
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\ServerskaApp\obj\Debug\net6.0\ServerskaApp.dll
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\ServerskaApp\obj\Debug\net6.0\refint\ServerskaApp.dll
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\ServerskaApp\obj\Debug\net6.0\ServerskaApp.pdb
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\ServerskaApp\obj\Debug\net6.0\ServerskaApp.genruntimeconfig.cache
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\ServerskaApp\obj\Debug\net6.0\ref\ServerskaApp.dll
