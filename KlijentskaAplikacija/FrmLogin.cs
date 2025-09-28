@@ -1,3 +1,6 @@
+using System;
+using System.Drawing;
+using System.Windows.Forms;
 using Domeni;
 using KlijentskaAplikacija.UIKontroler;
 
@@ -8,51 +11,86 @@ namespace KlijentskaAplikacija
         public FrmLogin()
         {
             InitializeComponent();
+
+            // UX
+            this.AcceptButton = btnLogin;          // Enter = Login
+            txtBoxPass.UseSystemPasswordChar = true;
+        }
+
+        private void ResetValidation()
+        {
+            txtBoxUsername.BackColor = Color.White;
+            txtBoxPass.BackColor = Color.White;
         }
 
         private bool Validacija()
         {
-            txtBoxPass.BackColor = Color.White;
-            txtBoxUsername.BackColor = Color.White;
-            bool okej = true;
-            if (string.IsNullOrEmpty(txtBoxPass.Text)) {
-                txtBoxPass.BackColor = Color.Salmon;
-                return false; 
-            }
-            if (string.IsNullOrEmpty(txtBoxUsername.Text))
+            ResetValidation();
+            bool ok = true;
+
+            if (string.IsNullOrWhiteSpace(txtBoxUsername.Text))
             {
                 txtBoxUsername.BackColor = Color.Salmon;
-                okej = false;
+                ok = false;
             }
-            if (!okej)
+            if (string.IsNullOrWhiteSpace(txtBoxPass.Text))
             {
-                MessageBox.Show("Nisu uneti svi podaci!", "Upoyorenje!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtBoxPass.BackColor = Color.Salmon;
+                ok = false;
             }
-            return okej;
+
+            if (!ok)
+                MessageBox.Show("Nisu uneti svi podaci!", "Upozorenje",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+            return ok;
         }
+
         private void btnLogin_Click(object sender, EventArgs e)
         {
             if (!Validacija()) return;
 
-            Bibliotekar bibliotekar = new Bibliotekar()
+            var kred = new Bibliotekar
             {
-                Username = txtBoxUsername.Text,
-                Password=txtBoxPass.Text
+                Username = txtBoxUsername.Text.Trim(),
+                Password = txtBoxPass.Text
             };
+
+            btnLogin.Enabled = true;
             try
             {
-                Kontroler k = Kontroler.Instance;
-                k.PoveziSe();
-                Bibliotekar b = k.PrijaviBibliotekara(bibliotekar);
-                MessageBox.Show("Uspesno povezivanje sa serverom!");
+                var k = Komunikacija.Instance;
+                var b = k.PrijaviBibliotekara(kred);
 
+                if (b == null)
+                {
+                    MessageBox.Show("Neispravni kredencijali.", "Prijava neuspešna",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtBoxPass.Clear();
+                    txtBoxPass.Focus();
+                    return;
+                }
 
+                // Uspeh
+                MessageBox.Show($"Dobrodošla, {b.Ime} {b.Prezime}!", "Prijava uspešna",
+                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // mali reset
+                txtBoxPass.Clear();
+                txtBoxUsername.SelectAll();
+                txtBoxUsername.Focus();
             }
             catch (Exception ex)
             {
+                MessageBox.Show(ex.Message, "Greška",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtBoxPass.SelectAll();
+                txtBoxPass.Focus();
             }
-
-
+            finally
+            {
+                btnLogin.Enabled = true;
+            }
         }
     }
 }

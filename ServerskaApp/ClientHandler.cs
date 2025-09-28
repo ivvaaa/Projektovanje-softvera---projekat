@@ -1,21 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.IO;                // IOException
 using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.Json;
 using Domeni;
 using PoslovnaLogika;
 using Zajednicki;
-using System.Net.Sockets;
-using System.Text.Json;
-
 
 namespace ServerskaApp
 {
     internal class ClientHandler
     {
-        private Socket klijentSoket;
+        private readonly Socket klijentSoket;
 
         public ClientHandler(Socket klijentSoket)
         {
@@ -24,55 +19,90 @@ namespace ServerskaApp
 
         internal void Handle()
         {
-            JsonNetworkSerializer serializer= new JsonNetworkSerializer(klijentSoket);
+            var serializer = new JsonNetworkSerializer(klijentSoket);
+            Kontoler k = new Kontoler(); 
 
-            while (true)
+            try
             {
-                Kontoler k= new Kontoler();
-                Zahtev z=serializer.Receive<Zahtev>();
-                Console.WriteLine("Stigao je zahtev od klijenta:{z.Operacija}");
-
-                try
+                while (true)
                 {
-                    if (z.Operacija == Operacija.PrijaviBibliotekara)
+                    Zahtev z;
+                    try
                     {
-                        Bibliotekar b = JsonSerializer.Deserialize<Bibliotekar>((JsonElement)z.Podaci);
-
-                        Bibliotekar bOdgovor = k.PrijaviBibliotekara(b);
-
-                        Odgovor o = new Odgovor
-                        {
-                            Signal =true,
-                            Poruka="Korisnik uspesno prijavljen!",
-                            Podaci=bOdgovor
-                        };
-                        serializer.Send(o);
-                        Console.WriteLine("Bibliotekaru je poslat odgovor. Uspeno prijavljivanje!");
+                        z = serializer.Receive<Zahtev>();
                     }
-                    //else if (z.Operacija==Operacija.V){
-
-                    //}
-
-
-                }
-                catch (Exception e)
-                {
-                    Odgovor o = new Odgovor
+                    catch (IOException)
                     {
-                        Signal = false,
-                        Poruka = e.Message
-                    };
-                    serializer.Send(o);
-                    Console.WriteLine("Doslo je do greske, Bibliotekaru je poslata poruka "+ e.Message);
+                        Console.WriteLine("Klijent se diskonektovao.");
+                        break;
+                    }
+
+                    Console.WriteLine($"Stigao je zahtev od klijenta: {z.Operacija}");
+
+                    try
+                    {
+                        switch (z.Operacija)
+                        {
+                            case Operacija.PrijaviBibliotekara:
+                                {
+                                    var b = JsonSerializer.Deserialize<Bibliotekar>((JsonElement)z.Podaci)!;
+                                    var dbUser = k.PrijaviBibliotekara(b);
+
+                                    if (dbUser == null)  //nema takvog bibliotekara
+                                    {
+                                        serializer.Send(new Odgovor
+                                        {
+                                            Signal = false,
+                                            Poruka = "Neispravni kredencijali.",
+                                            Podaci = null
+                                        });
+                                        Console.WriteLine("Login neuspešan: neispravni kredencijali.");
+                                        break; // sledeci zahtev
+                                    }
+
+                                    serializer.Send(new Odgovor
+                                    {
+                                        Signal = true,
+                                        Poruka = "OK",
+                                        Podaci = dbUser
+                                    });
+                                    Console.WriteLine($"Login uspešan za korisnika: {dbUser.Username}");
+                                    break;
+                                }
+                            //case Operacija.UbaciKnjigu:
+                            //    {
+
+                            //    }
+
+                            default:
+                                {
+                                    serializer.Send(new Odgovor
+                                    {
+                                        Signal = false,
+                                        Poruka = "Nepodržana operacija.",
+                                        Podaci = null
+                                    });
+                                    break;
+                                }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        serializer.Send(new Odgovor
+                        {
+                            Signal = false,
+                            Poruka = e.Message,
+                            Podaci = null
+                        });
+                        Console.WriteLine("Došlo je do greške: " + e.Message);
+                    }
                 }
             }
-
+            finally
+            {
+                try { klijentSoket.Shutdown(SocketShutdown.Both); } catch { }
+                klijentSoket.Close();
+            }
         }
-
-
-
-
-
-
     }
 }

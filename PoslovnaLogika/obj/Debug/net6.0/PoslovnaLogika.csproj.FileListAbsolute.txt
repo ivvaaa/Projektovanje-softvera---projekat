@@ -10,3 +10,11 @@ D:\Projektovanje Softvera\Projektovanje-softvera---projekat\PoslovnaLogika\obj\D
 D:\Projektovanje Softvera\Projektovanje-softvera---projekat\PoslovnaLogika\obj\Debug\net6.0\refint\PoslovnaLogika.dll
 D:\Projektovanje Softvera\Projektovanje-softvera---projekat\PoslovnaLogika\obj\Debug\net6.0\PoslovnaLogika.pdb
 D:\Projektovanje Softvera\Projektovanje-softvera---projekat\PoslovnaLogika\obj\Debug\net6.0\ref\PoslovnaLogika.dll
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\PoslovnaLogika\bin\Debug\net6.0\BrokerBP.dll
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\PoslovnaLogika\bin\Debug\net6.0\Domeni.dll
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\PoslovnaLogika\bin\Debug\net6.0\Zajednicki.dll
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\PoslovnaLogika\bin\Debug\net6.0\BrokerBP.pdb
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\PoslovnaLogika\bin\Debug\net6.0\Domeni.pdb
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\PoslovnaLogika\bin\Debug\net6.0\Zajednicki.pdb
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\PoslovnaLogika\obj\Debug\net6.0\PoslovnaLogika.csproj.AssemblyReference.cache
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\PoslovnaLogika\obj\Debug\net6.0\Poslovna.5AADE7AF.Up2Date
