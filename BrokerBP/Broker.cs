@@ -28,7 +28,7 @@ namespace BrokerBP
             connection?.Close();
         }
 
-        public Bibliotekar GetBibliotekarByUserPass(Bibliotekar b)
+        public Bibliotekar? GetBibliotekarByUserPass(Bibliotekar b)
         {
             try
             {
@@ -41,14 +41,14 @@ namespace BrokerBP
                 using SqlDataReader reader = cmd.ExecuteReader();
                 if (reader.Read())
                 {
-                    b.Id = reader.GetInt32(0);
+                    b.Id = reader.GetInt64(0);
                     b.Ime = reader.GetString(1);
                     b.Prezime = reader.GetString(2);
                     return b;
                 }
                 else
                 {
-                    throw new Exception("Ne postoji bibliotekar sa zadatim podacima!");
+                    return null;
                 }
             }
             catch (SqlException ex)

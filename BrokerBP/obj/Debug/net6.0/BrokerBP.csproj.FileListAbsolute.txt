@@ -11,3 +11,6 @@ D:\Projektovanje Softvera\Projektovanje-softvera---projekat\BrokerBP\obj\Debug\n
 D:\Projektovanje Softvera\Projektovanje-softvera---projekat\BrokerBP\obj\Debug\net6.0\refint\BrokerBP.dll
 D:\Projektovanje Softvera\Projektovanje-softvera---projekat\BrokerBP\obj\Debug\net6.0\BrokerBP.pdb
 D:\Projektovanje Softvera\Projektovanje-softvera---projekat\BrokerBP\obj\Debug\net6.0\ref\BrokerBP.dll
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\BrokerBP\bin\Debug\net6.0\Domeni.dll
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\BrokerBP\bin\Debug\net6.0\Domeni.pdb
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\BrokerBP\obj\Debug\net6.0\BrokerBP.csproj.Up2Date

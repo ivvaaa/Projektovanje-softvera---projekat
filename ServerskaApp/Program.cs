@@ -20,7 +20,7 @@ try
     Socket serverskiSoket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
     serverskiSoket.Bind(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 9999));
-    serverskiSoket.Listen();
+    serverskiSoket.Listen(10);
     Console.WriteLine("Server je pokrenut!");
     Console.WriteLine("Cekam klijenta...");
 
@@ -35,5 +35,11 @@ try
 }
 catch (SocketException ex)
 {
-    Console.WriteLine("Greska prilikom pokretanja servera!");
+    Console.WriteLine("Greška prilikom pokretanja servera: " + ex.Message);
+    Console.ReadLine();
+}
+catch (Exception ex)
+{
+    Console.WriteLine("Neočekivana greška: " + ex.Message);
+    Console.ReadLine();
 }

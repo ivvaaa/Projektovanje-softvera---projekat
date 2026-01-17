@@ -13,45 +13,41 @@ using Zajednicki;
 
 namespace KlijentskaAplikacija.UIKontroler
 {
-    internal class Kontroler
+    internal class Komunikacija
     {
-        public static Kontroler instance;
-        public static Kontroler Instance
+        public static Komunikacija instance;
+        public static Komunikacija Instance
         {
             get
             {
                 if (instance==null)
                 {
-                    instance = new Kontroler();
+                    instance = new Komunikacija();
                 }
                 return instance;
             }
         }
-
-        private Socket soket;
-        private Kontroler()
-        {
-            soket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-
-        }
+        private Komunikacija() { }
 
         private JsonNetworkSerializer serializer;
+        private Socket soket;
 
         public void PoveziSe()
         {
-            try
-            {
-                soket.Connect("127.0.0.1", 9999);
-                serializer = new JsonNetworkSerializer(soket);
-            }
-            catch (SocketException){
-                throw new Exception("Neuspesno poveyivanje sa serverom!");
-            }
-            
+            if (soket != null && soket.Connected && serializer != null) return; // vec povezano
+
+            try { soket?.Shutdown(SocketShutdown.Both); } catch { }  //brisanje starog
+            try { soket?.Close(); } catch { }
+            soket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
+            soket.Connect("127.0.0.1", 9999);
+            serializer = new JsonNetworkSerializer(soket);
+
         }
 
-        public  Bibliotekar PrijaviBibliotekara(Bibliotekar bibliotekar)
+        public  Bibliotekar? PrijaviBibliotekara(Bibliotekar bibliotekar)
         {
+            PoveziSe();
             Zahtev z=new Zahtev { 
             Operacija=Operacija.PrijaviBibliotekara,
             Podaci=bibliotekar
@@ -67,7 +63,7 @@ namespace KlijentskaAplikacija.UIKontroler
             }
             else
             {
-                throw new Exception(o.Poruka);
+                return null;
             }
         }
 
