@@ -48,9 +48,10 @@ namespace KlijentskaAplikacija.UIKontroler
         public  Bibliotekar? PrijaviBibliotekara(Bibliotekar bibliotekar)
         {
             PoveziSe();
-            Zahtev z=new Zahtev { 
-            Operacija=Operacija.PrijaviBibliotekara,
-            Podaci=bibliotekar
+            Zahtev z=new Zahtev 
+            { 
+                Operacija=Operacija.PrijaviBibliotekara,
+                Podaci=bibliotekar
             };
 
             serializer.Send(z);
@@ -67,6 +68,77 @@ namespace KlijentskaAplikacija.UIKontroler
             }
         }
 
+        public bool UbaciKnjigu(Knjiga knjiga)
+        {
+            PoveziSe();
+            Zahtev z = new Zahtev
+            {
+                Operacija = Operacija.UbaciKnjigu,
+                Podaci = knjiga
+            };
+
+            serializer.Send(z);
+            Odgovor o = serializer.Receive<Odgovor>();
+
+            return o.Signal;
+        }
+
+        public List<Knjiga> PretraziKnjige(string kriterijum = "")
+        {
+            PoveziSe();
+            Zahtev z = new Zahtev
+            {
+                Operacija = Operacija.PretraziKnjigu,
+                Podaci = kriterijum
+            };
+
+            serializer.Send(z);
+            Odgovor o = serializer.Receive<Odgovor>();
+
+            if (o.Signal)
+            {
+                var lista = JsonSerializer.Deserialize<List<Knjiga>>((JsonElement)o.Podaci);
+                if (lista == null)
+                {
+                    return new List<Knjiga>();
+                }
+                return lista;
+            }
+            else
+            {
+                return new List<Knjiga>();
+            }
+        }
+
+        public bool IzmeniKnjigu(Knjiga knjiga)
+        {
+            PoveziSe();
+            Zahtev z = new Zahtev
+            {
+                Operacija = Operacija.IzmeniKnjigu,
+                Podaci = knjiga
+            };
+
+            serializer.Send(z);
+            Odgovor o = serializer.Receive<Odgovor>();
+
+            return o.Signal;
+        }
+
+        public bool ObrisiKnjigu(long id)
+        {
+            PoveziSe();
+            Zahtev z = new Zahtev
+            {
+                Operacija = Operacija.ObrisiKnjigu,
+                Podaci = id
+            };
+
+            serializer.Send(z);
+            Odgovor o = serializer.Receive<Odgovor>();
+
+            return o.Signal;
+        }
 
 
 

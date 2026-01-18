@@ -66,13 +66,77 @@ namespace ServerskaApp
                                         Poruka = "OK",
                                         Podaci = dbUser
                                     });
-                                    Console.WriteLine($"Login uspešan za korisnika: {dbUser.Username}");
+                                    Console.WriteLine("Login uspešan za korisnika: "+dbUser.Username);
                                     break;
                                 }
-                            //case Operacija.UbaciKnjigu:
-                            //    {
+                            case Operacija.UbaciKnjigu:
+                                {
+                                    var knjiga = JsonSerializer.Deserialize<Knjiga>((JsonElement)z.Podaci)!;
+                                    k.UbaciKnjigu(knjiga);
 
-                            //    }
+                                    serializer.Send(new Odgovor
+                                    {
+                                        Signal = true,
+                                        Poruka = "Knjiga je uspešno ubačena.",
+                                        Podaci = null
+                                    });
+                                    Console.WriteLine("Ubačena knjiga: " + knjiga.Naziv);
+                                    break;
+                                }
+
+                            case Operacija.PretraziKnjigu:
+                                {
+                                    var kriterijum = z.Podaci?.ToString() ?? "";
+                                    List<Knjiga> lista;
+
+                                    if (string.IsNullOrWhiteSpace(kriterijum))
+                                    {
+                                        lista = k.VratiSveKnjige();
+                                    }
+                                    else
+                                    {
+                                        lista = k.PretraziKnjige(kriterijum);
+                                    }
+
+                                    serializer.Send(new Odgovor
+                                    {
+                                        Signal = true,
+                                        Poruka = "OK",
+                                        Podaci = lista
+                                    });
+                                    Console.WriteLine("Vraćeno "+lista.Count+" knjiga.");
+                                    break;
+                                }
+
+                            case Operacija.IzmeniKnjigu:
+                                {
+                                    var knjiga = JsonSerializer.Deserialize<Knjiga>((JsonElement)z.Podaci)!;
+                                    k.IzmeniKnjigu(knjiga);
+
+                                    serializer.Send(new Odgovor
+                                    {
+                                        Signal = true,
+                                        Poruka = "Knjiga je uspešno izmenjena.",
+                                        Podaci = null
+                                    });
+                                    Console.WriteLine("Izmenjena knjiga sa ID: "+knjiga.Id);
+                                    break;
+                                }
+
+                            case Operacija.ObrisiKnjigu:
+                                {
+                                    var id = ((JsonElement)z.Podaci).GetInt64();
+                                    k.ObrisiKnjigu(id);
+
+                                    serializer.Send(new Odgovor
+                                    {
+                                        Signal = true,
+                                        Poruka = "Knjiga je uspešno obrisana.",
+                                        Podaci = null
+                                    });
+                                    Console.WriteLine("Obrisana knjiga ID: "+id);
+                                    break;
+                                }
 
                             default:
                                 {
