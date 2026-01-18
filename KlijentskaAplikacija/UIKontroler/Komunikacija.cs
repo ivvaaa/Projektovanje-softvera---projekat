@@ -29,8 +29,8 @@ namespace KlijentskaAplikacija.UIKontroler
         }
         private Komunikacija() { }
 
-        private JsonNetworkSerializer serializer;
-        private Socket soket;
+        private JsonNetworkSerializer? serializer;
+        private Socket? soket;
 
         public void PoveziSe()
         {

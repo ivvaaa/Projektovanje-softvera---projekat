@@ -106,11 +106,11 @@
 
         #endregion
 
-        private TextBox txtBoxUsername;
-        private TextBox txtBoxPass;
+        public TextBox txtBoxUsername;
+        public TextBox txtBoxPass;
         private Label lable1;
         private Label label1;
         private Button btnOtkazi;
-        private Button btnLogin;
+        public Button btnLogin;
     }
 }

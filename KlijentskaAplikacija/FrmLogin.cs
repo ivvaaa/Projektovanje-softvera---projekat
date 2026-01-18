@@ -23,7 +23,7 @@ namespace KlijentskaAplikacija
             txtBoxPass.BackColor = Color.White;
         }
 
-        private bool Validacija()
+        public bool Validacija()
         {
             ResetValidation();
             bool ok = true;
@@ -56,7 +56,7 @@ namespace KlijentskaAplikacija
                 Password = txtBoxPass.Text
             };
 
-            btnLogin.Enabled = true;
+            btnLogin.Enabled = false; 
             try
             {
                 var k = Komunikacija.Instance;
@@ -71,14 +71,15 @@ namespace KlijentskaAplikacija
                     return;
                 }
 
-                // Uspeh
                 MessageBox.Show($"Dobrodošla, {b.Ime} {b.Prezime}!", "Prijava uspešna",
-                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                // mali reset
-                txtBoxPass.Clear();
-                txtBoxUsername.SelectAll();
-                txtBoxUsername.Focus();
+
+                // Sakrij login i otvori meni
+                this.Hide();
+                FrmMeni meni = new FrmMeni(b);
+                meni.ShowDialog();
+                this.Close();  
             }
             catch (Exception ex)
             {
