@@ -79,5 +79,11 @@ namespace KlijentskaAplikacija
             var uc = new UCUbaciKnjigu();
             PrikazUC(uc);
         }
+
+        private void btnSveKnjige_Click(object sender, EventArgs e)
+        {
+            var uc= new UCPrikazKnjiga();
+            PrikazUC(uc);
+        }
     }
 }

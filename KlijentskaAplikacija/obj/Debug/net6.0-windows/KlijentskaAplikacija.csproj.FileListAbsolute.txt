@@ -56,7 +56,6 @@ D:\Projektovanje Softvera\Projektovanje-softvera---projekat\KlijentskaAplikacija
 D:\Projektovanje Softvera\Projektovanje-softvera---projekat\KlijentskaAplikacija\obj\Debug\net6.0-windows\KlijentskaAplikacija.FrmMeni.resources
 D:\Projektovanje Softvera\Projektovanje-softvera---projekat\KlijentskaAplikacija\obj\Debug\net6.0-windows\KlijentskaAplikacija.FrmPretraziClana.resources
 D:\Projektovanje Softvera\Projektovanje-softvera---projekat\KlijentskaAplikacija\obj\Debug\net6.0-windows\KlijentskaAplikacija.FrmPretraziPozajmicu.resources
-D:\Projektovanje Softvera\Projektovanje-softvera---projekat\KlijentskaAplikacija\obj\Debug\net6.0-windows\KlijentskaAplikacija.FrmUbaciKnjigu.resources
 D:\Projektovanje Softvera\Projektovanje-softvera---projekat\KlijentskaAplikacija\obj\Debug\net6.0-windows\KlijentskaAplikacija.Properties.Resources.resources
 D:\Projektovanje Softvera\Projektovanje-softvera---projekat\KlijentskaAplikacija\obj\Debug\net6.0-windows\KlijentskaAplikacija.csproj.GenerateResource.cache
 D:\Projektovanje Softvera\Projektovanje-softvera---projekat\KlijentskaAplikacija\obj\Debug\net6.0-windows\KlijentskaAplikacija.GeneratedMSBuildEditorConfig.editorconfig
@@ -70,3 +69,5 @@ D:\Projektovanje Softvera\Projektovanje-softvera---projekat\KlijentskaAplikacija
 D:\Projektovanje Softvera\Projektovanje-softvera---projekat\KlijentskaAplikacija\obj\Debug\net6.0-windows\KlijentskaAplikacija.pdb
 D:\Projektovanje Softvera\Projektovanje-softvera---projekat\KlijentskaAplikacija\obj\Debug\net6.0-windows\KlijentskaAplikacija.genruntimeconfig.cache
 D:\Projektovanje Softvera\Projektovanje-softvera---projekat\KlijentskaAplikacija\obj\Debug\net6.0-windows\ref\KlijentskaAplikacija.dll
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\KlijentskaAplikacija\obj\Debug\net6.0-windows\KlijentskaAplikacija.UserControls.UCPrikazKnjiga.resources
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\KlijentskaAplikacija\obj\Debug\net6.0-windows\KlijentskaAplikacija.UserControls.UCUbaciKnjigu.resources
