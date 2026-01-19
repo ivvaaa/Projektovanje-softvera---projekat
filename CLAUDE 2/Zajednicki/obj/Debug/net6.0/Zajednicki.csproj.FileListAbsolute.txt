@@ -1,0 +1,12 @@
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\Zajednicki\bin\Debug\net6.0\Zajednicki.deps.json
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\Zajednicki\bin\Debug\net6.0\Zajednicki.dll
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\Zajednicki\bin\Debug\net6.0\Zajednicki.pdb
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\Zajednicki\obj\Debug\net6.0\Zajednicki.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\Zajednicki\obj\Debug\net6.0\Zajednicki.AssemblyInfoInputs.cache
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\Zajednicki\obj\Debug\net6.0\Zajednicki.AssemblyInfo.cs
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\Zajednicki\obj\Debug\net6.0\Zajednicki.csproj.CoreCompileInputs.cache
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\Zajednicki\obj\Debug\net6.0\Zajednicki.sourcelink.json
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\Zajednicki\obj\Debug\net6.0\Zajednicki.dll
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\Zajednicki\obj\Debug\net6.0\refint\Zajednicki.dll
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\Zajednicki\obj\Debug\net6.0\Zajednicki.pdb
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\Zajednicki\obj\Debug\net6.0\ref\Zajednicki.dll

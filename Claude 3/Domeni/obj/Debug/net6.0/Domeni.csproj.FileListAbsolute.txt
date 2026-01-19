@@ -1,0 +1,12 @@
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\Domeni\bin\Debug\net6.0\Domeni.deps.json
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\Domeni\bin\Debug\net6.0\Domeni.dll
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\Domeni\bin\Debug\net6.0\Domeni.pdb
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\Domeni\obj\Debug\net6.0\Domeni.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\Domeni\obj\Debug\net6.0\Domeni.AssemblyInfoInputs.cache
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\Domeni\obj\Debug\net6.0\Domeni.AssemblyInfo.cs
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\Domeni\obj\Debug\net6.0\Domeni.csproj.CoreCompileInputs.cache
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\Domeni\obj\Debug\net6.0\Domeni.sourcelink.json
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\Domeni\obj\Debug\net6.0\Domeni.dll
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\Domeni\obj\Debug\net6.0\refint\Domeni.dll
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\Domeni\obj\Debug\net6.0\Domeni.pdb
+D:\Projektovanje Softvera\Projektovanje-softvera---projekat\Domeni\obj\Debug\net6.0\ref\Domeni.dll
