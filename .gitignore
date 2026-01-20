@@ -3,3 +3,5 @@
 *.suo
 *.dbmdl
 *.jfm
+**/bin/
+**/obj/
