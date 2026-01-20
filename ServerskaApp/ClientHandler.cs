@@ -138,6 +138,58 @@ namespace ServerskaApp
                                     break;
                                 }
 
+                            case Operacija.KreirajClana:
+                                {
+                                    var clan = JsonSerializer.Deserialize<Clan>((JsonElement)z.Podaci)!;
+                                    bool uspeh = k.KreirajClana(clan);
+                                    serializer.Send(new Odgovor
+                                    {
+                                        Signal = uspeh,
+                                        Poruka = uspeh ? "Član uspešno kreiran." : "Greška pri kreiranju člana.",
+                                        Podaci = null
+                                    });
+                                    break;
+                                }
+
+                            case Operacija.PretraziClana:
+                                {
+                                    string kriterijum = z.Podaci?.ToString() ?? "";
+                                    var lista = k.PretraziClanove(kriterijum);
+                                    serializer.Send(new Odgovor
+                                    {
+                                        Signal = true,
+                                        Poruka = "OK",
+                                        Podaci = lista
+                                    });
+                                    break;
+                                }
+
+                            case Operacija.IzmeniClana:
+                                {
+                                    var clan = JsonSerializer.Deserialize<Clan>((JsonElement)z.Podaci)!;
+                                    bool uspeh = k.IzmeniClana(clan);
+                                    serializer.Send(new Odgovor
+                                    {
+                                        Signal = uspeh,
+                                        Poruka = uspeh ? "Član uspešno izmenjen." : "Greška pri izmeni člana.",
+                                        Podaci = null
+                                    });
+                                    break;
+                                }
+
+                            case Operacija.ObrisiClana:
+                                {
+                                    long id = Convert.ToInt64(z.Podaci?.ToString());
+                                    bool uspeh = k.ObrisiClana(id);
+                                    serializer.Send(new Odgovor
+                                    {
+                                        Signal = uspeh,
+                                        Poruka = uspeh ? "Član uspešno obrisan." : "Greška pri brisanju člana.",
+                                        Podaci = null
+                                    });
+                                    break;
+                                }
+
                             default:
                                 {
                                     serializer.Send(new Odgovor

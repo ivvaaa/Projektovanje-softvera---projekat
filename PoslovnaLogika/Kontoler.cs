@@ -21,6 +21,7 @@ namespace PoslovnaLogika
             }
         }
 
+        //--------KNJIGA
         public void UbaciKnjigu(Knjiga knjiga)
         {
             bbp.Connect();
@@ -79,6 +80,59 @@ namespace PoslovnaLogika
             try
             {
                 bbp.ObrisiKnjigu(id);
+            }
+            finally
+            {
+                bbp.Disconnect();
+            }
+        }
+
+        //--------CLAN
+        public bool KreirajClana(Clan clan)
+        {
+            bbp.Connect();
+            try
+            {
+                return bbp.KreirajClana(clan);
+            }
+            finally
+            {
+                bbp.Disconnect();
+            }
+        }
+
+        public List<Clan> PretraziClanove(string kriterijum)
+        {
+            bbp.Connect();
+            try
+            {
+                return bbp.PretraziClanove(kriterijum);
+            }
+            finally
+            {
+                bbp.Disconnect();
+            }
+        }
+
+        public bool IzmeniClana(Clan clan)
+        {
+            bbp.Connect();
+            try
+            {
+                return bbp.IzmeniClana(clan);
+            }
+            finally
+            {
+                bbp.Disconnect();
+            }
+        }
+
+        public bool ObrisiClana(long id)
+        {
+            bbp.Connect();
+            try
+            {
+                return bbp.ObrisiClana(id);
             }
             finally
             {
