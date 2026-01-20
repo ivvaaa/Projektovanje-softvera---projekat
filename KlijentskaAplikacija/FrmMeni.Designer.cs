@@ -196,6 +196,7 @@ namespace KlijentskaAplikacija
             btnPronadjiClana.TextAlign = ContentAlignment.MiddleLeft;
             btnPronadjiClana.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnPronadjiClana.UseVisualStyleBackColor = false;
+            btnPronadjiClana.Click += btnPronadjiClana_Click;
             // 
             // btnNovaPozajmica
             // 

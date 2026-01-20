@@ -188,14 +188,14 @@ namespace BrokerBP
         {
             try
             {
-                string upit = "INSERT INTO Clan (ime, prezime, telefon, datumOd, datumDo, idClanstva) VALUES (@ime, @prezime, @telefon, @datumOd, @datumDo, @idClanstva)";
+                string upit = "INSERT INTO Clan (ime, prezime, telefon, datumOd, datumDo, idClanstvo) VALUES (@ime, @prezime, @telefon, @datumOd, @datumDo, @idClanstvo)";
                 using SqlCommand cmd = new SqlCommand(upit, connection);
                 cmd.Parameters.AddWithValue("@ime", clan.Ime);
                 cmd.Parameters.AddWithValue("@prezime", clan.Prezime);
                 cmd.Parameters.AddWithValue("@telefon", clan.Telefon);
-                cmd.Parameters.AddWithValue("@datumOd", clan.DatumOd.ToDateTime(TimeOnly.MinValue));
-                cmd.Parameters.AddWithValue("@datumDo", clan.DatumDo.ToDateTime(TimeOnly.MinValue));
-                cmd.Parameters.AddWithValue("@idClanstva", clan.IdClanstva);
+                cmd.Parameters.AddWithValue("@datumOd", clan.DatumOd);
+                cmd.Parameters.AddWithValue("@datumDo", clan.DatumDo);
+                cmd.Parameters.AddWithValue("@idClanstvo", clan.IdClanstva);
                 return cmd.ExecuteNonQuery() > 0;
             }
             catch (SqlException ex)
@@ -210,7 +210,7 @@ namespace BrokerBP
             List<Clan> lista = new List<Clan>();
             try
             {
-                string upit = "SELECT idClan, ime, prezime, telefon, datumOd, datumDo, idClanstva FROM Clan";
+                string upit = "SELECT idClan, ime, prezime, telefon, datumOd, datumDo, idClanstvo FROM Clan";
                 if (!string.IsNullOrWhiteSpace(kriterijum))
                 {
                     upit += " WHERE ime LIKE @krit OR prezime LIKE @krit OR CAST(telefon AS VARCHAR) LIKE @krit";
@@ -231,8 +231,8 @@ namespace BrokerBP
                         Ime = reader.GetString(1),
                         Prezime = reader.GetString(2),
                         Telefon = reader.GetInt64(3),
-                        DatumOd = DateOnly.FromDateTime(reader.GetDateTime(4)),
-                        DatumDo = DateOnly.FromDateTime(reader.GetDateTime(5)),
+                        DatumOd = reader.GetDateTime(4),
+                        DatumDo = reader.GetDateTime(5), 
                         IdClanstva = reader.GetInt64(6)
                     });
                 }
@@ -249,15 +249,15 @@ namespace BrokerBP
         {
             try
             {
-                string upit = "UPDATE Clan SET ime=@ime, prezime=@prezime, telefon=@telefon, datumOd=@datumOd, datumDo=@datumDo, idClanstva=@idClanstva WHERE idClan=@id";
+                string upit = "UPDATE Clan SET ime=@ime, prezime=@prezime, telefon=@telefon, datumOd=@datumOd, datumDo=@datumDo, idClanstvo=@idClanstvo WHERE idClan=@id";
                 using SqlCommand cmd = new SqlCommand(upit, connection);
                 cmd.Parameters.AddWithValue("@id", clan.Id);
                 cmd.Parameters.AddWithValue("@ime", clan.Ime);
                 cmd.Parameters.AddWithValue("@prezime", clan.Prezime);
                 cmd.Parameters.AddWithValue("@telefon", clan.Telefon);
-                cmd.Parameters.AddWithValue("@datumOd", clan.DatumOd.ToDateTime(TimeOnly.MinValue));
-                cmd.Parameters.AddWithValue("@datumDo", clan.DatumDo.ToDateTime(TimeOnly.MinValue));
-                cmd.Parameters.AddWithValue("@idClanstva", clan.IdClanstva);
+                cmd.Parameters.AddWithValue("@datumOd", clan.DatumOd);
+                cmd.Parameters.AddWithValue("@datumDo", clan.DatumDo);
+                cmd.Parameters.AddWithValue("@idClanstvo", clan.IdClanstva);
                 return cmd.ExecuteNonQuery() > 0;
             }
             catch (SqlException ex)
@@ -287,7 +287,7 @@ namespace BrokerBP
         {
             try
             {
-                string upit = "SELECT idClan, ime, prezime, telefon, datumOd, datumDo, idClanstva FROM Clan WHERE idClan=@id";
+                string upit = "SELECT idClan, ime, prezime, telefon, datumOd, datumDo, idClanstvo FROM Clan WHERE idClan=@id";
                 using SqlCommand cmd = new SqlCommand(upit, connection);
                 cmd.Parameters.AddWithValue("@id", id);
 
@@ -300,8 +300,8 @@ namespace BrokerBP
                         Ime = reader.GetString(1),
                         Prezime = reader.GetString(2),
                         Telefon = reader.GetInt64(3),
-                        DatumOd = DateOnly.FromDateTime(reader.GetDateTime(4)),
-                        DatumDo = DateOnly.FromDateTime(reader.GetDateTime(5)),
+                        DatumOd = reader.GetDateTime(4),
+                        DatumDo = reader.GetDateTime(5),
                         IdClanstva = reader.GetInt64(6)
                     };
                 }

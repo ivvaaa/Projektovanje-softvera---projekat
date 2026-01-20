@@ -10,6 +10,6 @@ namespace Domeni
     {
         public long IdTerminSmene { get; set; }
         public long IdBibliotekara { get; set; }
-        public DateOnly Datum { get; set; }
+        public DateTime Datum { get; set; }
     }
 }
