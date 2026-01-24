@@ -9,7 +9,7 @@ namespace Domeni
     public class Pozajmica
     {
         public long Id { get; set; }
-        public DateOnly DatumOd { get; set; }
+        public DateTime DatumOd { get; set; }
         public long IdBibliotekar { get; set; }
         public long IdClan { get; set; }
 

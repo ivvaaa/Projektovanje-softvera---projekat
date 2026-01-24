@@ -12,8 +12,8 @@ namespace Domeni
         public string Ime { get; set; }
         public string Prezime { get; set; }
         public long Telefon { get; set; }
-        public DateOnly DatumOd { get; set; }
-        public DateOnly DatumDo { get; set; }
+        public DateTime DatumOd { get; set; }
+        public DateTime DatumDo { get; set; }
         public long IdClanstva { get; set; }
 
 

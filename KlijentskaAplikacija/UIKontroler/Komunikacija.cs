@@ -68,6 +68,7 @@ namespace KlijentskaAplikacija.UIKontroler
             }
         }
 
+        //--------------------KNJIGA
         public bool UbaciKnjigu(Knjiga knjiga)
         {
             PoveziSe();
@@ -140,7 +141,67 @@ namespace KlijentskaAplikacija.UIKontroler
             return o.Signal;
         }
 
+        //--------------------CLAN
+        public bool KreirajClana(Clan clan)
+        {
+            PoveziSe();
+            Zahtev z = new Zahtev
+            {
+                Operacija = Operacija.KreirajClana,
+                Podaci = clan
+            };
 
+            serializer.Send(z);
+            Odgovor o = serializer.Receive<Odgovor>();
+            return o.Signal;
+        }
+
+        public List<Clan> PretraziClanove(string kriterijum)
+        {
+            PoveziSe();
+            Zahtev z = new Zahtev
+            {
+                Operacija = Operacija.PretraziClana,
+                Podaci = kriterijum
+            };
+
+            serializer.Send(z);
+            Odgovor o = serializer.Receive<Odgovor>();
+
+            if (o.Signal && o.Podaci != null)
+            {
+                return JsonSerializer.Deserialize<List<Clan>>((JsonElement)o.Podaci) ?? new List<Clan>();
+            }
+            return new List<Clan>();
+        }
+
+        public bool IzmeniClana(Clan clan)
+        {
+            PoveziSe();
+            Zahtev z = new Zahtev
+            {
+                Operacija = Operacija.IzmeniClana,
+                Podaci = clan
+            };
+
+            serializer.Send(z);
+            Odgovor o = serializer.Receive<Odgovor>();
+            return o.Signal;
+        }
+
+        public bool ObrisiClana(long id)
+        {
+            PoveziSe();
+            Zahtev z = new Zahtev
+            {
+                Operacija = Operacija.ObrisiClana,
+                Podaci = id
+            };
+
+            serializer.Send(z);
+            Odgovor o = serializer.Receive<Odgovor>();
+            return o.Signal;
+        }
 
 
 

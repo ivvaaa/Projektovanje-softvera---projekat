@@ -10,7 +10,7 @@ namespace Domeni
     {
         public long Id { get; set; }
         public long RbPozajmice { get; set; }
-        public DateOnly RokPozajmice { get; set; }
+        public DateTime RokPozajmice { get; set; }
         public long IdKnjige { get; set; }
 
     }

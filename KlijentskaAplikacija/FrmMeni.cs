@@ -82,8 +82,15 @@ namespace KlijentskaAplikacija
 
         private void btnSveKnjige_Click(object sender, EventArgs e)
         {
-            var uc= new UCPrikazKnjiga();
+            var uc = new UCPrikazKnjiga();
             PrikazUC(uc);
+        }
+
+        private void btnPronadjiClana_Click(object sender, EventArgs e)
+        {
+            var uc = new UCPrikazClanova();
+            PrikazUC(uc);
+
         }
     }
 }
