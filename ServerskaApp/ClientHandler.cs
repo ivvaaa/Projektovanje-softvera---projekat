@@ -190,6 +190,32 @@ namespace ServerskaApp
                                     break;
                                 }
 
+                            case Operacija.KreirajPozajmicu:
+                                {
+                                    var pozajmica = JsonSerializer.Deserialize<Pozajmica>((JsonElement)z.Podaci)!;
+                                    long idPozajmice = k.KreirajPozajmicu(pozajmica);
+                                    serializer.Send(new Odgovor
+                                    {
+                                        Signal = idPozajmice > 0,
+                                        Poruka = idPozajmice > 0 ? "Pozajmica uspešno kreirana." : "Greška pri kreiranju.",
+                                        Podaci = idPozajmice
+                                    });
+                                    break;
+                                }
+
+                            case Operacija.PretraziPozajmicu:
+                                {
+                                    string kriterijum = z.Podaci?.ToString() ?? "";
+                                    var lista = k.PretraziPozajmice(kriterijum);
+                                    serializer.Send(new Odgovor
+                                    {
+                                        Signal = true,
+                                        Poruka = "OK",
+                                        Podaci = lista
+                                    });
+                                    break;
+                                }
+
                             default:
                                 {
                                     serializer.Send(new Odgovor

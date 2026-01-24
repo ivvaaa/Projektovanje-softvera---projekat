@@ -219,6 +219,7 @@ namespace KlijentskaAplikacija
             btnNovaPozajmica.TextAlign = ContentAlignment.MiddleLeft;
             btnNovaPozajmica.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnNovaPozajmica.UseVisualStyleBackColor = false;
+            btnNovaPozajmica.Click += btnNovaPozajmica_Click;
             // 
             // btnSvaZaduzenja
             // 

@@ -13,6 +13,7 @@ namespace Domeni
         public long IdBibliotekar { get; set; }
         public long IdClan { get; set; }
 
-
+        public List<StavkaPozajmice> Stavke { get; set; } = new List<StavkaPozajmice>();
+        public string ImePrezimeClana { get; set; }
     }
 }

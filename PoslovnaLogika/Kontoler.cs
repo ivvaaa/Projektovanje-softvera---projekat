@@ -140,5 +140,47 @@ namespace PoslovnaLogika
             }
         }
 
+
+        // ------- poazjmica
+
+        public long KreirajPozajmicu(Pozajmica p)
+        {
+            bbp.Connect();
+            try
+            {
+                return bbp.KreirajPozajmicu(p);
+            }
+            finally
+            {
+                bbp.Disconnect();
+            }
+        }
+
+        public List<Pozajmica> PretraziPozajmice(string kriterijum)
+        {
+            bbp.Connect();
+            try
+            {
+                return bbp.PretraziPozajmice(kriterijum);
+            }
+            finally
+            {
+                bbp.Disconnect();
+            }
+        }
+
+        public List<StavkaPozajmice> GetStavkePozajmice(long idPozajmice)
+        {
+            bbp.Connect();
+            try
+            {
+                return bbp.GetStavkePozajmice(idPozajmice);
+            }
+            finally
+            {
+                bbp.Disconnect();
+            }
+        }
+
     }
 }
