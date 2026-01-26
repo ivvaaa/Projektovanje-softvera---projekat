@@ -314,6 +314,106 @@ namespace BrokerBP
             }
         }
 
+        //---- pozajmica
+
+        public long KreirajPozajmicu(Pozajmica p)
+        {
+            try
+            {
+                string upit = "INSERT INTO Pozajmica (datumOd, idBibliotekar, idClan) VALUES (@datumOd, @idBibliotekar, @idClan); SELECT SCOPE_IDENTITY();";
+                using SqlCommand cmd = new SqlCommand(upit, connection);
+                cmd.Parameters.AddWithValue("@datumOd", p.DatumOd);
+                cmd.Parameters.AddWithValue("@idBibliotekar", p.IdBibliotekar);
+                cmd.Parameters.AddWithValue("@idClan", p.IdClan);
+                object result = cmd.ExecuteScalar();
+                long idPozajmice = Convert.ToInt64(result);
+                foreach (var stavka in p.Stavke)
+                {
+                    string upitStavka = "INSERT INTO StavkaPozajmice (idPozajmica, rokPozajmice, idKnjiga) VALUES (@idPozajmica, @rokPozajmice, @idKnjiga)";
+                    using SqlCommand cmdStavka = new SqlCommand(upitStavka, connection);
+                    cmdStavka.Parameters.AddWithValue("@idPozajmica", idPozajmice);
+                    cmdStavka.Parameters.AddWithValue("@rokPozajmice", stavka.RokPozajmice);
+                    cmdStavka.Parameters.AddWithValue("@idKnjiga", stavka.IdKnjige);
+                    cmdStavka.ExecuteNonQuery();
+                }
+                return idPozajmice;
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine("Greska pri kreiranju pozajmice: " + ex.Message);
+                throw;
+            }
+        }
+
+        public List<Pozajmica> PretraziPozajmice(string kriterijum)
+        {
+            List<Pozajmica> lista = new List<Pozajmica>();
+            try
+            {
+                string upit = @"SELECT p.idPozajmica, p.datumOd, p.idBibliotekar, p.idClan, c.ime + ' ' + c.prezime as ImePrezimeClana
+                        FROM Pozajmica p
+                        INNER JOIN Clan c ON p.idClan = c.idClan";
+                if (!string.IsNullOrWhiteSpace(kriterijum))
+                {
+                    upit += " WHERE c.ime LIKE @krit OR c.prezime LIKE @krit";
+                }
+                using SqlCommand cmd = new SqlCommand(upit, connection);
+                if (!string.IsNullOrWhiteSpace(kriterijum))
+                {
+                    cmd.Parameters.AddWithValue("@krit", "%" + kriterijum + "%");
+                }
+                using SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    lista.Add(new Pozajmica
+                    {
+                        Id = reader.GetInt64(0),
+                        DatumOd = reader.GetDateTime(1),
+                        IdBibliotekar = reader.GetInt64(2),
+                        IdClan = reader.GetInt64(3),
+                        ImePrezimeClana = reader.GetString(4)
+                    });
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine("Greska pri pretrazi pozajmica: " + ex.Message);
+                throw;
+            }
+            return lista;
+        }
+
+        public List<StavkaPozajmice> GetStavkePozajmice(long idPozajmice)
+        {
+            List<StavkaPozajmice> lista = new List<StavkaPozajmice>();
+            try
+            {
+                string upit = @"SELECT sp.rbStavkaPozajmice, sp.idPozajmica, sp.rokPozajmice, sp.idKnjiga, k.naziv
+                        FROM StavkaPozajmice sp
+                        INNER JOIN Knjiga k ON sp.idKnjiga = k.idKnjiga
+                        WHERE sp.idPozajmica = @id";
+                using SqlCommand cmd = new SqlCommand(upit, connection);
+                cmd.Parameters.AddWithValue("@id", idPozajmice);
+                using SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    lista.Add(new StavkaPozajmice
+                    {
+                        Id = reader.GetInt64(0),           
+                        RbPozajmice = reader.GetInt64(1),  
+                        RokPozajmice = reader.GetDateTime(2),
+                        IdKnjige = reader.GetInt64(3),
+                        NazivKnjige = reader.GetString(4)
+                    });
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine("Greska pri nalazenju stavki: " + ex.Message);
+                throw;
+            }
+            return lista;
+        }
 
 
     }

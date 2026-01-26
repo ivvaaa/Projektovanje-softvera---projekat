@@ -203,7 +203,45 @@ namespace KlijentskaAplikacija.UIKontroler
             return o.Signal;
         }
 
+        // --------POZAJMICA
 
+        public long KreirajPozajmicu(Pozajmica pozajmica)
+        {
+            PoveziSe();
+            Zahtev z = new Zahtev
+            {
+                Operacija = Operacija.KreirajPozajmicu,
+                Podaci = pozajmica
+            };
+
+            serializer.Send(z);
+            Odgovor o = serializer.Receive<Odgovor>();
+
+            if (o.Signal)
+            {
+                return Convert.ToInt64(o.Podaci.ToString());
+            }
+            return 0;
+        }
+
+        public List<Pozajmica> PretraziPozajmice(string kriterijum)
+        {
+            PoveziSe();
+            Zahtev z = new Zahtev
+            {
+                Operacija = Operacija.PretraziPozajmicu,
+                Podaci = kriterijum
+            };
+
+            serializer.Send(z);
+            Odgovor o = serializer.Receive<Odgovor>();
+
+            if (o.Signal && o.Podaci != null)
+            {
+                return JsonSerializer.Deserialize<List<Pozajmica>>((JsonElement)o.Podaci) ?? new List<Pozajmica>();
+            }
+            return new List<Pozajmica>();
+        }
 
 
 

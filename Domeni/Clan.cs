@@ -16,6 +16,9 @@ namespace Domeni
         public DateTime DatumDo { get; set; }
         public long IdClanstva { get; set; }
 
+        public string ImePrezime => $"{Ime} {Prezime}";
+
+
 
     }
 }

@@ -15,14 +15,30 @@ namespace KlijentskaAplikacija.UserControls
         {
             InitializeComponent();
 
+            // Dodaj event NAKON InitializeComponent
             dgvClanovi.SelectionChanged += dgvClanovi_SelectionChanged;
             dgvClanovi.CellMouseUp += dgvClanovi_CellMouseUp;
+            dgvClanovi.CellClick += dgvClanovi_CellClick; 
 
             UcitajSveClanove();
+
             pnlDetalji.Visible = false;
         }
 
+        private void dgvClanovi_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                PrikaziSelektovanogClana();
+            }
+        }
+
         private void dgvClanovi_SelectionChanged(object sender, EventArgs e)
+        {
+            PrikaziSelektovanogClana();
+        }
+
+        private void PrikaziSelektovanogClana()
         {
             if (dgvClanovi.CurrentRow != null && dgvClanovi.CurrentRow.DataBoundItem is Clan c)
             {
@@ -87,18 +103,11 @@ namespace KlijentskaAplikacija.UserControls
         {
             try
             {
-                List<Clan> lista;
-
-                var rezultat = Komunikacija.Instance.PretraziClanove("");
-
-                if (rezultat == null)
-                    lista = new List<Clan>();
-                else
-                    lista = rezultat;
-
+                List<Clan> lista = Komunikacija.Instance.PretraziClanove("") ?? new List<Clan>();
                 bindingSource1.DataSource = lista;
                 lblBroj.Text = "Ukupno: " + lista.Count;
                 ResetujBoje();
+                pnlDetalji.Visible = false;
             }
             catch (Exception ex)
             {
@@ -126,13 +135,7 @@ namespace KlijentskaAplikacija.UserControls
             try
             {
                 string kriterijum = txtKriterijum.Text.Trim();
-                List<Clan> lista;
-                var rezultat = Komunikacija.Instance.PretraziClanove(kriterijum);
-
-                if (rezultat == null)
-                    lista = new List<Clan>();
-                else
-                    lista = rezultat;
+                List<Clan> lista = Komunikacija.Instance.PretraziClanove(kriterijum) ?? new List<Clan>();
 
                 bindingSource1.DataSource = lista;
                 lblBroj.Text = "Ukupno: " + lista.Count;
@@ -154,7 +157,6 @@ namespace KlijentskaAplikacija.UserControls
         {
             txtKriterijum.Text = "";
             UcitajSveClanove();
-            pnlDetalji.Visible = false;
         }
 
         private void txtKriterijum_KeyDown(object sender, KeyEventArgs e)
@@ -187,11 +189,13 @@ namespace KlijentskaAplikacija.UserControls
 
                 if (ids.Count == 0)
                 {
-                    MessageBox.Show("Niste označili nijednog člana.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Niste označili nijednog člana.", "Info",MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
 
-                var confirm = MessageBox.Show("Da li ste sigurni da želite da obrišete označene članove?", "Potvrda brisanja", MessageBoxButtons.YesNo,MessageBoxIcon.Warning);
+                var confirm = MessageBox.Show( "Da li ste sigurni da želite da obrišete označene članove?","Potvrda brisanja",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
 
                 if (confirm != DialogResult.Yes)
                     return;
@@ -201,10 +205,9 @@ namespace KlijentskaAplikacija.UserControls
                     Komunikacija.Instance.ObrisiClana(id);
                 }
 
-                MessageBox.Show("Označeni članovi su obrisani.", "Uspeh", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Označeni članovi su obrisani.", "Uspeh",MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 Pretrazi();
-                pnlDetalji.Visible = false;
             }
             catch (Exception ex)
             {
@@ -216,8 +219,9 @@ namespace KlijentskaAplikacija.UserControls
         {
             if (selektovaniClan == null) return;
 
-            var confirm = MessageBox.Show(
-                ("Da li ste sigurni da želite da obrišete člana "+selektovaniClan.Ime+ selektovaniClan.Prezime +"?"), "Potvrda brisanja", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            var confirm = MessageBox.Show( "Da li ste sigurni da želite da obrišete člana?","Potvrda brisanja",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning);
 
             if (confirm != DialogResult.Yes) return;
 
@@ -226,21 +230,24 @@ namespace KlijentskaAplikacija.UserControls
                 bool ok = Komunikacija.Instance.ObrisiClana(selektovaniClan.Id);
                 if (ok)
                 {
-                    MessageBox.Show("Član uspešno obrisan.", "Uspeh", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Član uspešno obrisan.", "Uspeh",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
                     Pretrazi();
-                    pnlDetalji.Visible = false;
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Greška: " + ex.Message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Greška: " + ex.Message, "Greška",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void btnIzmeni_Click(object sender, EventArgs e)
         {
             if (selektovaniClan == null) return;
-            MessageBox.Show("Funkcija izmene će biti implementirana.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            MessageBox.Show("Funkcija izmene će biti implementirana.", "Info",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

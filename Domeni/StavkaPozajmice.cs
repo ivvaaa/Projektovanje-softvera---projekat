@@ -12,6 +12,7 @@ namespace Domeni
         public long RbPozajmice { get; set; }
         public DateTime RokPozajmice { get; set; }
         public long IdKnjige { get; set; }
+        public string NazivKnjige { get; set; }
 
     }
 }

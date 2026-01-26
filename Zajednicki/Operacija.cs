@@ -22,8 +22,10 @@ namespace Zajednicki
 
         KreirajPozajmicu,
         PretraziPozajmicu,
-        IzmeniPozajmicu
+        IzmeniPozajmicu,
 
+        PretraziKnjigeZaPozajmicu,
+        PretraziClanoveZaPozajmicu
 
     }
 }
