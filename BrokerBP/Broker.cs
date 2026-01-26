@@ -350,13 +350,20 @@ namespace BrokerBP
             List<Pozajmica> lista = new List<Pozajmica>();
             try
             {
-                string upit = @"SELECT p.idPozajmica, p.datumOd, p.idBibliotekar, p.idClan, c.ime + ' ' + c.prezime as ImePrezimeClana
+                string upit = @"SELECT p.idPozajmica, p.datumOd, p.idBibliotekar, p.idClan, c.ime + ' ' + c.prezime as ImePrezimeClana, 
+                COUNT(sp.idKnjiga) as BrojKnjiga,
+                CASE 
+                    WHEN MIN(sp.rokPozajmice) < CAST(GETDATE() AS DATE) THEN 'Zakasnelo'
+                    ELSE 'Aktivna'
+                END as Status
                         FROM Pozajmica p
-                        INNER JOIN Clan c ON p.idClan = c.idClan";
+                        INNER JOIN Clan c ON p.idClan = c.idClan
+                        LEFT JOIN StavkaPozajmice sp ON p.idPozajmica = sp.idPozajmica";
                 if (!string.IsNullOrWhiteSpace(kriterijum))
                 {
                     upit += " WHERE c.ime LIKE @krit OR c.prezime LIKE @krit";
                 }
+                upit += @" GROUP BY p.idPozajmica, p.datumOd, p.idBibliotekar, p.idClan, c.ime, c.prezime ORDER BY p.datumOd DESC";
                 using SqlCommand cmd = new SqlCommand(upit, connection);
                 if (!string.IsNullOrWhiteSpace(kriterijum))
                 {
@@ -371,7 +378,9 @@ namespace BrokerBP
                         DatumOd = reader.GetDateTime(1),
                         IdBibliotekar = reader.GetInt64(2),
                         IdClan = reader.GetInt64(3),
-                        ImePrezimeClana = reader.GetString(4)
+                        ImePrezimeClana = reader.GetString(4),
+                        BrojKnjiga = reader.GetInt32(5),
+                        Status = reader.GetString(6)
                     });
                 }
             }

@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace KlijentskaAplikacija
+namespace KlijentskaAplikacija.UserControls
 {
-    public partial class FrmPretraziPozajmicu : Form
+    public partial class UCSvaZaduzenja : UserControl
     {
-        public FrmPretraziPozajmicu()
+        public UCSvaZaduzenja()
         {
             InitializeComponent();
         }

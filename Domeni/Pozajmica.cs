@@ -15,5 +15,9 @@ namespace Domeni
 
         public List<StavkaPozajmice> Stavke { get; set; } = new List<StavkaPozajmice>();
         public string ImePrezimeClana { get; set; }
+
+        public int BrojKnjiga { get; set; }
+        public string Status { get; set; }
+
     }
 }

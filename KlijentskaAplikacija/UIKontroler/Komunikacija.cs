@@ -34,7 +34,7 @@ namespace KlijentskaAplikacija.UIKontroler
 
         public void PoveziSe()
         {
-            if (soket != null && soket.Connected && serializer != null) return; // vec povezano
+            if (soket != null && soket.Connected && serializer != null) return; 
 
             try { soket?.Shutdown(SocketShutdown.Both); } catch { }  //brisanje starog
             try { soket?.Close(); } catch { }
