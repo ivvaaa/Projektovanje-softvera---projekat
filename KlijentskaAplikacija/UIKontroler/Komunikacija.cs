@@ -9,8 +9,6 @@ using System.Threading.Tasks;
 using Domeni;
 using Zajednicki;
 
-
-
 namespace KlijentskaAplikacija.UIKontroler
 {
     internal class Komunikacija
