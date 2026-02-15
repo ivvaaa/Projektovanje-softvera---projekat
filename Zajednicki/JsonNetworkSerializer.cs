@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Net.Sockets;
-using System.Text;
+﻿using System.Net.Sockets;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace Zajednicki
 {
@@ -16,11 +10,12 @@ namespace Zajednicki
         private StreamReader reader;
         private StreamWriter writer;
 
-        public JsonNetworkSerializer(Socket s){
+        public JsonNetworkSerializer(Socket s)
+        {
             this.s = s;
-            stream=new NetworkStream(s);
-            reader=new StreamReader(stream);
-            writer=new StreamWriter(stream)
+            stream = new NetworkStream(s);
+            reader = new StreamReader(stream);
+            writer = new StreamWriter(stream)
             {
                 AutoFlush = true
             };
@@ -33,9 +28,20 @@ namespace Zajednicki
 
         public T Receive<T>()
         {
-            string json=reader.ReadLine();
+            string json = reader.ReadLine();
             return JsonSerializer.Deserialize<T>(json);
         }
 
+        public T ReadType<T>(object podaci) where T : class
+        {
+            return podaci == null ? null : JsonSerializer.Deserialize<T>((JsonElement)podaci);
+        }
+
+        public void Close()
+        {
+            stream?.Close();
+            reader?.Close();
+            writer?.Close();
+        }
     }
 }
