@@ -250,5 +250,24 @@ namespace BrokerBP
 
             return lista;
         }
+
+        public int GetBrojSlobodnihPrimeraka(long idKnjige)
+        {
+            string upit = @"
+                SELECT 
+                    k.brojPrimeraka - ISNULL(
+                        (SELECT COUNT(*) 
+                         FROM StavkaPozajmice sp 
+                         WHERE sp.idKnjiga = k.idKnjiga 
+                         AND sp.datumVracanja IS NULL), 0
+                    )
+                FROM Knjiga k
+                WHERE k.idKnjiga = " + idKnjige;
+
+            SqlCommand cmd = CreateCommand();
+            cmd.CommandText = upit;
+            object result = cmd.ExecuteScalar();
+            return Convert.ToInt32(result);
+        }
     }
 }
