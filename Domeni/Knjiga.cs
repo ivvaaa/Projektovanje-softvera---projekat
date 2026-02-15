@@ -13,5 +13,17 @@ namespace Domeni
         public string ImePisca { get; set; }
         public string PrezimePisca { get; set; }
 
+        public int BrojPrimeraka { get; set; }=1;  
+        public int BrojSlobodnih { get; set; }       
+
+        public bool Dostupna
+        {
+            get
+            {
+                return BrojSlobodnih > 0;
+            }
+        }
+
+
     }
 }

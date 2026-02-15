@@ -48,7 +48,7 @@ namespace ServerskaApp
                                     var b = JsonSerializer.Deserialize<Bibliotekar>((JsonElement)z.Podaci)!;
                                     var dbUser = k.PrijaviBibliotekara(b);
 
-                                    if (dbUser == null)  //nema takvog bibliotekara
+                                    if (dbUser == null)
                                     {
                                         serializer.Send(new Odgovor
                                         {

@@ -98,5 +98,12 @@ namespace KlijentskaAplikacija
             var uc = new UCKreirajPozajmicu(ulogovani);
             PrikazUC(uc);
         }
+
+        private void btnSvaZaduzenja_Click(object sender, EventArgs e)
+        {
+            var uc = new UCSvaZaduzenja();
+            PrikazUC(uc);
+
+        }
     }
 }

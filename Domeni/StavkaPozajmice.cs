@@ -14,5 +14,19 @@ namespace Domeni
         public long IdKnjige { get; set; }
         public string NazivKnjige { get; set; }
 
+        public DateTime? DatumVracanja { get; set; }  //  null = nije vraćena
+
+        public bool JeVracena => DatumVracanja.HasValue;
+        public bool JeZakasnela
+        {
+            get
+            {
+                if (!JeVracena && RokPozajmice < DateTime.Now)
+                    return true;
+                else
+                    return false;
+            }
+        }
+
     }
 }

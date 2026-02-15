@@ -242,6 +242,7 @@ namespace KlijentskaAplikacija
             btnSvaZaduzenja.TextAlign = ContentAlignment.MiddleLeft;
             btnSvaZaduzenja.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnSvaZaduzenja.UseVisualStyleBackColor = false;
+            btnSvaZaduzenja.Click += btnSvaZaduzenja_Click;
             // 
             // pnlLogo
             // 

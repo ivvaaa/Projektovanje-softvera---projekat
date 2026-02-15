@@ -61,50 +61,62 @@ namespace BrokerBP
 
         //----------------------------- KNJIGA
 
-        public void UbaciKnjigu (Knjiga knjiga)
+        public void UbaciKnjigu(Knjiga knjiga)
         {
             try
             {
-                string upit = "INSERT INTO Knjiga (naziv,imePisca,prezimePisca) VALUES (@naziv, @imePisca, @prezimePisca)";
+                string upit = "INSERT INTO Knjiga (naziv, imePisca, prezimePisca, brojPrimeraka) VALUES (@naziv, @imePisca, @prezimePisca, @brojPrimeraka)";
                 using SqlCommand cmd = new SqlCommand(upit, connection);
                 cmd.Parameters.AddWithValue("@naziv", knjiga.Naziv);
                 cmd.Parameters.AddWithValue("@imePisca", knjiga.ImePisca);
                 cmd.Parameters.AddWithValue("@prezimePisca", knjiga.PrezimePisca);
+                cmd.Parameters.AddWithValue("@brojPrimeraka", knjiga.BrojPrimeraka);
 
                 cmd.ExecuteNonQuery();
                 Console.WriteLine("Knjiga uspesno ubacena!");
-
             }
             catch (SqlException ex)
             {
                 Console.WriteLine("Greska pri ubacivanju knjige!" + ex.Message);
                 throw;
             }
-
         }
 
         public List<Knjiga> VratiSveKnjige()
         {
-            List<Knjiga> lista= new List<Knjiga>();
+            List<Knjiga> lista = new List<Knjiga>();
             try
             {
-                string upit = "SELECT idKnjiga, naziv, imePisca, prezimePisca FROM Knjiga";
-                using SqlCommand cmd = new SqlCommand(upit,connection);
+                string upit = @"
+            SELECT 
+                k.idKnjiga, 
+                k.naziv, 
+                k.imePisca, 
+                k.prezimePisca, 
+                k.brojPrimeraka,
+                k.brojPrimeraka - ISNULL(
+                    (SELECT COUNT(*) 
+                     FROM StavkaPozajmice sp 
+                     WHERE sp.idKnjiga = k.idKnjiga 
+                     AND sp.datumVracanja IS NULL), 0
+                ) AS BrojSlobodnih
+            FROM Knjiga k";
+
+                using SqlCommand cmd = new SqlCommand(upit, connection);
                 using SqlDataReader reader = cmd.ExecuteReader();
 
                 while (reader.Read())
                 {
-                    Knjiga knjiga = new Knjiga
+                    lista.Add(new Knjiga
                     {
                         Id = reader.GetInt64(0),
                         Naziv = reader.GetString(1),
                         ImePisca = reader.GetString(2),
-                        PrezimePisca = reader.GetString(3)
-                    };
-                    lista.Add(knjiga);
-
+                        PrezimePisca = reader.GetString(3),
+                        BrojPrimeraka = reader.GetInt32(4),
+                        BrojSlobodnih = reader.GetInt32(5)
+                    });
                 }
-
             }
             catch (SqlException ex)
             {
@@ -112,27 +124,42 @@ namespace BrokerBP
             }
             return lista;
         }
-
         public List<Knjiga> PretraziKnjige(string kriterijum)
         {
             List<Knjiga> lista = new List<Knjiga>();
             try
             {
-                string upit = "SELECT idKnjiga, naziv, imePisca, prezimePisca FROM Knjiga WHERE naziv LIKE @krit OR imePisca LIKE @krit OR prezimePisca LIKE @krit";
+                string upit = @"
+            SELECT 
+                k.idKnjiga, 
+                k.naziv, 
+                k.imePisca, 
+                k.prezimePisca, 
+                k.brojPrimeraka,
+                k.brojPrimeraka - ISNULL(
+                    (SELECT COUNT(*) 
+                     FROM StavkaPozajmice sp 
+                     WHERE sp.idKnjiga = k.idKnjiga 
+                     AND sp.datumVracanja IS NULL), 0
+                ) AS BrojSlobodnih
+            FROM Knjiga k
+            WHERE k.naziv LIKE @krit OR k.imePisca LIKE @krit OR k.prezimePisca LIKE @krit";
+
                 using SqlCommand cmd = new SqlCommand(upit, connection);
-                cmd.Parameters.AddWithValue("@krit", "%"+kriterijum+"%");
+                cmd.Parameters.AddWithValue("@krit", "%" + kriterijum + "%");
                 using SqlDataReader reader = cmd.ExecuteReader();
 
                 while (reader.Read())
                 {
-                    Knjiga knjiga = new Knjiga
+                    lista.Add(new Knjiga
                     {
                         Id = reader.GetInt64(0),
                         Naziv = reader.GetString(1),
                         ImePisca = reader.GetString(2),
-                        PrezimePisca = reader.GetString(3)
-                    };
-                    lista.Add(knjiga);
+                        PrezimePisca = reader.GetString(3),
+                        BrojPrimeraka = reader.GetInt32(4),
+                        BrojSlobodnih = reader.GetInt32(5)
+                    });
                 }
             }
             catch (SqlException ex)
@@ -141,26 +168,6 @@ namespace BrokerBP
                 throw;
             }
             return lista;
-        }
-        public void IzmeniKnjigu(Knjiga knjiga)
-        {
-            try
-            {
-                string upit = "UPDATE Knjiga SET naziv=@naziv, imePisca=@imePisca, prezimePisca=@prezimePisca WHERE idKnjiga=@id";
-                using SqlCommand cmd = new SqlCommand(upit, connection);
-                cmd.Parameters.AddWithValue("@id", knjiga.Id);
-                cmd.Parameters.AddWithValue("@naziv", knjiga.Naziv);
-                cmd.Parameters.AddWithValue("@imePisca", knjiga.ImePisca);
-                cmd.Parameters.AddWithValue("@prezimePisca", knjiga.PrezimePisca);
-
-                cmd.ExecuteNonQuery();
-                Console.WriteLine("Knjiga uspesno izmenjena!");
-            }
-            catch (SqlException ex)
-            {
-                Console.WriteLine("Greska pri izmeni knjige: " + ex.Message);
-                throw;
-            }
         }
 
         public void ObrisiKnjigu(long id)
@@ -177,6 +184,28 @@ namespace BrokerBP
             catch (SqlException ex)
             {
                 Console.WriteLine("Greska pri brisanju knjige: " + ex.Message);
+                throw;
+            }
+        }
+
+        public void IzmeniKnjigu(Knjiga knjiga)
+        {
+            try
+            {
+                string upit = "UPDATE Knjiga SET naziv=@naziv, imePisca=@imePisca, prezimePisca=@prezimePisca, brojPrimeraka=@brojPrimeraka WHERE idKnjiga=@id";
+                using SqlCommand cmd = new SqlCommand(upit, connection);
+                cmd.Parameters.AddWithValue("@id", knjiga.Id);
+                cmd.Parameters.AddWithValue("@naziv", knjiga.Naziv);
+                cmd.Parameters.AddWithValue("@imePisca", knjiga.ImePisca);
+                cmd.Parameters.AddWithValue("@prezimePisca", knjiga.PrezimePisca);
+                cmd.Parameters.AddWithValue("@brojPrimeraka", knjiga.BrojPrimeraka);
+
+                cmd.ExecuteNonQuery();
+                Console.WriteLine("Knjiga uspesno izmenjena!");
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine("Greska pri izmeni knjige: " + ex.Message);
                 throw;
             }
         }
@@ -350,13 +379,20 @@ namespace BrokerBP
             List<Pozajmica> lista = new List<Pozajmica>();
             try
             {
-                string upit = @"SELECT p.idPozajmica, p.datumOd, p.idBibliotekar, p.idClan, c.ime + ' ' + c.prezime as ImePrezimeClana
+                string upit = @"SELECT p.idPozajmica, p.datumOd, p.idBibliotekar, p.idClan, c.ime + ' ' + c.prezime as ImePrezimeClana, 
+                COUNT(sp.idKnjiga) as BrojKnjiga,
+                CASE 
+                    WHEN MIN(sp.rokPozajmice) < CAST(GETDATE() AS DATE) THEN 'Zakasnelo'
+                    ELSE 'Aktivna'
+                END as Status
                         FROM Pozajmica p
-                        INNER JOIN Clan c ON p.idClan = c.idClan";
+                        INNER JOIN Clan c ON p.idClan = c.idClan
+                        LEFT JOIN StavkaPozajmice sp ON p.idPozajmica = sp.idPozajmica";
                 if (!string.IsNullOrWhiteSpace(kriterijum))
                 {
                     upit += " WHERE c.ime LIKE @krit OR c.prezime LIKE @krit";
                 }
+                upit += @" GROUP BY p.idPozajmica, p.datumOd, p.idBibliotekar, p.idClan, c.ime, c.prezime ORDER BY p.datumOd DESC";
                 using SqlCommand cmd = new SqlCommand(upit, connection);
                 if (!string.IsNullOrWhiteSpace(kriterijum))
                 {
@@ -371,7 +407,9 @@ namespace BrokerBP
                         DatumOd = reader.GetDateTime(1),
                         IdBibliotekar = reader.GetInt64(2),
                         IdClan = reader.GetInt64(3),
-                        ImePrezimeClana = reader.GetString(4)
+                        ImePrezimeClana = reader.GetString(4),
+                        BrojKnjiga = reader.GetInt32(5),
+                        Status = reader.GetString(6)
                     });
                 }
             }
@@ -388,22 +426,32 @@ namespace BrokerBP
             List<StavkaPozajmice> lista = new List<StavkaPozajmice>();
             try
             {
-                string upit = @"SELECT sp.rbStavkaPozajmice, sp.idPozajmica, sp.rokPozajmice, sp.idKnjiga, k.naziv
-                        FROM StavkaPozajmice sp
-                        INNER JOIN Knjiga k ON sp.idKnjiga = k.idKnjiga
-                        WHERE sp.idPozajmica = @id";
+                string upit = @"
+            SELECT 
+                sp.rbStavkaPozajmice, 
+                sp.idPozajmica, 
+                sp.rokPozajmice, 
+                sp.idKnjiga, 
+                k.naziv,
+                sp.datumVracanja
+            FROM StavkaPozajmice sp
+            INNER JOIN Knjiga k ON sp.idKnjiga = k.idKnjiga
+            WHERE sp.idPozajmica = @id";
+
                 using SqlCommand cmd = new SqlCommand(upit, connection);
                 cmd.Parameters.AddWithValue("@id", idPozajmice);
                 using SqlDataReader reader = cmd.ExecuteReader();
+
                 while (reader.Read())
                 {
                     lista.Add(new StavkaPozajmice
                     {
-                        Id = reader.GetInt64(0),           
-                        RbPozajmice = reader.GetInt64(1),  
+                        Id = reader.GetInt64(0),
+                        RbPozajmice = reader.GetInt64(1),
                         RokPozajmice = reader.GetDateTime(2),
                         IdKnjige = reader.GetInt64(3),
-                        NazivKnjige = reader.GetString(4)
+                        NazivKnjige = reader.GetString(4),
+                        DatumVracanja = reader.IsDBNull(5) ? null : reader.GetDateTime(5)
                     });
                 }
             }
@@ -415,6 +463,27 @@ namespace BrokerBP
             return lista;
         }
 
+        public bool VratiKnjigu(long idPozajmica, long idKnjiga)
+        {
+            try
+            {
+                string upit = @"UPDATE StavkaPozajmice 
+                        SET datumVracanja = @datum 
+                        WHERE idPozajmica = @idPozajmica AND idKnjiga = @idKnjiga AND datumVracanja IS NULL";
+
+                using SqlCommand cmd = new SqlCommand(upit, connection);
+                cmd.Parameters.AddWithValue("@datum", DateTime.Now);
+                cmd.Parameters.AddWithValue("@idPozajmica", idPozajmica);
+                cmd.Parameters.AddWithValue("@idKnjiga", idKnjiga);
+
+                return cmd.ExecuteNonQuery() > 0;
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine("Greska pri vracanju knjige: " + ex.Message);
+                throw;
+            }
+        }
 
     }
 }
