@@ -193,6 +193,7 @@
             this.dgvOdabraneKnjige.RowTemplate.Height = 35;
             this.dgvOdabraneKnjige.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             this.dgvOdabraneKnjige.Size = new Size(320, 160);
+            this.dgvOdabraneKnjige.DataBindingComplete += new DataGridViewBindingCompleteEventHandler(this.dgvOdabraneKnjige_DataBindingComplete);
 
             // 
             // lblBrojKnjiga
@@ -302,6 +303,7 @@
             this.dgvKnjige.RowTemplate.Height = 35;
             this.dgvKnjige.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             this.dgvKnjige.Size = new Size(380, 310);
+            this.dgvKnjige.DataBindingComplete += new DataGridViewBindingCompleteEventHandler(this.dgvKnjige_DataBindingComplete);
 
             // 
             // btnDodajKnjigu

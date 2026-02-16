@@ -139,6 +139,20 @@ namespace Server
                         odgovor.Poruka = "OK";
                         break;
 
+                    case Operacija.GetStavkePozajmice:
+                        long idPozStavke = Convert.ToInt64(zahtev.Podaci?.ToString());
+                        var listaStavki = Kontroler.Instance.GetStavkePozajmice(idPozStavke);
+                        odgovor.Podaci = listaStavki;
+                        odgovor.Poruka = "OK";
+                        break;
+
+                    case Operacija.VratiKnjigu:
+                        var podaci = serializer.ReadType<Dictionary<string, long>>(zahtev.Podaci);
+                        bool uspeh = Kontroler.Instance.VratiKnjigu(podaci["idPozajmica"], podaci["idKnjiga"]);
+                        odgovor.Signal = uspeh;
+                        odgovor.Poruka = uspeh ? "Knjiga vraćena." : "Greška.";
+                        break;
+
                     default:
                         odgovor.Signal = false;
                         odgovor.Poruka = "Nepodržana operacija.";

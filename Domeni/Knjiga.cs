@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
+using System.ComponentModel;
 
 namespace Domeni
 {
@@ -19,16 +20,23 @@ namespace Domeni
         public bool Dostupna => BrojSlobodnih > 0;
 
         // IEntity 
+        // SAKRIJ IZ DATAGRIDVIEW
+        [Browsable(false)]
         public string TableName => "Knjiga";
 
+        [Browsable(false)]
         public string InsertColumns => "naziv,imePisca,prezimePisca,brojPrimeraka";
 
+        [Browsable(false)]
         public string Values => $"'{Naziv}', '{ImePisca}', '{PrezimePisca}', {BrojPrimeraka}";
 
+        [Browsable(false)]
         public string PrimaryKey => "idKnjiga";
 
+        [Browsable(false)]
         public string Join => "";
 
+        [Browsable(false)]
         public List<IEntity> GetReaderList(SqlDataReader reader)
         {
             List<IEntity> lista = new List<IEntity>();

@@ -18,7 +18,23 @@ namespace SistemskeOp
 
         protected override void ExecuteConcreteOperation()
         {
-            string condition = "idKnjiga = " + id;
+            if (id <= 0)
+                throw new ArgumentException("ID knjige mora biti pozitivan broj.");
+
+            if (!broker.KnjigaPostoji(id))
+            {
+                throw new InvalidOperationException($"Knjiga sa ID={id} ne postoji.");
+            }
+
+            int brojPozajmljenih = broker.GetBrojPozajmljenihPrimeraka(id);
+
+            if (brojPozajmljenih > 0)
+            {
+                throw new InvalidOperationException(
+                    $"Knjiga ne može biti obrisana jer ima {brojPozajmljenih} pozajmljenih primeraka.");
+            }
+
+            string condition = $"idKnjiga = {id}";
             broker.Delete(new Knjiga(), condition);
         }
     }

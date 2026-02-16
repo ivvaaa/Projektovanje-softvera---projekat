@@ -94,5 +94,20 @@ namespace Server
             so.ExecuteTemplate();
             return so.Result;
         }
+
+        public List<StavkaPozajmice> GetStavkePozajmice(long idPozajmice)
+        {
+            GetStavkePozajmiceSO so = new GetStavkePozajmiceSO(idPozajmice);
+            so.ExecuteTemplate();
+            return so.Result;
+        }
+
+        public bool VratiKnjigu(long idPozajmica, long idKnjiga)
+        {
+            VratiKnjiguSO so = new VratiKnjiguSO(idPozajmica, idKnjiga);
+            so.ExecuteTemplate();
+            return so.Result;
+        }
+
     }
 }

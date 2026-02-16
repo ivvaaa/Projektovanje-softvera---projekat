@@ -269,5 +269,28 @@ namespace BrokerBP
             object result = cmd.ExecuteScalar();
             return Convert.ToInt32(result);
         }
+
+        public int GetBrojPozajmljenihPrimeraka(long idKnjige)
+        {
+            string upit = @"
+                SELECT COUNT(*) 
+                FROM StavkaPozajmice 
+                WHERE idKnjiga = " + idKnjige + @" 
+                AND datumVracanja IS NULL";
+
+            SqlCommand cmd = CreateCommand();
+            cmd.CommandText = upit;
+            object result = cmd.ExecuteScalar();
+            return result != null ? Convert.ToInt32(result) : 0;
+        }
+
+        public bool KnjigaPostoji(long idKnjige)
+        {
+            string upit = "SELECT COUNT(*) FROM Knjiga WHERE idKnjiga = " + idKnjige;
+            SqlCommand cmd = CreateCommand();
+            cmd.CommandText = upit;
+            object result = cmd.ExecuteScalar();
+            return result != null && Convert.ToInt32(result) > 0;
+        }
     }
 }

@@ -25,7 +25,10 @@ namespace Zajednicki
         IzmeniPozajmicu,
 
         PretraziKnjigeZaPozajmicu,
-        PretraziClanoveZaPozajmicu
+        PretraziClanoveZaPozajmicu,
+
+        GetStavkePozajmice,
+        VratiKnjigu
 
     }
 }

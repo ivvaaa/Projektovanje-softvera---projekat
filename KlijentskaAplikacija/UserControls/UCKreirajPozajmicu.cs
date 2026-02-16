@@ -46,6 +46,7 @@ namespace KlijentskaAplikacija.UserControls
             {
                 List<Knjiga> knjige = Komunikacija.Instance.PretraziKnjige("");
                 dgvKnjige.DataSource = knjige;
+
             }
             catch (Exception ex)
             {
@@ -164,5 +165,27 @@ namespace KlijentskaAplikacija.UserControls
             }
             catch { }
         }
+
+        private void dgvKnjige_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            SakrijNepotrebneKolone(dgvKnjige);
+        }
+
+        private void dgvOdabraneKnjige_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            SakrijNepotrebneKolone(dgvOdabraneKnjige);
+        }
+
+        private void SakrijNepotrebneKolone(DataGridView dgv)
+        {
+            string[] sakrij = { "TableName", "Values", "InsertColumns", "PrimaryKey", "Join", "ImePisca", "PrezimePisca", "Dostupna" };
+
+            foreach (string col in sakrij)
+            {
+                if (dgv.Columns.Contains(col))
+                    dgv.Columns[col].Visible = false;
+            }
+        }
+
     }
 }

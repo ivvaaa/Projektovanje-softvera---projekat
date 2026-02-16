@@ -174,6 +174,7 @@ namespace KlijentskaAplikacija
             btnDodajClana.TextAlign = ContentAlignment.MiddleLeft;
             btnDodajClana.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnDodajClana.UseVisualStyleBackColor = false;
+            btnDodajClana.Click += btnDodajClana_Click;
             // 
             // btnPronadjiClana
             // 

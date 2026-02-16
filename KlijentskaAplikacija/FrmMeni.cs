@@ -14,6 +14,9 @@ namespace KlijentskaAplikacija
         public FrmMeni(Bibliotekar bibliotekar)
         {
             InitializeComponent();
+            this.Size = new Size(1400, 900);
+            this.StartPosition = FormStartPosition.CenterScreen;
+
             ulogovani = bibliotekar;
 
             PostaviIkone();
@@ -104,6 +107,12 @@ namespace KlijentskaAplikacija
             var uc = new UCSvaZaduzenja();
             PrikazUC(uc);
 
+        }
+
+        private void btnDodajClana_Click(object sender, EventArgs e)
+        {
+            var uc = new UCDodajClana();
+            PrikazUC(uc);
         }
     }
 }

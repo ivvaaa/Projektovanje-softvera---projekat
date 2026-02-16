@@ -18,7 +18,7 @@ namespace KlijentskaAplikacija.UIKontroler
         {
             get
             {
-                if (instance==null)
+                if (instance == null)
                 {
                     instance = new Komunikacija();
                 }
@@ -32,7 +32,7 @@ namespace KlijentskaAplikacija.UIKontroler
 
         public void PoveziSe()
         {
-            if (soket != null && soket.Connected && serializer != null) return; 
+            if (soket != null && soket.Connected && serializer != null) return;
 
             try { soket?.Shutdown(SocketShutdown.Both); } catch { }  //brisanje starog
             try { soket?.Close(); } catch { }
@@ -43,13 +43,13 @@ namespace KlijentskaAplikacija.UIKontroler
 
         }
 
-        public  Bibliotekar? PrijaviBibliotekara(Bibliotekar bibliotekar)
+        public Bibliotekar? PrijaviBibliotekara(Bibliotekar bibliotekar)
         {
             PoveziSe();
-            Zahtev z=new Zahtev 
-            { 
-                Operacija=Operacija.PrijaviBibliotekara,
-                Podaci=bibliotekar
+            Zahtev z = new Zahtev
+            {
+                Operacija = Operacija.PrijaviBibliotekara,
+                Podaci = bibliotekar
             };
 
             serializer.Send(z);
@@ -241,7 +241,42 @@ namespace KlijentskaAplikacija.UIKontroler
             return new List<Pozajmica>();
         }
 
+        public List<StavkaPozajmice> GetStavkePozajmice(long idPozajmice)
+        {
+            PoveziSe();
+            Zahtev z = new Zahtev
+            {
+                Operacija = Operacija.GetStavkePozajmice,
+                Podaci = idPozajmice
+            };
 
+            serializer.Send(z);
+            Odgovor o = serializer.Receive<Odgovor>();
+
+            if (o.Signal && o.Podaci != null)
+            {
+                return JsonSerializer.Deserialize<List<StavkaPozajmice>>((JsonElement)o.Podaci) ?? new List<StavkaPozajmice>();
+            }
+            return new List<StavkaPozajmice>();
+        }
+
+        public bool VratiKnjigu(long idPozajmica, long idKnjiga)
+        {
+            PoveziSe();
+            Zahtev z = new Zahtev
+            {
+                Operacija = Operacija.VratiKnjigu,
+                Podaci = new Dictionary<string, long>
+        {
+            { "idPozajmica", idPozajmica },
+            { "idKnjiga", idKnjiga }
+        }
+            };
+
+            serializer.Send(z);
+            Odgovor o = serializer.Receive<Odgovor>();
+            return o.Signal;
+        }
 
     }
 }
