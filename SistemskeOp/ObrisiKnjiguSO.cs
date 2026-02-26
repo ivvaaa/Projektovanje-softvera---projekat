@@ -21,21 +21,16 @@ namespace SistemskeOp
             if (id <= 0)
                 throw new ArgumentException("ID knjige mora biti pozitivan broj.");
 
-            if (!broker.KnjigaPostoji(id))
-            {
+            List<IEntity> listaKnjiga = broker.GetByCondition(new Knjiga(), $"idKnjiga = {id}"); //da li knjiga postoji
+            if (listaKnjiga.Count == 0)
                 throw new InvalidOperationException($"Knjiga sa ID={id} ne postoji.");
-            }
-
-            int brojPozajmljenih = broker.GetBrojPozajmljenihPrimeraka(id);
-
-            if (brojPozajmljenih > 0)
-            {
+            //da li je knjiga pozajmljena
+            List<IEntity> listaStavki = broker.GetByCondition(new StavkaPozajmice(), $"idKnjiga = {id} AND datumVracanja IS NULL");
+            if (listaStavki.Count > 0)
                 throw new InvalidOperationException(
-                    $"Knjiga ne može biti obrisana jer ima {brojPozajmljenih} pozajmljenih primeraka.");
-            }
+                    $"Knjiga ne može biti obrisana jer ima {listaStavki.Count} pozajmljenih primeraka.");
 
-            string condition = $"idKnjiga = {id}";
-            broker.Delete(new Knjiga(), condition);
+            broker.Delete(new Knjiga(), $"idKnjiga = {id}");
         }
     }
 }

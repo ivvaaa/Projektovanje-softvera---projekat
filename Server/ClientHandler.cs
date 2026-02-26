@@ -55,102 +55,117 @@ namespace Server
             {
                 switch (zahtev.Operacija)
                 {
-                    case Operacija.PrijaviBibliotekara:
+                    //SK9
+                    case Operacija.PrijaviBibliotekar:
                         var b = serializer.ReadType<Bibliotekar>(zahtev.Podaci);
-                        var result = Kontroler.Instance.PrijaviBibliotekara(b);
-                        if (result == null)
+                        var logBib = Kontroler.Instance.PrijaviBibliotekara(b);
+                        if (logBib == null)
                         {
                             odgovor.Signal = false;
                             odgovor.Poruka = "Neispravni kredencijali.";
                         }
                         else
                         {
-                            odgovor.Podaci = result;
+                            odgovor.Podaci = logBib;
                             odgovor.Poruka = "OK";
                         }
                         break;
 
+                    //SK14
                     case Operacija.UbaciKnjigu:
                         var knjiga = serializer.ReadType<Knjiga>(zahtev.Podaci);
-                        Kontroler.Instance.SacuvajKnjigu(knjiga);
-                        odgovor.Poruka = "Knjiga uspešno sačuvana.";
+                        Kontroler.Instance.UbaciKnjigu(knjiga);
+                        odgovor.Poruka = "Sistem je zapamtio knjigu.";
                         break;
 
-                    case Operacija.PretraziKnjigu:
-                        string kritKnjiga = zahtev.Podaci?.ToString() ?? "";
-                        List<Knjiga> listaKnjiga;
-                        if (string.IsNullOrWhiteSpace(kritKnjiga))
-                            listaKnjiga = Kontroler.Instance.VratiSveKnjige();
-                        else
-                            listaKnjiga = Kontroler.Instance.PretraziKnjige(kritKnjiga);
-                        odgovor.Podaci = listaKnjiga;
+                    //vratiListuSviKnjiga
+                    case Operacija.VratiSveKnjige:
+                        odgovor.Podaci = Kontroler.Instance.VratiSveKnjige();
                         odgovor.Poruka = "OK";
                         break;
 
+                    //vratiListuKnjiga(kriterijum) - SK15
+                    case Operacija.PretraziKnjigu:
+                        string kritKnjiga = zahtev.Podaci?.ToString() ?? "";
+                        odgovor.Podaci = Kontroler.Instance.PretraziKnjige(kritKnjiga);
+                        odgovor.Poruka = "OK";
+                        break;
+
+                    //SK16 - PromeniKnjiga
                     case Operacija.IzmeniKnjigu:
                         var knjigaIzmeni = serializer.ReadType<Knjiga>(zahtev.Podaci);
                         Kontroler.Instance.IzmeniKnjigu(knjigaIzmeni);
-                        odgovor.Poruka = "Knjiga uspešno izmenjena.";
+                        odgovor.Poruka = "Sistem je izmenio knjigu.";
                         break;
 
+                    //SK17 - ObrisiKnjiga
                     case Operacija.ObrisiKnjigu:
                         var idKnjiga = ((JsonElement)zahtev.Podaci).GetInt64();
                         Kontroler.Instance.ObrisiKnjigu(idKnjiga);
-                        odgovor.Poruka = "Knjiga uspešno obrisana.";
+                        odgovor.Poruka = "Sistem je obrisao knjigu.";
                         break;
 
+                    //SK5 - KreirajClan
                     case Operacija.KreirajClana:
                         var clan = serializer.ReadType<Clan>(zahtev.Podaci);
-                        Kontroler.Instance.SacuvajClana(clan);
-                        odgovor.Poruka = "Član uspešno kreiran.";
+                        Kontroler.Instance.KreirajClana(clan);
+                        odgovor.Poruka = "Sistem je zapamtio člana.";
                         break;
 
-                    case Operacija.PretraziClana:
-                        string kritClan = zahtev.Podaci?.ToString() ?? "";
-                        var listaClan = Kontroler.Instance.PretraziClanove(kritClan);
-                        odgovor.Podaci = listaClan;
+                    //vratiListuSviClan
+                    case Operacija.VratiSveClanova:
+                        odgovor.Podaci = Kontroler.Instance.VratiSveClanova();
                         odgovor.Poruka = "OK";
                         break;
 
+                    //vratiListuClan(kriterijum) - SK6
+                    case Operacija.PretraziClana:
+                        string kritClan = zahtev.Podaci?.ToString() ?? "";
+                        odgovor.Podaci = Kontroler.Instance.PretraziClanove(kritClan);
+                        odgovor.Poruka = "OK";
+                        break;
+
+                    //SK7 - PromeniClan
                     case Operacija.IzmeniClana:
                         var clanIzmeni = serializer.ReadType<Clan>(zahtev.Podaci);
                         Kontroler.Instance.IzmeniClana(clanIzmeni);
-                        odgovor.Poruka = "Član uspešno izmenjen.";
+                        odgovor.Poruka = "Sistem je izmenio člana.";
                         break;
 
+                    //SK8 - ObrisiClan
                     case Operacija.ObrisiClana:
                         long idClan = Convert.ToInt64(zahtev.Podaci?.ToString());
                         Kontroler.Instance.ObrisiClana(idClan);
-                        odgovor.Poruka = "Član uspešno obrisan.";
+                        odgovor.Poruka = "Sistem je obrisao člana.";
                         break;
 
+                    //SK1 - KreirajPozajmica
                     case Operacija.KreirajPozajmicu:
                         var pozajmica = serializer.ReadType<Pozajmica>(zahtev.Podaci);
                         long idPoz = Kontroler.Instance.KreirajPozajmicu(pozajmica);
                         odgovor.Signal = idPoz > 0;
                         odgovor.Podaci = idPoz;
-                        odgovor.Poruka = idPoz > 0 ? "Pozajmica kreirana." : "Greška.";
+                        odgovor.Poruka = idPoz > 0 ? "Sistem je zapamtio pozajmicu." : "Sistem ne može da zapamti pozajmicu.";
                         break;
 
+                    //vratiListuPozajmica(kriterijumClan) - prazan = sve, SK2
                     case Operacija.PretraziPozajmicu:
                         string kritPoz = zahtev.Podaci?.ToString() ?? "";
-                        var listaPoz = Kontroler.Instance.PretraziPozajmice(kritPoz);
-                        odgovor.Podaci = listaPoz;
+                        odgovor.Podaci = Kontroler.Instance.PretraziPozajmice(kritPoz);
                         odgovor.Poruka = "OK";
                         break;
 
-                    case Operacija.GetStavkePozajmice:
-                        long idPozStavke = Convert.ToInt64(zahtev.Podaci?.ToString());
-                        var listaStavki = Kontroler.Instance.GetStavkePozajmice(idPozStavke);
-                        odgovor.Podaci = listaStavki;
-                        odgovor.Poruka = "OK";
-                        break;
-
+                    //PromeniPozajmica - vraćanje knjige (menja StavkaPozajmice)
                     case Operacija.VratiKnjigu:
                         var podaci = serializer.ReadType<Dictionary<string, long>>(zahtev.Podaci);
-                        bool uspeh = Kontroler.Instance.VratiKnjigu(podaci["idPozajmica"], podaci["idKnjiga"]);
-                        odgovor.Signal = uspeh;
-                        odgovor.Poruka = uspeh ? "Knjiga vraćena." : "Greška.";
+                        Kontroler.Instance.VratiKnjigu(podaci["idPozajmica"], podaci["idKnjiga"]);
+                        odgovor.Poruka = "Knjiga vraćena.";
+                        break;
+
+                    //vratiListuSviBibliotekar - pomocna za forme
+                    case Operacija.VratiSveBibliotekare:
+                        odgovor.Podaci = Kontroler.Instance.VratiSveBibliotekare();
+                        odgovor.Poruka = "OK";
                         break;
 
                     default:

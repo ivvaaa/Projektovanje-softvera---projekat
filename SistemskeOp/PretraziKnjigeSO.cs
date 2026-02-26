@@ -7,6 +7,7 @@ using Domeni;
 
 namespace SistemskeOp
 {
+    //vratiListuKnjiga(kriterijumKnjiga, Lista<Knjiga>)
     public class PretraziKnjigeSO : SOBase
     {
         private string kriterijum;
@@ -19,8 +20,24 @@ namespace SistemskeOp
 
         protected override void ExecuteConcreteOperation()
         {
-            Result = broker.GetKnjigeSaSlobodnim(kriterijum);
+            //basic
+            string condition = $"naziv LIKE '%{kriterijum}%' OR imePisca LIKE '%{kriterijum}%' OR prezimePisca LIKE '%{kriterijum}%'";
+            List<IEntity> listaKnjiga = broker.GetByCondition(new Knjiga(), condition);
+            List<Knjiga> knjige = listaKnjiga.Cast<Knjiga>().ToList();
+
+            //sve knjige iz akrivnih poz - znaci koje nisu vracene
+            List<IEntity> listaStavki = broker.GetByCondition(new StavkaPozajmice(), "datumVracanja IS NULL");
+            List<StavkaPozajmice> aktivneStavke = listaStavki.Cast<StavkaPozajmice>().ToList();
+
+            //broj slobodnih za svaku knjigu
+            foreach (var knjiga in knjige)
+            {
+                int pozajmljeno = aktivneStavke.Count(s => s.IdKnjige == knjiga.Id);
+                knjiga.BrojSlobodnih = knjiga.BrojPrimeraka - pozajmljeno;
+            }
+
+            Result = knjige;
         }
     }
-
 }
+

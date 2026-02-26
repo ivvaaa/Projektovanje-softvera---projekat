@@ -7,12 +7,12 @@ using Domeni;
 
 namespace SistemskeOp
 {
-
+    //PromeniPozajmica(Pozajmica) - deo scenarija vraćanja knjige
+    //menja StavkaPozajmice - postavlja datumVracanja
     public class VratiKnjiguSO : SOBase
     {
         private long idPozajmica;
         private long idKnjiga;
-        public bool Result { get; private set; }
 
         public VratiKnjiguSO(long idPozajmica, long idKnjiga)
         {
@@ -23,11 +23,8 @@ namespace SistemskeOp
         protected override void ExecuteConcreteOperation()
         {
             string setClause = $"datumVracanja = '{DateTime.Now:yyyy-MM-dd}'";
-
             string condition = $"idPozajmica = {idPozajmica} AND idKnjiga = {idKnjiga} AND datumVracanja IS NULL";
-
             broker.Update(new StavkaPozajmice(), setClause, condition);
-            Result = true;
         }
     }
 }

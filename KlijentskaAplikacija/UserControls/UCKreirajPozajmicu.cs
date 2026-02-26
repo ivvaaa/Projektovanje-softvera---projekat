@@ -18,17 +18,30 @@ namespace KlijentskaAplikacija.UserControls
             ulogovaniBibliotekar = bibliotekar;
 
             dtpDatumPozajmice.Value = DateTime.Now;
+            dtpDatumPozajmice.MinDate = DateTime.Today;
+
             dtpRokVracanja.Value = DateTime.Now.AddDays(14);
+            dtpRokVracanja.MinDate = DateTime.Today.AddDays(1);
+
+            dtpDatumPozajmice.ValueChanged += dtpDatumPozajmice_ValueChanged;
 
             UcitajClanove();
             UcitajKnjige();
+        }
+
+        private void dtpDatumPozajmice_ValueChanged(object sender, EventArgs e)
+        {
+            // Rok vracanja mora biti posle datuma pozajmice
+            dtpRokVracanja.MinDate = dtpDatumPozajmice.Value.AddDays(1);
+            if (dtpRokVracanja.Value <= dtpDatumPozajmice.Value)
+                dtpRokVracanja.Value = dtpDatumPozajmice.Value.AddDays(14);
         }
 
         private void UcitajClanove()
         {
             try
             {
-                List<Clan> clanovi = Komunikacija.Instance.PretraziClanove("");
+                List<Clan> clanovi = Komunikacija.Instance.VratiSveClanova();
                 cmbClan.DataSource = clanovi;
                 cmbClan.DisplayMember = "ImePrezime";
                 cmbClan.ValueMember = "Id";
@@ -44,7 +57,7 @@ namespace KlijentskaAplikacija.UserControls
         {
             try
             {
-                List<Knjiga> knjige = Komunikacija.Instance.PretraziKnjige("");
+                List<Knjiga> knjige = Komunikacija.Instance.VratiSveKnjige();
                 dgvKnjige.DataSource = knjige;
 
             }
@@ -148,6 +161,7 @@ namespace KlijentskaAplikacija.UserControls
             odabraneKnjige.Clear();
             OsveziListuOdabranihKnjiga();
             dtpDatumPozajmice.Value = DateTime.Now;
+            dtpRokVracanja.MinDate = DateTime.Today.AddDays(1);
             dtpRokVracanja.Value = DateTime.Now.AddDays(14);
         }
 

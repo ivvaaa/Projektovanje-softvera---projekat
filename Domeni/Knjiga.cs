@@ -19,8 +19,7 @@ namespace Domeni
 
         public bool Dostupna => BrojSlobodnih > 0;
 
-        // IEntity 
-        // SAKRIJ IZ DATAGRIDVIEW
+        // IEntity -  SAKRIJ IZ DATAGRIDVIEW
         [Browsable(false)]
         public string TableName => "Knjiga";
 

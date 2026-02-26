@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Domeni;
+﻿using Domeni;
 
 namespace SistemskeOp
 {
-    public class SacuvajClanaSO : SOBase
+    //signal KreirajClan(Clan)
+    public class KreirajClanaSO : SOBase
     {
         private Clan clan;
 
-        public SacuvajClanaSO(Clan c)
+        public KreirajClanaSO(Clan c)
         {
             clan = c;
         }

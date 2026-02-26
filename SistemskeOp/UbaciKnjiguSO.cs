@@ -7,13 +7,20 @@ using Domeni;
 
 namespace SistemskeOp
 {
-    public class VratiSvePozajmiceSO : SOBase
+    //ubaciKnjiga(Knjiga)
+    public class UbaciKnjiguSO : SOBase
     {
-        public List<Pozajmica> Result { get; private set; }
+        private Knjiga knjiga;
+
+        public UbaciKnjiguSO(Knjiga k)
+        {
+            knjiga = k;
+        }
 
         protected override void ExecuteConcreteOperation()
         {
-            Result = broker.GetPozajmiceSaStatusom();
+            broker.Add(knjiga);
         }
     }
 }
+

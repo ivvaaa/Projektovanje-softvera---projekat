@@ -7,7 +7,7 @@ using Domeni;
 
 namespace SistemskeOp
 {
-
+    //vratiListuClan(kriterijumClan, Lista<Clan>)
     public class PretraziClanoveSO : SOBase
     {
         private string kriterijum;
@@ -20,17 +20,10 @@ namespace SistemskeOp
 
         protected override void ExecuteConcreteOperation()
         {
-            if (string.IsNullOrWhiteSpace(kriterijum))
-            {
-                List<IEntity> lista = broker.GetAll(new Clan());
-                Result = lista.Cast<Clan>().ToList();
-            }
-            else
-            {
-                string condition = $"ime LIKE '%{kriterijum}%' OR prezime LIKE '%{kriterijum}%'";
-                List<IEntity> lista = broker.GetByCondition(new Clan(), condition);
-                Result = lista.Cast<Clan>().ToList();
-            }
+            string condition = $"ime LIKE '%{kriterijum}%' OR prezime LIKE '%{kriterijum}%'";
+            List<IEntity> lista = broker.GetByCondition(new Clan(), condition);
+            Result = lista.Cast<Clan>().ToList();
         }
     }
 }
+

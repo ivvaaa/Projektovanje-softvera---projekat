@@ -116,7 +116,7 @@
             btnObrisi.TabIndex = 4;
             btnObrisi.Text = "Obriši";
             btnObrisi.UseVisualStyleBackColor = false;
-            btnObrisi.Click += btnObrisi_Click;
+            // btnObrisi.Click += btnObrisi_Click;
             // 
             // btnReset
             // 

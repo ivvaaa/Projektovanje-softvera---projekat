@@ -7,6 +7,7 @@ using Domeni;
 
 namespace SistemskeOp
 {
+    //vratiListuSviClan(Lista<Clan>)
     public class VratiSveClanoveSO : SOBase
     {
         public List<Clan> Result { get; private set; }
@@ -18,3 +19,4 @@ namespace SistemskeOp
         }
     }
 }
+

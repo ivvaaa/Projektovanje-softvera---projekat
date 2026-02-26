@@ -26,6 +26,7 @@ namespace KlijentskaAplikacija.UserControls
         {
             try
             {
+                //prazan kriterijum = vrati sve (inicijalno punjenje forme)
                 List<Pozajmica> lista = Komunikacija.Instance.PretraziPozajmice("") ?? new List<Pozajmica>();
                 bsPozajmice.DataSource = lista;
                 dgvPozajmice.DataSource = bsPozajmice;
@@ -60,7 +61,7 @@ namespace KlijentskaAplikacija.UserControls
             lblDatumVrednost.Text = p.DatumOd.ToString("dd.MM.yyyy");
             lblBrojKnjigaVrednost.Text = p.BrojKnjiga.ToString();
 
-            // Status sa bojom
+            //status sa bojom
             lblStatusVrednost.Text = p.Status;
             switch (p.Status)
             {
@@ -78,23 +79,15 @@ namespace KlijentskaAplikacija.UserControls
                     break;
             }
 
-            // Učitaj stavke pozajmice
-            UcitajStavke(p.Id);
+            //ucitaj stavke pozajmice (vec su u objektu)
+            UcitajStavke(p);
         }
 
-        private void UcitajStavke(long idPozajmice)
+        private void UcitajStavke(Pozajmica pozajmica)
         {
-            try
-            {
-                List<StavkaPozajmice> stavke = Komunikacija.Instance.GetStavkePozajmice(idPozajmice);
-                bsStavke.DataSource = stavke;
-                dgvStavke.DataSource = bsStavke;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Greška pri učitavanju stavki: " + ex.Message, "Greška",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            //Stavke su već tu zajedno sa pozajmicom
+            bsStavke.DataSource = pozajmica.Stavke ?? new List<StavkaPozajmice>();
+            dgvStavke.DataSource = bsStavke;
         }
 
         private void dgvPozajmice_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
@@ -197,8 +190,7 @@ namespace KlijentskaAplikacija.UserControls
                     MessageBox.Show("Knjiga je uspešno vraćena!", "Uspeh",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    // osvezi prikaz
-                    UcitajStavke(selektovanaPozajmica.Id);
+                    //osvezi prikaz - ponovo ucitaj sve pozajmice (sa azuriranim stavkama)
                     UcitajPozajmice();
                 }
                 else

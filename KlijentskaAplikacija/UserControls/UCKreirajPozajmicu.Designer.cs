@@ -67,9 +67,9 @@
             // 
             this.pnlTop.Controls.Add(this.lblNaslov);
             this.pnlTop.Dock = DockStyle.Top;
-            this.pnlTop.Location = new Point(20, 20);
             this.pnlTop.Name = "pnlTop";
             this.pnlTop.Size = new Size(760, 50);
+            this.pnlTop.Padding = new Padding(0, 10, 0, 0);
 
             // 
             // lblNaslov
@@ -94,9 +94,9 @@
             this.pnlLeft.Controls.Add(this.btnSacuvaj);
             this.pnlLeft.Controls.Add(this.btnOcisti);
             this.pnlLeft.Dock = DockStyle.Left;
-            this.pnlLeft.Location = new Point(20, 70);
             this.pnlLeft.Name = "pnlLeft";
-            this.pnlLeft.Size = new Size(350, 430);
+            this.pnlLeft.Size = new Size(370, 430);
+            this.pnlLeft.Padding = new Padding(0, 0, 15, 0);
 
             // 
             // lblClan
@@ -110,11 +110,12 @@
             // 
             // cmbClan
             // 
+            this.cmbClan.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             this.cmbClan.DropDownStyle = ComboBoxStyle.DropDownList;
             this.cmbClan.Font = new Font("Segoe UI", 10F);
             this.cmbClan.Location = new Point(0, 22);
             this.cmbClan.Name = "cmbClan";
-            this.cmbClan.Size = new Size(320, 28);
+            this.cmbClan.Size = new Size(340, 28);
 
             // 
             // lblDatumPozajmice
@@ -155,13 +156,14 @@
             // 
             // pnlOdabraneKnjige
             // 
+            this.pnlOdabraneKnjige.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom;
             this.pnlOdabraneKnjige.Controls.Add(this.lblOdabraneKnjige);
             this.pnlOdabraneKnjige.Controls.Add(this.dgvOdabraneKnjige);
             this.pnlOdabraneKnjige.Controls.Add(this.lblBrojKnjiga);
             this.pnlOdabraneKnjige.Controls.Add(this.btnUkloniKnjigu);
             this.pnlOdabraneKnjige.Location = new Point(0, 120);
             this.pnlOdabraneKnjige.Name = "pnlOdabraneKnjige";
-            this.pnlOdabraneKnjige.Size = new Size(320, 230);
+            this.pnlOdabraneKnjige.Size = new Size(340, 230);
 
             // 
             // lblOdabraneKnjige
@@ -175,6 +177,7 @@
             // 
             // dgvOdabraneKnjige
             // 
+            this.dgvOdabraneKnjige.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom;
             this.dgvOdabraneKnjige.AllowUserToAddRows = false;
             this.dgvOdabraneKnjige.AllowUserToDeleteRows = false;
             this.dgvOdabraneKnjige.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
@@ -207,6 +210,7 @@
             // 
             // btnUkloniKnjigu
             // 
+            this.btnUkloniKnjigu.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             this.btnUkloniKnjigu.BackColor = Color.FromArgb(220, 53, 69);
             this.btnUkloniKnjigu.FlatAppearance.BorderSize = 0;
             this.btnUkloniKnjigu.FlatStyle = FlatStyle.Flat;
@@ -222,6 +226,7 @@
             // 
             // btnSacuvaj
             // 
+            this.btnSacuvaj.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             this.btnSacuvaj.BackColor = Color.FromArgb(18, 27, 41);
             this.btnSacuvaj.FlatAppearance.BorderSize = 0;
             this.btnSacuvaj.FlatStyle = FlatStyle.Flat;
@@ -237,6 +242,7 @@
             // 
             // btnOcisti
             // 
+            this.btnOcisti.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             this.btnOcisti.BackColor = Color.Gray;
             this.btnOcisti.FlatAppearance.BorderSize = 0;
             this.btnOcisti.FlatStyle = FlatStyle.Flat;
@@ -274,6 +280,7 @@
             // 
             // txtPretragaKnjiga
             // 
+            this.txtPretragaKnjiga.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             this.txtPretragaKnjiga.BorderStyle = BorderStyle.FixedSingle;
             this.txtPretragaKnjiga.Font = new Font("Segoe UI", 10F);
             this.txtPretragaKnjiga.Location = new Point(15, 22);
@@ -285,6 +292,7 @@
             // 
             // dgvKnjige
             // 
+            this.dgvKnjige.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom;
             this.dgvKnjige.AllowUserToAddRows = false;
             this.dgvKnjige.AllowUserToDeleteRows = false;
             this.dgvKnjige.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
@@ -308,6 +316,7 @@
             // 
             // btnDodajKnjigu
             // 
+            this.btnDodajKnjigu.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             this.btnDodajKnjigu.BackColor = Color.FromArgb(40, 167, 69);
             this.btnDodajKnjigu.FlatAppearance.BorderSize = 0;
             this.btnDodajKnjigu.FlatStyle = FlatStyle.Flat;
@@ -328,8 +337,8 @@
             this.Controls.Add(this.pnlLeft);
             this.Controls.Add(this.pnlTop);
             this.Name = "UCKreirajPozajmicu";
+            this.Dock = DockStyle.Fill;
             this.Padding = new Padding(20);
-            this.Size = new Size(800, 520);
 
             this.pnlTop.ResumeLayout(false);
             this.pnlTop.PerformLayout();

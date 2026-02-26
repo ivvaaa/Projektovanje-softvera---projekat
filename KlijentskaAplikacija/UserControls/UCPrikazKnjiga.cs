@@ -180,81 +180,81 @@ namespace KlijentskaAplikacija.UserControls
             }
         }
 
-        private void btnObrisi_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                List<long> ids = new List<long>();
-                List<string> nazivi = new List<string>();
+        //private void btnObrisi_Click(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        List<long> ids = new List<long>();
+        //        List<string> nazivi = new List<string>();
 
-                foreach (DataGridViewRow row in dgvKnjige.Rows)
-                {
-                    bool oznaceno = row.Cells["colCheck"].Value is bool b && b;
+        //        foreach (DataGridViewRow row in dgvKnjige.Rows)
+        //        {
+        //            bool oznaceno = row.Cells["colCheck"].Value is bool b && b;
 
-                    if (oznaceno)
-                    {
-                        if (row.DataBoundItem is Knjiga k)
-                        {
-                            //da li knjiga ima pozajmljene primerke
-                            if (k.BrojSlobodnih < k.BrojPrimeraka)
-                            {
-                                MessageBox.Show(
-                                    $"Knjiga '{k.Naziv}' ima pozajmljene primerke i ne može biti obrisana.",
-                                    "Upozorenje",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Warning);
-                                return;
-                            }
+        //            if (oznaceno)
+        //            {
+        //                if (row.DataBoundItem is Knjiga k)
+        //                {
+        //                    //da li knjiga ima pozajmljene primerke
+        //                    if (k.BrojSlobodnih < k.BrojPrimeraka)
+        //                    {
+        //                        MessageBox.Show(
+        //                            $"Knjiga '{k.Naziv}' ima pozajmljene primerke i ne može biti obrisana.",
+        //                            "Upozorenje",
+        //                            MessageBoxButtons.OK,
+        //                            MessageBoxIcon.Warning);
+        //                        return;
+        //                    }
 
-                            ids.Add(k.Id);
-                            nazivi.Add(k.Naziv);
-                        }
-                    }
-                }
+        //                    ids.Add(k.Id);
+        //                    nazivi.Add(k.Naziv);
+        //                }
+        //            }
+        //        }
 
-                if (ids.Count == 0)
-                {
-                    MessageBox.Show("Niste označili nijednu knjigu.", "Info",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return;
-                }
+        //        if (ids.Count == 0)
+        //        {
+        //            MessageBox.Show("Niste označili nijednu knjigu.", "Info",
+        //                MessageBoxButtons.OK, MessageBoxIcon.Information);
+        //            return;
+        //        }
 
-                string listaKnjiga = string.Join("\n", nazivi);
-                var confirm = MessageBox.Show(
-                    $"Da li ste sigurni da želite da obrišete sledeće knjige?\n\n{listaKnjiga}\n\n(Ukupno: {ids.Count})",
-                    "Potvrda brisanja",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Warning);
+        //        string listaKnjiga = string.Join("\n", nazivi);
+        //        var confirm = MessageBox.Show(
+        //            $"Da li ste sigurni da želite da obrišete sledeće knjige?\n\n{listaKnjiga}\n\n(Ukupno: {ids.Count})",
+        //            "Potvrda brisanja",
+        //            MessageBoxButtons.YesNo,
+        //            MessageBoxIcon.Warning);
 
-                if (confirm != DialogResult.Yes)
-                    return;
+        //        if (confirm != DialogResult.Yes)
+        //            return;
 
-                int uspesno = 0;
-                foreach (long id in ids)
-                {
-                    try
-                    {
-                        if (Komunikacija.Instance.ObrisiKnjigu(id))
-                            uspesno++;
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show($"Greška pri brisanju: {ex.Message}", "Greška",
-                            MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
+        //        int uspesno = 0;
+        //        foreach (long id in ids)
+        //        {
+        //            try
+        //            {
+        //                if (Komunikacija.Instance.ObrisiKnjigu(id))
+        //                    uspesno++;
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                MessageBox.Show($"Greška pri brisanju: {ex.Message}", "Greška",
+        //                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //            }
+        //        }
 
-                MessageBox.Show($"Obrisano {uspesno} od {ids.Count} knjiga.", "Uspeh",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+        //        MessageBox.Show($"Obrisano {uspesno} od {ids.Count} knjiga.", "Uspeh",
+        //            MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                Pretrazi();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Greška pri brisanju: " + ex.Message,
-                    "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
+        //        Pretrazi();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show("Greška pri brisanju: " + ex.Message,
+        //            "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //    }
+        //}
 
         private void btnObrisiSelektovanu_Click(object sender, EventArgs e)
         {

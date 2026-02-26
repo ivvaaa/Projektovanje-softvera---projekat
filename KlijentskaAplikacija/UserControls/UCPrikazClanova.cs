@@ -14,11 +14,9 @@ namespace KlijentskaAplikacija.UserControls
         public UCPrikazClanova()
         {
             InitializeComponent();
-
-            // Dodaj event NAKON InitializeComponent
             dgvClanovi.SelectionChanged += dgvClanovi_SelectionChanged;
             dgvClanovi.CellMouseUp += dgvClanovi_CellMouseUp;
-            dgvClanovi.CellClick += dgvClanovi_CellClick; 
+            dgvClanovi.CellClick += dgvClanovi_CellClick;
 
             UcitajSveClanove();
 
@@ -103,7 +101,7 @@ namespace KlijentskaAplikacija.UserControls
         {
             try
             {
-                List<Clan> lista = Komunikacija.Instance.PretraziClanove("") ?? new List<Clan>();
+                List<Clan> lista = Komunikacija.Instance.VratiSveClanova() ?? new List<Clan>();
                 bindingSource1.DataSource = lista;
                 lblBroj.Text = "Ukupno: " + lista.Count;
                 ResetujBoje();
@@ -189,11 +187,11 @@ namespace KlijentskaAplikacija.UserControls
 
                 if (ids.Count == 0)
                 {
-                    MessageBox.Show("Niste označili nijednog člana.", "Info",MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Niste označili nijednog člana.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
 
-                var confirm = MessageBox.Show( "Da li ste sigurni da želite da obrišete označene članove?","Potvrda brisanja",
+                var confirm = MessageBox.Show("Da li ste sigurni da želite da obrišete označene članove?", "Potvrda brisanja",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Warning);
 
@@ -205,7 +203,7 @@ namespace KlijentskaAplikacija.UserControls
                     Komunikacija.Instance.ObrisiClana(id);
                 }
 
-                MessageBox.Show("Označeni članovi su obrisani.", "Uspeh",MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Označeni članovi su obrisani.", "Uspeh", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 Pretrazi();
             }
@@ -219,7 +217,7 @@ namespace KlijentskaAplikacija.UserControls
         {
             if (selektovaniClan == null) return;
 
-            var confirm = MessageBox.Show( "Da li ste sigurni da želite da obrišete člana?","Potvrda brisanja",
+            var confirm = MessageBox.Show("Da li ste sigurni da želite da obrišete člana?", "Potvrda brisanja",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Warning);
 
