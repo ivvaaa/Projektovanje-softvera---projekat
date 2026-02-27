@@ -35,7 +35,9 @@ namespace Domeni
                     IdKnjige = (long)reader["idKnjiga"],
                     DatumVracanja = reader["datumVracanja"] == DBNull.Value
                                     ? null
-                                    : (DateTime)reader["datumVracanja"]
+                                    : (DateTime)reader["datumVracanja"],
+                    NazivKnjige = reader["naziv"] != DBNull.Value ? (string)reader["naziv"] : ""  // DODAJ OVO
+
                 });
             }
             return lista;

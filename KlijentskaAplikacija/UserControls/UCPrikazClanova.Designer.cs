@@ -351,6 +351,9 @@
             pnlDetaljiContent.Controls.Add(lblDatumDoVrednost);
             pnlDetaljiContent.Controls.Add(btnIzmeni);
             pnlDetaljiContent.Controls.Add(btnObrisiSelektovanog);
+            pnlDetaljiContent.Controls.Add(txtIzmeniIme);
+            pnlDetaljiContent.Controls.Add(txtIzmeniPrezime);
+            pnlDetaljiContent.Controls.Add(txtIzmeniTelefon);
             pnlDetaljiContent.Dock = DockStyle.Fill;
             pnlDetaljiContent.Location = new Point(15, 45);
             pnlDetaljiContent.Name = "pnlDetaljiContent";
@@ -477,7 +480,29 @@
             lblDatumDoVrednost.Location = new Point(150, 225);
             lblDatumDoVrednost.Name = "lblDatumDoVrednost";
             lblDatumDoVrednost.Text = "-";
+            // txtIzmeniIme
+            txtIzmeniIme = new TextBox();
+            txtIzmeniIme.Location = new Point(15, 90);
+            txtIzmeniIme.Size = new Size(260, 27);
+            txtIzmeniIme.Visible = false;
+            txtIzmeniIme.Font = new Font("Segoe UI", 10F);
+            txtIzmeniIme.Name = "txtIzmeniIme";
 
+            // txtIzmeniPrezime
+            txtIzmeniPrezime = new TextBox();
+            txtIzmeniPrezime.Location = new Point(15, 135);
+            txtIzmeniPrezime.Size = new Size(260, 27);
+            txtIzmeniPrezime.Visible = false;
+            txtIzmeniPrezime.Font = new Font("Segoe UI", 10F);
+            txtIzmeniPrezime.Name = "txtIzmeniPrezime";
+
+            // txtIzmeniTelefon
+            txtIzmeniTelefon = new TextBox();
+            txtIzmeniTelefon.Location = new Point(15, 180);
+            txtIzmeniTelefon.Size = new Size(260, 27);
+            txtIzmeniTelefon.Visible = false;
+            txtIzmeniTelefon.Font = new Font("Segoe UI", 10F);
+            txtIzmeniTelefon.Name = "txtIzmeniTelefon";
             // 
             // btnIzmeni
             // 
@@ -576,6 +601,9 @@
         private Label lblDatumOdVrednost;
         private Label lblDatumDo;
         private Label lblDatumDoVrednost;
+        private TextBox txtIzmeniIme;
+        private TextBox txtIzmeniPrezime;
+        private TextBox txtIzmeniTelefon;
 
         private Button btnIzmeni;
         private Button btnObrisiSelektovanog;

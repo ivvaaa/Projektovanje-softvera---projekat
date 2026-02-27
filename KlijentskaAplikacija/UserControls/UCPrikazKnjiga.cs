@@ -126,7 +126,6 @@ namespace KlijentskaAplikacija.UserControls
         {
             foreach (DataGridViewRow row in dgvKnjige.Rows)
             {
-                row.Cells["colCheck"].Value = false;
                 row.DefaultCellStyle.BackColor = Color.White;
                 row.DefaultCellStyle.ForeColor = Color.Black;
             }

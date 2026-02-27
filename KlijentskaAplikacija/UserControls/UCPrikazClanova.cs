@@ -10,6 +10,7 @@ namespace KlijentskaAplikacija.UserControls
     public partial class UCPrikazClanova : UserControl
     {
         private Clan selektovaniClan = null;
+        private bool rezimiIzmene = false;
 
         public UCPrikazClanova()
         {
@@ -215,6 +216,11 @@ namespace KlijentskaAplikacija.UserControls
 
         private void btnObrisiSelektovanog_Click(object sender, EventArgs e)
         {
+            if (rezimiIzmene)
+            {
+                IzadjiIzRezimaIzmene();
+                return;
+            }
             if (selektovaniClan == null) return;
 
             var confirm = MessageBox.Show("Da li ste sigurni da želite da obrišete člana?", "Potvrda brisanja",
@@ -240,12 +246,83 @@ namespace KlijentskaAplikacija.UserControls
             }
         }
 
+        private void IzadjiIzRezimaIzmene()
+        {
+            rezimiIzmene = false;
+            btnIzmeni.Text = "Izmeni";
+            btnIzmeni.BackColor = Color.FromArgb(18, 27, 41);
+            btnObrisiSelektovanog.Text = "Obriši";
+            btnObrisiSelektovanog.BackColor = Color.Gray;
+
+            txtIzmeniIme.Visible = false;
+            txtIzmeniPrezime.Visible = false;
+            txtIzmeniTelefon.Visible = false;
+
+            lblImeVrednost.Visible = true;
+            lblPrezimeVrednost.Visible = true;
+            lblTelefonVrednost.Visible = true;
+        }
+
         private void btnIzmeni_Click(object sender, EventArgs e)
         {
             if (selektovaniClan == null) return;
 
-            MessageBox.Show("Funkcija izmene će biti implementirana.", "Info",
-                MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (!rezimiIzmene)
+            {
+                // Uđi u režim izmene
+                rezimiIzmene = true;
+                btnIzmeni.Text = "Sačuvaj";
+                btnIzmeni.BackColor = Color.FromArgb(40, 167, 69);
+                btnObrisiSelektovanog.Text = "Otkaži";
+                btnObrisiSelektovanog.BackColor = Color.FromArgb(220, 53, 69);
+
+                // Prikaži TextBox-ove, sakrij labele
+                lblImeVrednost.Visible = false;
+                lblPrezimeVrednost.Visible = false;
+                lblTelefonVrednost.Visible = false;
+
+                txtIzmeniIme.Text = selektovaniClan.Ime;
+                txtIzmeniPrezime.Text = selektovaniClan.Prezime;
+                txtIzmeniTelefon.Text = selektovaniClan.Telefon.ToString();
+
+                txtIzmeniIme.Visible = true;
+                txtIzmeniPrezime.Visible = true;
+                txtIzmeniTelefon.Visible = true;
+                txtIzmeniIme.Focus();
+            }
+            else
+            {
+                // Sačuvaj izmene
+                if (string.IsNullOrWhiteSpace(txtIzmeniIme.Text) || string.IsNullOrWhiteSpace(txtIzmeniPrezime.Text))
+                {
+                    MessageBox.Show("Ime i prezime su obavezni.", "Validacija", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                try
+                {
+                    selektovaniClan.Ime = txtIzmeniIme.Text.Trim();
+                    selektovaniClan.Prezime = txtIzmeniPrezime.Text.Trim();
+                    if (long.TryParse(txtIzmeniTelefon.Text.Trim(), out long tel))
+                        selektovaniClan.Telefon = tel;
+
+                    bool ok = Komunikacija.Instance.IzmeniClana(selektovaniClan);
+                    if (ok)
+                    {
+                        MessageBox.Show("Član uspešno izmenjen.", "Uspeh", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        IzadjiIzRezimaIzmene();
+                        UcitajSveClanove();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Greška pri izmeni.", "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Greška: " + ex.Message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
     }
 }

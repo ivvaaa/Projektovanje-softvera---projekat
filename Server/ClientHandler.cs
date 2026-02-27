@@ -11,6 +11,7 @@ namespace Server
         private Socket klijent;
         private readonly List<ClientHandler> klijenti;
         private JsonNetworkSerializer serializer;
+        private Bibliotekar ulogovaniBibliotekar = null;
 
         public ClientHandler(Socket klijent, List<ClientHandler> klijenti)
         {
@@ -41,6 +42,8 @@ namespace Server
             }
             finally
             {
+                if (ulogovaniBibliotekar != null)
+                    ulogovaniBibliotekar.Ulogovan = false;
                 klijenti.Remove(this);
                 serializer.Close();
             }
@@ -66,6 +69,7 @@ namespace Server
                         }
                         else
                         {
+                            ulogovaniBibliotekar = logBib;
                             odgovor.Podaci = logBib;
                             odgovor.Poruka = "OK";
                         }
@@ -161,8 +165,7 @@ namespace Server
                         Kontroler.Instance.VratiKnjigu(podaci["idPozajmica"], podaci["idKnjiga"]);
                         odgovor.Poruka = "Knjiga vraćena.";
                         break;
-
-                   
+                  
 
                     default:
                         odgovor.Signal = false;

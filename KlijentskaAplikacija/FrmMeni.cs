@@ -24,6 +24,7 @@ namespace KlijentskaAplikacija
 
             lblDobrodosli.Text = $"Dobrodošli nazad, {ulogovani.Ime}!";
             lblStatus.Text = $"Prijavljen bibliotekar: {ulogovani.Ime} {ulogovani.Prezime} ({ulogovani.Username})";
+
         }
 
         private void PostaviIkone()

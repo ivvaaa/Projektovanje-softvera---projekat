@@ -199,6 +199,26 @@ namespace KlijentskaAplikacija.UserControls
                 if (dgv.Columns.Contains(col))
                     dgv.Columns[col].Visible = false;
             }
+
+            if (dgv.Columns.Contains("Id"))
+            {
+                dgv.Columns["Id"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                dgv.Columns["Id"].Width = 50;
+            }
+            if (dgv.Columns.Contains("Naziv"))
+                dgv.Columns["Naziv"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            if (dgv.Columns.Contains("BrojPrimeraka"))
+            {
+                dgv.Columns["BrojPrimeraka"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                dgv.Columns["BrojPrimeraka"].Width = 120;
+                dgv.Columns["BrojPrimeraka"].HeaderText = "Br. primeraka";
+            }
+            if (dgv.Columns.Contains("BrojSlobodnih"))
+            {
+                dgv.Columns["BrojSlobodnih"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                dgv.Columns["BrojSlobodnih"].Width = 110;
+                dgv.Columns["BrojSlobodnih"].HeaderText = "Slobodnih";
+            }
         }
 
     }

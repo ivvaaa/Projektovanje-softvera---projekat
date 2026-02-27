@@ -17,6 +17,7 @@ namespace KlijentskaAplikacija.UserControls
 
             dgvPozajmice.SelectionChanged += dgvPozajmice_SelectionChanged;
             dgvPozajmice.CellFormatting += dgvPozajmice_CellFormatting;
+            dgvStavke.DataSource = bsStavke;
 
             UcitajPozajmice();
             pnlDetalji.Visible = false;
@@ -61,7 +62,6 @@ namespace KlijentskaAplikacija.UserControls
             lblDatumVrednost.Text = p.DatumOd.ToString("dd.MM.yyyy");
             lblBrojKnjigaVrednost.Text = p.BrojKnjiga.ToString();
 
-            //status sa bojom
             lblStatusVrednost.Text = p.Status;
             switch (p.Status)
             {
@@ -79,15 +79,8 @@ namespace KlijentskaAplikacija.UserControls
                     break;
             }
 
-            //ucitaj stavke pozajmice (vec su u objektu)
-            UcitajStavke(p);
-        }
-
-        private void UcitajStavke(Pozajmica pozajmica)
-        {
-            //Stavke su već tu zajedno sa pozajmicom
-            bsStavke.DataSource = pozajmica.Stavke ?? new List<StavkaPozajmice>();
-            dgvStavke.DataSource = bsStavke;
+            bsStavke.DataSource = null;        // DODAJ - resetuj pre
+            bsStavke.DataSource = p.Stavke;    // postavi stavke
         }
 
         private void dgvPozajmice_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)

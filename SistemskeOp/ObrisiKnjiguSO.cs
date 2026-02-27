@@ -25,7 +25,7 @@ namespace SistemskeOp
             if (listaKnjiga.Count == 0)
                 throw new InvalidOperationException($"Knjiga sa ID={id} ne postoji.");
             //da li je knjiga pozajmljena
-            List<IEntity> listaStavki = broker.GetByCondition(new StavkaPozajmice(), $"idKnjiga = {id} AND datumVracanja IS NULL");
+            List<IEntity> listaStavki = broker.GetByCondition(new StavkaPozajmice(), $"StavkaPozajmice.idKnjiga = {id} AND datumVracanja IS NULL");
             if (listaStavki.Count > 0)
                 throw new InvalidOperationException(
                     $"Knjiga ne može biti obrisana jer ima {listaStavki.Count} pozajmljenih primeraka.");

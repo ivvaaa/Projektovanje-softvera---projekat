@@ -26,7 +26,7 @@ namespace SistemskeOp
                 throw new ArgumentException("Broj primeraka mora biti najmanje 1.");
 
             //provera-  broj aktivnih pozajmica za ovu knjigu
-            List<IEntity> listaStavki = broker.GetByCondition(new StavkaPozajmice(), $"idKnjiga = {knjiga.Id} AND datumVracanja IS NULL");
+            List<IEntity> listaStavki = broker.GetByCondition(new StavkaPozajmice(), $"StavkaPozajmice.idKnjiga = {knjiga.Id} AND datumVracanja IS NULL");
             int pozajmljeno = listaStavki.Count;
 
             if (knjiga.BrojPrimeraka < pozajmljeno)

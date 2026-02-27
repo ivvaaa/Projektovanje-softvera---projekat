@@ -17,6 +17,10 @@ namespace KlijentskaAplikacija.UIKontroler
                 return instance;
             }
         }
+
+        //trenutno ulogovanog bibliotekara
+        public static Bibliotekar? UlogovaniBibliotekar { get; set; } = null;
+
         private Komunikacija() { }
 
         private JsonNetworkSerializer? serializer;
@@ -42,11 +46,15 @@ namespace KlijentskaAplikacija.UIKontroler
             Odgovor o = serializer.Receive<Odgovor>();
 
             if (o.Signal)
-                return JsonSerializer.Deserialize<Bibliotekar>((JsonElement)o.Podaci);
+            {
+                var b = JsonSerializer.Deserialize<Bibliotekar>((JsonElement)o.Podaci);
+
+                return b;
+            }
             return null;
         }
 
-//knjige
+        //knjige
         //SK14 - UbaciKnjiga
         public bool UbaciKnjigu(Knjiga knjiga)
         {
@@ -95,7 +103,7 @@ namespace KlijentskaAplikacija.UIKontroler
             return o.Signal;
         }
 
-//clanovi
+        //clanovi
         //SK5 - KreirajClan
         public bool KreirajClana(Clan clan)
         {
@@ -145,7 +153,7 @@ namespace KlijentskaAplikacija.UIKontroler
             return o.Signal;
         }
 
-//pozajmice
+        //pozajmice
         // SK1 - KreirajPozajmicu
         public long KreirajPozajmicu(Pozajmica pozajmica)
         {

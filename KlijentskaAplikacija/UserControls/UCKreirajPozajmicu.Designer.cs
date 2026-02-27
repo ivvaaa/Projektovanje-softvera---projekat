@@ -95,7 +95,7 @@
             this.pnlLeft.Controls.Add(this.btnOcisti);
             this.pnlLeft.Dock = DockStyle.Left;
             this.pnlLeft.Name = "pnlLeft";
-            this.pnlLeft.Size = new Size(370, 430);
+            this.pnlLeft.Size = new Size(450, 460);
             this.pnlLeft.Padding = new Padding(0, 0, 15, 0);
 
             // 
@@ -163,7 +163,7 @@
             this.pnlOdabraneKnjige.Controls.Add(this.btnUkloniKnjigu);
             this.pnlOdabraneKnjige.Location = new Point(0, 120);
             this.pnlOdabraneKnjige.Name = "pnlOdabraneKnjige";
-            this.pnlOdabraneKnjige.Size = new Size(340, 230);
+            this.pnlOdabraneKnjige.Size = new Size(420, 380);
 
             // 
             // lblOdabraneKnjige
@@ -195,7 +195,7 @@
             this.dgvOdabraneKnjige.RowHeadersVisible = false;
             this.dgvOdabraneKnjige.RowTemplate.Height = 35;
             this.dgvOdabraneKnjige.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            this.dgvOdabraneKnjige.Size = new Size(320, 160);
+            this.dgvOdabraneKnjige.Size = new Size(400, 270);
             this.dgvOdabraneKnjige.DataBindingComplete += new DataGridViewBindingCompleteEventHandler(this.dgvOdabraneKnjige_DataBindingComplete);
 
             // 
@@ -203,7 +203,7 @@
             // 
             this.lblBrojKnjiga.AutoSize = true;
             this.lblBrojKnjiga.Font = new Font("Segoe UI", 9F);
-            this.lblBrojKnjiga.Location = new Point(0, 190);
+            this.lblBrojKnjiga.Location = new Point(0, 300);
             this.lblBrojKnjiga.Name = "lblBrojKnjiga";
             this.lblBrojKnjiga.Text = "Odabrano knjiga: 0";
 
@@ -216,7 +216,7 @@
             this.btnUkloniKnjigu.FlatStyle = FlatStyle.Flat;
             this.btnUkloniKnjigu.Font = new Font("Segoe UI", 9F);
             this.btnUkloniKnjigu.ForeColor = Color.White;
-            this.btnUkloniKnjigu.Location = new Point(200, 185);
+            this.btnUkloniKnjigu.Location = new Point(200, 295);
             this.btnUkloniKnjigu.Name = "btnUkloniKnjigu";
             this.btnUkloniKnjigu.Size = new Size(120, 32);
             this.btnUkloniKnjigu.Text = "Ukloni";
@@ -232,7 +232,7 @@
             this.btnSacuvaj.FlatStyle = FlatStyle.Flat;
             this.btnSacuvaj.Font = new Font("Segoe UI", 10F);
             this.btnSacuvaj.ForeColor = Color.White;
-            this.btnSacuvaj.Location = new Point(0, 370);
+            this.btnSacuvaj.Location = new Point(0, 400);
             this.btnSacuvaj.Name = "btnSacuvaj";
             this.btnSacuvaj.Size = new Size(150, 40);
             this.btnSacuvaj.Text = "Sačuvaj";
@@ -248,7 +248,7 @@
             this.btnOcisti.FlatStyle = FlatStyle.Flat;
             this.btnOcisti.Font = new Font("Segoe UI", 10F);
             this.btnOcisti.ForeColor = Color.White;
-            this.btnOcisti.Location = new Point(170, 370);
+            this.btnOcisti.Location = new Point(170, 400);
             this.btnOcisti.Name = "btnOcisti";
             this.btnOcisti.Size = new Size(150, 40);
             this.btnOcisti.Text = "Očisti";

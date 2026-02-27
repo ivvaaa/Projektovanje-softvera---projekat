@@ -78,6 +78,7 @@
             // 
             // pnlPretraga
             // 
+            pnlPretraga.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             pnlPretraga.BackColor = Color.White;
             pnlPretraga.BorderStyle = BorderStyle.FixedSingle;
             pnlPretraga.Controls.Add(lblBroj);
@@ -88,15 +89,16 @@
             pnlPretraga.Controls.Add(lblKriterijum);
             pnlPretraga.Location = new Point(23, 70);
             pnlPretraga.Name = "pnlPretraga";
-            pnlPretraga.Size = new Size(620, 70);
+            pnlPretraga.Size = new Size(500, 70);
             pnlPretraga.TabIndex = 1;
             // 
             // lblBroj
             // 
+            lblBroj.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             lblBroj.AutoSize = true;
             lblBroj.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             lblBroj.ForeColor = Color.Gray;
-            lblBroj.Location = new Point(530, 25);
+            lblBroj.Location = new Point(400, 25);
             lblBroj.Name = "lblBroj";
             lblBroj.Size = new Size(81, 20);
             lblBroj.TabIndex = 5;
@@ -172,13 +174,14 @@
             // 
             // dgvKnjige
             // 
+            dgvKnjige.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Bottom | AnchorStyles.Right;
             dgvKnjige.AllowUserToAddRows = false;
             dgvKnjige.AllowUserToDeleteRows = false;
             dgvKnjige.AutoGenerateColumns = true;
             dgvKnjige.BackgroundColor = Color.White;
             dgvKnjige.BorderStyle = BorderStyle.Fixed3D;
             dgvKnjige.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvKnjige.Columns.AddRange(new DataGridViewColumn[] { colCheck, colId, colNaziv });
+            dgvKnjige.Columns.AddRange(new DataGridViewColumn[] { colId, colNaziv });
             dgvKnjige.DataSource = bindingSource1;
             dgvKnjige.Location = new Point(23, 150);
             dgvKnjige.MultiSelect = false;
@@ -186,7 +189,7 @@
             dgvKnjige.ReadOnly = true;
             dgvKnjige.RowHeadersWidth = 30;
             dgvKnjige.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvKnjige.Size = new Size(620, 300);
+            dgvKnjige.Size = new Size(500, 300);
             dgvKnjige.TabIndex = 2;
             // 
             // colCheck
@@ -220,6 +223,7 @@
             // 
             // pnlDetalji
             // 
+            pnlDetalji.Anchor = AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Bottom;
             pnlDetalji.BackColor = Color.White;
             pnlDetalji.BorderStyle = BorderStyle.FixedSingle;
             pnlDetalji.Controls.Add(grpIzmena);
@@ -234,9 +238,9 @@
             pnlDetalji.Controls.Add(lblNazivVrednost);
             pnlDetalji.Controls.Add(lblNazivDetalji);
             pnlDetalji.Controls.Add(lblDetaljiNaslov);
-            pnlDetalji.Location = new Point(660, 70);
+            pnlDetalji.Location = new Point(540, 70);
             pnlDetalji.Name = "pnlDetalji";
-            pnlDetalji.Size = new Size(320, 540);
+            pnlDetalji.Size = new Size(380, 540);
             pnlDetalji.TabIndex = 3;
             // 
             // grpIzmena
@@ -253,9 +257,9 @@
             grpIzmena.Controls.Add(lblIzmeniNaziv);
             grpIzmena.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
             grpIzmena.ForeColor = Color.FromArgb(18, 27, 41);
-            grpIzmena.Location = new Point(15, 250);
+            grpIzmena.Location = new Point(15, 248);
             grpIzmena.Name = "grpIzmena";
-            grpIzmena.Size = new Size(288, 280);
+            grpIzmena.Size = new Size(348, 280);
             grpIzmena.TabIndex = 12;
             grpIzmena.TabStop = false;
             grpIzmena.Text = "Izmeni knjigu";
@@ -329,16 +333,16 @@
             lblIzmeniPrezimePisca.ForeColor = Color.Gray;
             lblIzmeniPrezimePisca.Location = new Point(15, 112);
             lblIzmeniPrezimePisca.Name = "lblIzmeniPrezimePisca";
-            lblIzmeniPrezimePisca.Size = new Size(103, 20);
+            txtIzmeniPrezimePisca.Size = new Size(318, 30);
             lblIzmeniPrezimePisca.TabIndex = 4;
             lblIzmeniPrezimePisca.Text = "Prezime pisca:";
             // 
             // txtIzmeniImePisca
             // 
             txtIzmeniImePisca.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            txtIzmeniImePisca.Location = new Point(150, 80);
+            txtIzmeniImePisca.Location = new Point(168, 80);
             txtIzmeniImePisca.Name = "txtIzmeniImePisca";
-            txtIzmeniImePisca.Size = new Size(125, 30);
+            txtIzmeniImePisca.Size = new Size(150, 30);
             txtIzmeniImePisca.TabIndex = 3;
             // 
             // lblIzmeniImePisca
@@ -379,9 +383,9 @@
             btnObrisiSelektovanu.FlatStyle = FlatStyle.Flat;
             btnObrisiSelektovanu.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             btnObrisiSelektovanu.ForeColor = Color.White;
-            btnObrisiSelektovanu.Location = new Point(165, 200);
+            btnObrisiSelektovanu.Location = new Point(198, 198);
             btnObrisiSelektovanu.Name = "btnObrisiSelektovanu";
-            btnObrisiSelektovanu.Size = new Size(138, 35);
+            btnObrisiSelektovanu.Size = new Size(155, 36);
             btnObrisiSelektovanu.TabIndex = 11;
             btnObrisiSelektovanu.Text = "Obriši ovu knjigu";
             btnObrisiSelektovanu.UseVisualStyleBackColor = false;
@@ -392,9 +396,9 @@
             pnlStatusBar.BackColor = Color.FromArgb(232, 245, 233);
             pnlStatusBar.Controls.Add(lblStatusVrednost);
             pnlStatusBar.Controls.Add(lblStatus);
-            pnlStatusBar.Location = new Point(15, 195);
+            pnlStatusBar.Location = new Point(15, 198);
             pnlStatusBar.Name = "pnlStatusBar";
-            pnlStatusBar.Size = new Size(140, 40);
+            pnlStatusBar.Size = new Size(175, 36);
             pnlStatusBar.TabIndex = 10;
             // 
             // lblStatusVrednost

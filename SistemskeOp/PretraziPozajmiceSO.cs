@@ -32,16 +32,16 @@ namespace SistemskeOp
             List<Pozajmica> svePozajmice = new List<Pozajmica>();
             foreach (var clan in clanovi)
             {
-                List<Pozajmica> pozajmicaClana = broker.GetByCondition(new Pozajmica(), $"idClan = {clan.Id}")
-                                                        .Cast<Pozajmica>().ToList();
+                List<Pozajmica> pozajmicaClana = broker.GetByCondition(new Pozajmica(), $"Pozajmica.idClan = {clan.Id}")
+                                                                        .Cast<Pozajmica>().ToList();
                 svePozajmice.AddRange(pozajmicaClana);
             }
 
             //za svaku poz stavke
             foreach (var pozajmica in svePozajmice)
             {
-                List<StavkaPozajmice> stavke = broker.GetByCondition(new StavkaPozajmice(), $"idPozajmica = {pozajmica.Id}")
-                                                      .Cast<StavkaPozajmice>().ToList();
+                List<StavkaPozajmice> stavke = broker.GetByCondition(new StavkaPozajmice(), $"StavkaPozajmice.idPozajmica = {pozajmica.Id}")
+                                                                      .Cast<StavkaPozajmice>().ToList();
                 pozajmica.Stavke = stavke;
 
                 //ime i prez iz vec ucitanih
