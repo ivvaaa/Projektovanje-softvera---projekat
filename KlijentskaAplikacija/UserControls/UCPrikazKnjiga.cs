@@ -64,7 +64,6 @@ namespace KlijentskaAplikacija.UserControls
             lblUkupnoVrednost.Text = k.BrojPrimeraka.ToString();
             lblSlobodnoVrednost.Text = k.BrojSlobodnih.ToString();
 
-            // Status dostupnosti
             if (k.BrojSlobodnih > 0)
             {
                 lblStatusVrednost.Text = "Dostupna";
@@ -78,17 +77,16 @@ namespace KlijentskaAplikacija.UserControls
                 pnlStatusBar.BackColor = Color.FromArgb(255, 235, 238);
             }
 
-            // Postavi vrednosti u polja za izmenu
             txtIzmeniNaziv.Text = k.Naziv;
             txtIzmeniImePisca.Text = k.ImePisca;
             txtIzmeniPrezimePisca.Text = k.PrezimePisca;
+
+            //minimum PRVO, pa tek onda Value
+            int brojPozajmljenih = k.BrojPrimeraka - k.BrojSlobodnih;
+            numBrojPrimeraka.Minimum = Math.Max(1, brojPozajmljenih);
             numBrojPrimeraka.Value = k.BrojPrimeraka;
 
-            // Postavi minimum za broj primeraka na osnovu pozajmljenih
-            int brojPozajmljenih = k.BrojPrimeraka - k.BrojSlobodnih;
-            numBrojPrimeraka.Minimum = brojPozajmljenih;
-
-            // Ako je neki primerak pozajmljen, prikaži upozorenje
+            //Ako je neki primerak pozajmljen,  upozorenje
             if (brojPozajmljenih > 0)
             {
                 lblUkupnoVrednost.Text = $"{k.BrojPrimeraka} (min: {brojPozajmljenih} pozajmljeno)";
@@ -97,7 +95,7 @@ namespace KlijentskaAplikacija.UserControls
 
         private void dgvKnjige_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            // Bojenje kolone BrojSlobodnih
+            //Bojenje kolone BrojSlobodnih
             if (dgvKnjige.Columns[e.ColumnIndex].DataPropertyName == "BrojSlobodnih" && e.Value != null)
             {
                 int brojSlobodnih = Convert.ToInt32(e.Value);
@@ -179,82 +177,6 @@ namespace KlijentskaAplikacija.UserControls
                 Pretrazi();
             }
         }
-
-        //private void btnObrisi_Click(object sender, EventArgs e)
-        //{
-        //    try
-        //    {
-        //        List<long> ids = new List<long>();
-        //        List<string> nazivi = new List<string>();
-
-        //        foreach (DataGridViewRow row in dgvKnjige.Rows)
-        //        {
-        //            bool oznaceno = row.Cells["colCheck"].Value is bool b && b;
-
-        //            if (oznaceno)
-        //            {
-        //                if (row.DataBoundItem is Knjiga k)
-        //                {
-        //                    //da li knjiga ima pozajmljene primerke
-        //                    if (k.BrojSlobodnih < k.BrojPrimeraka)
-        //                    {
-        //                        MessageBox.Show(
-        //                            $"Knjiga '{k.Naziv}' ima pozajmljene primerke i ne može biti obrisana.",
-        //                            "Upozorenje",
-        //                            MessageBoxButtons.OK,
-        //                            MessageBoxIcon.Warning);
-        //                        return;
-        //                    }
-
-        //                    ids.Add(k.Id);
-        //                    nazivi.Add(k.Naziv);
-        //                }
-        //            }
-        //        }
-
-        //        if (ids.Count == 0)
-        //        {
-        //            MessageBox.Show("Niste označili nijednu knjigu.", "Info",
-        //                MessageBoxButtons.OK, MessageBoxIcon.Information);
-        //            return;
-        //        }
-
-        //        string listaKnjiga = string.Join("\n", nazivi);
-        //        var confirm = MessageBox.Show(
-        //            $"Da li ste sigurni da želite da obrišete sledeće knjige?\n\n{listaKnjiga}\n\n(Ukupno: {ids.Count})",
-        //            "Potvrda brisanja",
-        //            MessageBoxButtons.YesNo,
-        //            MessageBoxIcon.Warning);
-
-        //        if (confirm != DialogResult.Yes)
-        //            return;
-
-        //        int uspesno = 0;
-        //        foreach (long id in ids)
-        //        {
-        //            try
-        //            {
-        //                if (Komunikacija.Instance.ObrisiKnjigu(id))
-        //                    uspesno++;
-        //            }
-        //            catch (Exception ex)
-        //            {
-        //                MessageBox.Show($"Greška pri brisanju: {ex.Message}", "Greška",
-        //                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //            }
-        //        }
-
-        //        MessageBox.Show($"Obrisano {uspesno} od {ids.Count} knjiga.", "Uspeh",
-        //            MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-        //        Pretrazi();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show("Greška pri brisanju: " + ex.Message,
-        //            "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //    }
-        //}
 
         private void btnObrisiSelektovanu_Click(object sender, EventArgs e)
         {
@@ -427,7 +349,6 @@ namespace KlijentskaAplikacija.UserControls
             if (dgvKnjige.Columns["Id"] != null)
                 dgvKnjige.Columns["Id"].Visible = false;
 
-            // Lepši izgled
             dgvKnjige.RowTemplate.Height = 35;
             dgvKnjige.ColumnHeadersHeight = 40;
         }

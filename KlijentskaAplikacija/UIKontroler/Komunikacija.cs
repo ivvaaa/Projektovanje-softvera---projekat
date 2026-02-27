@@ -185,15 +185,6 @@ namespace KlijentskaAplikacija.UIKontroler
             return o.Signal;
         }
 
-        //vratiListuSviBibliotekar - pomocna za forme
-        public List<Bibliotekar> VratiSveBibliotekare()
-        {
-            PoveziSe();
-            serializer.Send(new Zahtev { Operacija = Operacija.VratiSveBibliotekare });
-            Odgovor o = serializer.Receive<Odgovor>();
-            if (o.Signal && o.Podaci != null)
-                return JsonSerializer.Deserialize<List<Bibliotekar>>((JsonElement)o.Podaci) ?? new List<Bibliotekar>();
-            return new List<Bibliotekar>();
-        }
+
     }
 }

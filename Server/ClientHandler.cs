@@ -162,11 +162,7 @@ namespace Server
                         odgovor.Poruka = "Knjiga vraćena.";
                         break;
 
-                    //vratiListuSviBibliotekar - pomocna za forme
-                    case Operacija.VratiSveBibliotekare:
-                        odgovor.Podaci = Kontroler.Instance.VratiSveBibliotekare();
-                        odgovor.Poruka = "OK";
-                        break;
+                   
 
                     default:
                         odgovor.Signal = false;

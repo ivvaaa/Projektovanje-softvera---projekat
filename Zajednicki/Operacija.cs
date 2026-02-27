@@ -8,29 +8,28 @@ namespace Zajednicki
 {
     public enum Operacija
     {
-        // SK9
+        //SK9
         PrijaviBibliotekar,
 
-        //knjige - SK14, SK15, SK16, SK17
+        //Knjige - SK14, SK15, SK16, SK17
         UbaciKnjigu,
         VratiSveKnjige,
         PretraziKnjigu,
         IzmeniKnjigu,
         ObrisiKnjigu,
 
-        //clanovi - SK5, SK6, SK7, SK8
+        //Clanovi - SK5, SK6, SK7, SK8
         KreirajClana,
         VratiSveClanova,
         PretraziClana,
         IzmeniClana,
         ObrisiClana,
 
-        // Pozajmice - SK1, SK2, SK3, SK4
+        //Pozajmice - SK1, SK2
         KreirajPozajmicu,
-        PretraziPozajmicu,  //prazan kriterijum = sve, uneti kriterijum = filtriraj
-        VratiKnjigu,        //PromeniPozajmica - vraćanje knjige (menja StavkaPozajmice)
+        PretraziPozajmicu,  //prazan kriterijum = sve
+        VratiKnjigu,        //PromeniPozajmica - vracanje knjige
 
-        //pomoc za popunjavanje formi
-        VratiSveBibliotekare,
     }
 }
+
