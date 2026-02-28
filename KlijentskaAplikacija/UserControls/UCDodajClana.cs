@@ -39,7 +39,6 @@ namespace KlijentskaAplikacija.UserControls
             dtpDatumDo.Enabled = false;
         }
 
-        // Izračunava kraj na osnovu tipa i početka
         private void AzurirajDatumDo()
         {
             if (cmbClanstvo.SelectedItem is Clanstvo c)
@@ -85,13 +84,13 @@ namespace KlijentskaAplikacija.UserControls
 
                 if (uspeh)
                 {
-                    MessageBox.Show("Član je uspešno dodat!", "Uspeh",
+                    MessageBox.Show("Sistem je zapamtio clana.", "Uspeh",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                     OcistiPolja();
                 }
                 else
                 {
-                    MessageBox.Show("Greška pri dodavanju člana.", "Greška",
+                    MessageBox.Show("Sistem ne moze da kreira clana.", "Greška",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
@@ -118,7 +117,7 @@ namespace KlijentskaAplikacija.UserControls
             { txtTelefon.BackColor = Color.LightCoral; ok = false; }
 
             if (!ok)
-                MessageBox.Show("Molimo popunite sva obavezna polja ispravno!", "Validacija",
+                MessageBox.Show("Sistem ne moze da kreira clana - unesite sva polja.", "Validacija",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
             return ok;

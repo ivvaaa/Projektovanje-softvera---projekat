@@ -512,7 +512,7 @@
             btnIzmeni.ForeColor = Color.White;
             btnIzmeni.Location = new Point(15, 270);
             btnIzmeni.Name = "btnIzmeni";
-            btnIzmeni.Size = new Size(130, 38);
+            btnIzmeni.Size = new Size(270, 38);
             btnIzmeni.TabIndex = 10;
             btnIzmeni.Text = "Izmeni";
             btnIzmeni.UseVisualStyleBackColor = false;
@@ -533,6 +533,7 @@
             btnObrisiSelektovanog.Text = "Obriši";
             btnObrisiSelektovanog.UseVisualStyleBackColor = false;
             btnObrisiSelektovanog.Cursor = Cursors.Hand;
+            btnObrisiSelektovanog.Visible = false;
             btnObrisiSelektovanog.Click += btnObrisiSelektovanog_Click;
 
             // 

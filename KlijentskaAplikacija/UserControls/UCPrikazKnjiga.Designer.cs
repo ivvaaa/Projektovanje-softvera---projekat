@@ -20,17 +20,15 @@
             components = new System.ComponentModel.Container();
             lblNaslov = new Label();
             pnlPretraga = new Panel();
-            lblBroj = new Label();
-            btnObrisi = new Button();
             btnReset = new Button();
             btnPretrazi = new Button();
             txtKriterijum = new TextBox();
             lblKriterijum = new Label();
             dgvKnjige = new DataGridView();
-            colCheck = new DataGridViewCheckBoxColumn();
             colId = new DataGridViewTextBoxColumn();
             colNaziv = new DataGridViewTextBoxColumn();
             bindingSource1 = new BindingSource(components);
+            colCheck = new DataGridViewCheckBoxColumn();
             pnlDetalji = new Panel();
             grpIzmena = new GroupBox();
             btnPonistiIzmene = new Button();
@@ -81,44 +79,14 @@
             pnlPretraga.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             pnlPretraga.BackColor = Color.White;
             pnlPretraga.BorderStyle = BorderStyle.FixedSingle;
-            pnlPretraga.Controls.Add(lblBroj);
-            pnlPretraga.Controls.Add(btnObrisi);
             pnlPretraga.Controls.Add(btnReset);
             pnlPretraga.Controls.Add(btnPretrazi);
             pnlPretraga.Controls.Add(txtKriterijum);
             pnlPretraga.Controls.Add(lblKriterijum);
             pnlPretraga.Location = new Point(23, 70);
             pnlPretraga.Name = "pnlPretraga";
-            pnlPretraga.Size = new Size(500, 70);
+            pnlPretraga.Size = new Size(553, 70);
             pnlPretraga.TabIndex = 1;
-            // 
-            // lblBroj
-            // 
-            lblBroj.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            lblBroj.AutoSize = true;
-            lblBroj.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            lblBroj.ForeColor = Color.Gray;
-            lblBroj.Location = new Point(400, 25);
-            lblBroj.Name = "lblBroj";
-            lblBroj.Size = new Size(81, 20);
-            lblBroj.TabIndex = 5;
-            lblBroj.Text = "Ukupno: 0";
-            // 
-            // btnObrisi
-            // 
-            btnObrisi.BackColor = Color.FromArgb(220, 53, 69);
-            btnObrisi.Cursor = Cursors.Hand;
-            btnObrisi.FlatAppearance.BorderSize = 0;
-            btnObrisi.FlatStyle = FlatStyle.Flat;
-            btnObrisi.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            btnObrisi.ForeColor = Color.White;
-            btnObrisi.Location = new Point(455, 18);
-            btnObrisi.Name = "btnObrisi";
-            btnObrisi.Size = new Size(65, 34);
-            btnObrisi.TabIndex = 4;
-            btnObrisi.Text = "Obriši";
-            btnObrisi.UseVisualStyleBackColor = false;
-            // btnObrisi.Click += btnObrisi_Click;
             // 
             // btnReset
             // 
@@ -128,7 +96,7 @@
             btnReset.FlatStyle = FlatStyle.Flat;
             btnReset.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             btnReset.ForeColor = Color.White;
-            btnReset.Location = new Point(380, 18);
+            btnReset.Location = new Point(446, 18);
             btnReset.Name = "btnReset";
             btnReset.Size = new Size(65, 34);
             btnReset.TabIndex = 3;
@@ -144,7 +112,7 @@
             btnPretrazi.FlatStyle = FlatStyle.Flat;
             btnPretrazi.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             btnPretrazi.ForeColor = Color.White;
-            btnPretrazi.Location = new Point(290, 18);
+            btnPretrazi.Location = new Point(360, 18);
             btnPretrazi.Name = "btnPretrazi";
             btnPretrazi.Size = new Size(80, 34);
             btnPretrazi.TabIndex = 2;
@@ -158,7 +126,7 @@
             txtKriterijum.Location = new Point(85, 20);
             txtKriterijum.Name = "txtKriterijum";
             txtKriterijum.PlaceholderText = "Naziv ili pisac...";
-            txtKriterijum.Size = new Size(195, 30);
+            txtKriterijum.Size = new Size(257, 30);
             txtKriterijum.TabIndex = 1;
             txtKriterijum.KeyDown += txtKriterijum_KeyDown;
             // 
@@ -174,14 +142,14 @@
             // 
             // dgvKnjige
             // 
-            dgvKnjige.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Bottom | AnchorStyles.Right;
             dgvKnjige.AllowUserToAddRows = false;
             dgvKnjige.AllowUserToDeleteRows = false;
-            dgvKnjige.AutoGenerateColumns = true;
+            dgvKnjige.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgvKnjige.AutoGenerateColumns = false;
             dgvKnjige.BackgroundColor = Color.White;
             dgvKnjige.BorderStyle = BorderStyle.Fixed3D;
             dgvKnjige.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvKnjige.Columns.AddRange(new DataGridViewColumn[] { colId, colNaziv });
+            dgvKnjige.Columns.AddRange(new DataGridViewColumn[] { colId, colNaziv, colPisac, colBrojPrimeraka, colBrojSlobodnih });
             dgvKnjige.DataSource = bindingSource1;
             dgvKnjige.Location = new Point(23, 150);
             dgvKnjige.MultiSelect = false;
@@ -189,18 +157,8 @@
             dgvKnjige.ReadOnly = true;
             dgvKnjige.RowHeadersWidth = 30;
             dgvKnjige.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvKnjige.Size = new Size(500, 300);
+            dgvKnjige.Size = new Size(553, 460);
             dgvKnjige.TabIndex = 2;
-            // 
-            // colCheck
-            // 
-            colCheck.FalseValue = false;
-            colCheck.HeaderText = "✓";
-            colCheck.MinimumWidth = 6;
-            colCheck.Name = "colCheck";
-            colCheck.ReadOnly = true;
-            colCheck.TrueValue = true;
-            colCheck.Width = 40;
             // 
             // colId
             // 
@@ -219,11 +177,49 @@
             colNaziv.MinimumWidth = 6;
             colNaziv.Name = "colNaziv";
             colNaziv.ReadOnly = true;
-            colNaziv.Width = 200;
+            colNaziv.Width = 250;
+            //
+            // colPisac
+            //
+            colPisac = new DataGridViewTextBoxColumn();
+            colPisac.DataPropertyName = "ImePisca";
+            colPisac.HeaderText = "Ime pisca";
+            colPisac.Name = "colPisac";
+            colPisac.ReadOnly = true;
+            colPisac.Width = 110;
+            //
+            // colPrezimePisca
+            //
+            colBrojPrimeraka = new DataGridViewTextBoxColumn();
+            colBrojPrimeraka.DataPropertyName = "PrezimePisca";
+            colBrojPrimeraka.HeaderText = "Prezime pisca";
+            colBrojPrimeraka.Name = "colBrojPrimeraka";
+            colBrojPrimeraka.ReadOnly = true;
+            colBrojPrimeraka.Width = 120;
+            //
+            // colBrojSlobodnih
+            //
+            colBrojSlobodnih = new DataGridViewTextBoxColumn();
+            colBrojSlobodnih.DataPropertyName = "BrojPrimeraka";
+            colBrojSlobodnih.HeaderText = "Ukupno";
+            colBrojSlobodnih.Name = "colBrojSlobodnih";
+            colBrojSlobodnih.ReadOnly = true;
+            colBrojSlobodnih.Width = 80;
+            colBrojSlobodnih.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            // 
+            // colCheck
+            // 
+            colCheck.FalseValue = false;
+            colCheck.HeaderText = "✓";
+            colCheck.MinimumWidth = 6;
+            colCheck.Name = "colCheck";
+            colCheck.ReadOnly = true;
+            colCheck.TrueValue = true;
+            colCheck.Width = 40;
             // 
             // pnlDetalji
             // 
-            pnlDetalji.Anchor = AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Bottom;
+            pnlDetalji.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             pnlDetalji.BackColor = Color.White;
             pnlDetalji.BorderStyle = BorderStyle.FixedSingle;
             pnlDetalji.Controls.Add(grpIzmena);
@@ -238,7 +234,7 @@
             pnlDetalji.Controls.Add(lblNazivVrednost);
             pnlDetalji.Controls.Add(lblNazivDetalji);
             pnlDetalji.Controls.Add(lblDetaljiNaslov);
-            pnlDetalji.Location = new Point(540, 70);
+            pnlDetalji.Location = new Point(599, 70);
             pnlDetalji.Name = "pnlDetalji";
             pnlDetalji.Size = new Size(380, 540);
             pnlDetalji.TabIndex = 3;
@@ -323,7 +319,7 @@
             txtIzmeniPrezimePisca.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
             txtIzmeniPrezimePisca.Location = new Point(15, 135);
             txtIzmeniPrezimePisca.Name = "txtIzmeniPrezimePisca";
-            txtIzmeniPrezimePisca.Size = new Size(260, 30);
+            txtIzmeniPrezimePisca.Size = new Size(318, 30);
             txtIzmeniPrezimePisca.TabIndex = 5;
             // 
             // lblIzmeniPrezimePisca
@@ -333,7 +329,7 @@
             lblIzmeniPrezimePisca.ForeColor = Color.Gray;
             lblIzmeniPrezimePisca.Location = new Point(15, 112);
             lblIzmeniPrezimePisca.Name = "lblIzmeniPrezimePisca";
-            txtIzmeniPrezimePisca.Size = new Size(318, 30);
+            lblIzmeniPrezimePisca.Size = new Size(103, 20);
             lblIzmeniPrezimePisca.TabIndex = 4;
             lblIzmeniPrezimePisca.Text = "Prezime pisca:";
             // 
@@ -383,11 +379,11 @@
             btnObrisiSelektovanu.FlatStyle = FlatStyle.Flat;
             btnObrisiSelektovanu.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             btnObrisiSelektovanu.ForeColor = Color.White;
-            btnObrisiSelektovanu.Location = new Point(198, 198);
+            btnObrisiSelektovanu.Location = new Point(230, 198);
             btnObrisiSelektovanu.Name = "btnObrisiSelektovanu";
-            btnObrisiSelektovanu.Size = new Size(155, 36);
+            btnObrisiSelektovanu.Size = new Size(133, 36);
             btnObrisiSelektovanu.TabIndex = 11;
-            btnObrisiSelektovanu.Text = "Obriši ovu knjigu";
+            btnObrisiSelektovanu.Text = "Obriši knjigu";
             btnObrisiSelektovanu.UseVisualStyleBackColor = false;
             btnObrisiSelektovanu.Click += btnObrisiSelektovanu_Click;
             // 
@@ -398,7 +394,7 @@
             pnlStatusBar.Controls.Add(lblStatus);
             pnlStatusBar.Location = new Point(15, 198);
             pnlStatusBar.Name = "pnlStatusBar";
-            pnlStatusBar.Size = new Size(175, 36);
+            pnlStatusBar.Size = new Size(187, 36);
             pnlStatusBar.TabIndex = 10;
             // 
             // lblStatusVrednost
@@ -551,8 +547,6 @@
         private TextBox txtKriterijum;
         private Button btnPretrazi;
         private Button btnReset;
-        private Button btnObrisi;
-        private Label lblBroj;
         private DataGridView dgvKnjige;
         private BindingSource bindingSource1;
         private Panel pnlDetalji;

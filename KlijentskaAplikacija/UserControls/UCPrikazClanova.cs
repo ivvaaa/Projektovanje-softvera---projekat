@@ -251,8 +251,9 @@ namespace KlijentskaAplikacija.UserControls
             rezimiIzmene = false;
             btnIzmeni.Text = "Izmeni";
             btnIzmeni.BackColor = Color.FromArgb(18, 27, 41);
-            btnObrisiSelektovanog.Text = "Obriši";
-            btnObrisiSelektovanog.BackColor = Color.Gray;
+            btnIzmeni.Size = new Size(270, 38);
+
+            btnObrisiSelektovanog.Visible = false;
 
             txtIzmeniIme.Visible = false;
             txtIzmeniPrezime.Visible = false;
@@ -273,8 +274,11 @@ namespace KlijentskaAplikacija.UserControls
                 rezimiIzmene = true;
                 btnIzmeni.Text = "Sačuvaj";
                 btnIzmeni.BackColor = Color.FromArgb(40, 167, 69);
+                btnIzmeni.Size = new Size(130, 38);
+
                 btnObrisiSelektovanog.Text = "Otkaži";
                 btnObrisiSelektovanog.BackColor = Color.FromArgb(220, 53, 69);
+                btnObrisiSelektovanog.Visible = true;
 
                 // Prikaži TextBox-ove, sakrij labele
                 lblImeVrednost.Visible = false;
@@ -295,7 +299,7 @@ namespace KlijentskaAplikacija.UserControls
                 // Sačuvaj izmene
                 if (string.IsNullOrWhiteSpace(txtIzmeniIme.Text) || string.IsNullOrWhiteSpace(txtIzmeniPrezime.Text))
                 {
-                    MessageBox.Show("Ime i prezime su obavezni.", "Validacija", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Sistem ne moze da zapamti clana - unesite sva polja.", "Validacija", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
@@ -309,13 +313,13 @@ namespace KlijentskaAplikacija.UserControls
                     bool ok = Komunikacija.Instance.IzmeniClana(selektovaniClan);
                     if (ok)
                     {
-                        MessageBox.Show("Član uspešno izmenjen.", "Uspeh", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Sistem je zapamtio clana.", "Uspeh", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         IzadjiIzRezimaIzmene();
                         UcitajSveClanove();
                     }
                     else
                     {
-                        MessageBox.Show("Greška pri izmeni.", "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Sistem ne moze da zapamti clana.", "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
                 catch (Exception ex)

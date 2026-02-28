@@ -13,235 +13,476 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-
-            var headerStyle = new DataGridViewCellStyle
-            {
-                BackColor = Color.FromArgb(18, 27, 41),
-                ForeColor = Color.White,
-                Font = new Font("Segoe UI", 9F, FontStyle.Bold),
-                SelectionBackColor = Color.FromArgb(18, 27, 41),
-                SelectionForeColor = Color.White
-            };
-            var cellStyle = new DataGridViewCellStyle
-            {
-                BackColor = Color.White,
-                ForeColor = Color.FromArgb(50, 50, 50),
-                SelectionBackColor = Color.FromArgb(232, 240, 254),
-                SelectionForeColor = Color.FromArgb(50, 50, 50)
-            };
-
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(18, 27, 41);
+            dataGridViewCellStyle1.ForeColor = Color.White;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(18, 27, 41);
+            dataGridViewCellStyle1.SelectionForeColor = Color.White;
             lblNaslov = new Label();
             pnlPretraga = new Panel();
-            lblBroj = new Label(); btnReset = new Button(); btnPretrazi = new Button();
-            txtPretraga = new TextBox(); lblPretraga = new Label();
+            lblPretraga = new Label();
+            txtPretraga = new TextBox();
+            btnPretrazi = new Button();
+            btnReset = new Button();
+            lblBroj = new Label();
             dgvPozajmice = new DataGridView();
             colId = new DataGridViewTextBoxColumn();
             colClan = new DataGridViewTextBoxColumn();
             colDatumOd = new DataGridViewTextBoxColumn();
             colBrojKnjiga = new DataGridViewTextBoxColumn();
             colStatus = new DataGridViewTextBoxColumn();
+            colDatumVracanjaP = new DataGridViewTextBoxColumn();
             bsPozajmice = new BindingSource(components);
             pnlDetalji = new Panel();
-            btnVratiKnjigu = new Button();
+            lblDetaljiNaslov = new Label();
+            lblClan = new Label();
+            lblClanVrednost = new Label();
+            lblDatum = new Label();
+            lblDatumVrednost = new Label();
+            lblBrojKnjiga = new Label();
+            lblBrojKnjigaVrednost = new Label();
+            pnlStatusBar = new Panel();
+            lblStatus = new Label();
+            lblStatusVrednost = new Label();
+            lblStavkeNaslov = new Label();
             dgvStavke = new DataGridView();
             colStavkaId = new DataGridViewTextBoxColumn();
             colNazivKnjige = new DataGridViewTextBoxColumn();
             colRokPozajmice = new DataGridViewTextBoxColumn();
             colDatumVracanja = new DataGridViewTextBoxColumn();
             bsStavke = new BindingSource(components);
-            lblStavkeNaslov = new Label();
-            pnlStatusBar = new Panel();
-            lblStatusVrednost = new Label(); lblStatus = new Label();
-            lblBrojKnjigaVrednost = new Label(); lblBrojKnjiga = new Label();
-            lblDatumVrednost = new Label(); lblDatum = new Label();
-            lblClanVrednost = new Label(); lblClan = new Label();
-            lblDetaljiNaslov = new Label();
-
+            btnVratiKnjigu = new Button();
             pnlPretraga.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvPozajmice).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bsPozajmice).BeginInit();
             pnlDetalji.SuspendLayout();
+            pnlStatusBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvStavke).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bsStavke).BeginInit();
-            pnlStatusBar.SuspendLayout();
             SuspendLayout();
-
+            // 
             // lblNaslov
+            // 
             lblNaslov.AutoSize = true;
-            lblNaslov.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
+            lblNaslov.Font = new Font("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Point);
             lblNaslov.ForeColor = Color.FromArgb(18, 27, 41);
             lblNaslov.Location = new Point(0, 0);
+            lblNaslov.Name = "lblNaslov";
+            lblNaslov.Size = new Size(196, 37);
+            lblNaslov.TabIndex = 3;
             lblNaslov.Text = "Sva zaduženja";
-
-            // pnlPretraga – Anchor Top+Left+Right
+            // 
+            // pnlPretraga
+            // 
             pnlPretraga.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             pnlPretraga.BackColor = Color.White;
             pnlPretraga.BorderStyle = BorderStyle.FixedSingle;
-            pnlPretraga.Controls.AddRange(new Control[] { lblPretraga, txtPretraga, btnPretrazi, btnReset, lblBroj });
-            pnlPretraga.Location = new Point(0, 40);
-            pnlPretraga.Size = new Size(700, 55);
-
-            lblPretraga.AutoSize = true; lblPretraga.Font = new Font("Segoe UI", 10F);
-            lblPretraga.Location = new Point(10, 16); lblPretraga.Text = "Pretraga:";
-            txtPretraga.Font = new Font("Segoe UI", 10F);
-            txtPretraga.Location = new Point(90, 14); txtPretraga.Size = new Size(200, 30);
+            pnlPretraga.Controls.Add(lblPretraga);
+            pnlPretraga.Controls.Add(txtPretraga);
+            pnlPretraga.Controls.Add(btnPretrazi);
+            pnlPretraga.Controls.Add(btnReset);
+            pnlPretraga.Controls.Add(lblBroj);
+            pnlPretraga.Location = new Point(0, 51);
+            pnlPretraga.Name = "pnlPretraga";
+            pnlPretraga.Size = new Size(762, 52);
+            pnlPretraga.TabIndex = 2;
+            // 
+            // lblPretraga
+            // 
+            lblPretraga.AutoSize = true;
+            lblPretraga.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            lblPretraga.Location = new Point(3, 14);
+            lblPretraga.Name = "lblPretraga";
+            lblPretraga.Size = new Size(79, 23);
+            lblPretraga.TabIndex = 0;
+            lblPretraga.Text = "Pretraga:";
+            // 
+            // txtPretraga
+            // 
+            txtPretraga.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            txtPretraga.Location = new Point(88, 12);
+            txtPretraga.Name = "txtPretraga";
             txtPretraga.PlaceholderText = "Ime ili prezime člana...";
+            txtPretraga.Size = new Size(229, 30);
+            txtPretraga.TabIndex = 1;
             txtPretraga.KeyDown += txtPretraga_KeyDown;
-            btnPretrazi.BackColor = Color.FromArgb(18, 27, 41); btnPretrazi.Cursor = Cursors.Hand;
-            btnPretrazi.FlatStyle = FlatStyle.Flat; btnPretrazi.FlatAppearance.BorderSize = 0;
-            btnPretrazi.Font = new Font("Segoe UI", 9F, FontStyle.Bold); btnPretrazi.ForeColor = Color.White;
-            btnPretrazi.Location = new Point(298, 13); btnPretrazi.Size = new Size(80, 30);
-            btnPretrazi.Text = "Pretraži"; btnPretrazi.Click += btnPretrazi_Click;
-            btnReset.BackColor = Color.Gray; btnReset.Cursor = Cursors.Hand;
-            btnReset.FlatStyle = FlatStyle.Flat; btnReset.FlatAppearance.BorderSize = 0;
-            btnReset.Font = new Font("Segoe UI", 9F, FontStyle.Bold); btnReset.ForeColor = Color.White;
-            btnReset.Location = new Point(385, 13); btnReset.Size = new Size(65, 30);
-            btnReset.Text = "Reset"; btnReset.Click += btnReset_Click;
-            // lblBroj – Anchor Right da uvek ostaje vidljiv
+            // 
+            // btnPretrazi
+            // 
+            btnPretrazi.BackColor = Color.FromArgb(18, 27, 41);
+            btnPretrazi.Cursor = Cursors.Hand;
+            btnPretrazi.FlatAppearance.BorderSize = 0;
+            btnPretrazi.FlatStyle = FlatStyle.Flat;
+            btnPretrazi.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            btnPretrazi.ForeColor = Color.White;
+            btnPretrazi.Location = new Point(323, 11);
+            btnPretrazi.Name = "btnPretrazi";
+            btnPretrazi.Size = new Size(85, 30);
+            btnPretrazi.TabIndex = 2;
+            btnPretrazi.Text = "Pretraži";
+            btnPretrazi.UseVisualStyleBackColor = false;
+            btnPretrazi.Click += btnPretrazi_Click;
+            // 
+            // btnReset
+            // 
+            btnReset.BackColor = Color.Gray;
+            btnReset.Cursor = Cursors.Hand;
+            btnReset.FlatAppearance.BorderSize = 0;
+            btnReset.FlatStyle = FlatStyle.Flat;
+            btnReset.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            btnReset.ForeColor = Color.White;
+            btnReset.Location = new Point(414, 12);
+            btnReset.Name = "btnReset";
+            btnReset.Size = new Size(70, 30);
+            btnReset.TabIndex = 3;
+            btnReset.Text = "Reset";
+            btnReset.UseVisualStyleBackColor = false;
+            btnReset.Click += btnReset_Click;
+            // 
+            // lblBroj
+            // 
             lblBroj.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            lblBroj.AutoSize = true; lblBroj.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            lblBroj.ForeColor = Color.Gray; lblBroj.Location = new Point(490, 18);
-            lblBroj.Text = "Ukupno pozajmica: 0";
-
-            // dgvPozajmice – Anchor sve 4: rasteže se sa prozorom
-            dgvPozajmice.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Bottom | AnchorStyles.Right;
-            dgvPozajmice.AllowUserToAddRows = false; dgvPozajmice.AllowUserToDeleteRows = false;
+            lblBroj.AutoSize = true;
+            lblBroj.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            lblBroj.ForeColor = Color.Gray;
+            lblBroj.Location = new Point(627, 16);
+            lblBroj.Name = "lblBroj";
+            lblBroj.Size = new Size(81, 20);
+            lblBroj.TabIndex = 4;
+            lblBroj.Text = "Ukupno: 0";
+            // 
+            // dgvPozajmice
+            // 
+            dgvPozajmice.AllowUserToAddRows = false;
+            dgvPozajmice.AllowUserToDeleteRows = false;
+            dgvPozajmice.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvPozajmice.AutoGenerateColumns = false;
-            dgvPozajmice.BackgroundColor = Color.White; dgvPozajmice.BorderStyle = BorderStyle.FixedSingle;
-            dgvPozajmice.ColumnHeadersDefaultCellStyle = headerStyle;
-            dgvPozajmice.ColumnHeadersHeight = 35;
+            dgvPozajmice.BackgroundColor = Color.White;
+            dgvPozajmice.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgvPozajmice.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dgvPozajmice.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dgvPozajmice.DefaultCellStyle.BackColor = Color.White;
+            dgvPozajmice.DefaultCellStyle.ForeColor = Color.FromArgb(50, 50, 50);
+            dgvPozajmice.DefaultCellStyle.SelectionBackColor = Color.FromArgb(210, 228, 255);
+            dgvPozajmice.DefaultCellStyle.SelectionForeColor = Color.FromArgb(30, 30, 30);
+            dgvPozajmice.ColumnHeadersHeight = 38;
             dgvPozajmice.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dgvPozajmice.DefaultCellStyle = cellStyle; dgvPozajmice.EnableHeadersVisualStyles = false;
-            dgvPozajmice.Location = new Point(0, 105); dgvPozajmice.Size = new Size(700, 450);
-            dgvPozajmice.MultiSelect = false; dgvPozajmice.ReadOnly = true;
-            dgvPozajmice.RowHeadersVisible = false; dgvPozajmice.RowTemplate.Height = 38;
-            dgvPozajmice.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvPozajmice.DataSource = bsPozajmice;
-            dgvPozajmice.Columns.AddRange(new DataGridViewColumn[] { colId, colClan, colDatumOd, colBrojKnjiga, colStatus });
-
-            colId.DataPropertyName = "Id"; colId.HeaderText = "ID"; colId.Name = "colId";
-            colId.ReadOnly = true; colId.Width = 50;
-            colClan.DataPropertyName = "ImePrezimeClana"; colClan.HeaderText = "Član"; colClan.Name = "colClan";
-            colClan.ReadOnly = true; colClan.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            colDatumOd.DataPropertyName = "DatumOd"; colDatumOd.HeaderText = "Datum pozajmice"; colDatumOd.Name = "colDatumOd";
-            colDatumOd.ReadOnly = true; colDatumOd.Width = 140;
-            colBrojKnjiga.DataPropertyName = "BrojKnjiga"; colBrojKnjiga.HeaderText = "Br. knjiga"; colBrojKnjiga.Name = "colBrojKnjiga";
-            colBrojKnjiga.ReadOnly = true; colBrojKnjiga.Width = 90;
-            colStatus.DataPropertyName = "Status"; colStatus.HeaderText = "Status"; colStatus.Name = "colStatus";
-            colStatus.ReadOnly = true; colStatus.Width = 100;
-
-            // pnlDetalji – Anchor Top+Right+Bottom: ostaje desno
-            pnlDetalji.Anchor = AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Bottom;
+            dgvPozajmice.EnableHeadersVisualStyles = false;
+            dgvPozajmice.GridColor = Color.FromArgb(230, 230, 230);
+            dgvPozajmice.Location = new Point(0, 109);
+            dgvPozajmice.MultiSelect = false;
+            dgvPozajmice.Name = "dgvPozajmice";
+            dgvPozajmice.ReadOnly = true;
+            dgvPozajmice.RowHeadersVisible = false;
+            dgvPozajmice.RowHeadersWidth = 51;
+            dgvPozajmice.RowTemplate.Height = 40;
+            dgvPozajmice.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvPozajmice.Size = new Size(762, 462);
+            dgvPozajmice.TabIndex = 1;
+            // kolone dgvPozajmice
+            colId.DataPropertyName = "Id";
+            colId.HeaderText = "ID";
+            colId.Name = "colId";
+            colId.ReadOnly = true;
+            colId.Visible = false;
+            colClan.DataPropertyName = "ImePrezimeClana";
+            colClan.HeaderText = "Član";
+            colClan.Name = "colClan";
+            colClan.ReadOnly = true;
+            colClan.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            colDatumOd.DataPropertyName = "DatumOd";
+            colDatumOd.HeaderText = "Datum pozajmice";
+            colDatumOd.Name = "colDatumOd";
+            colDatumOd.ReadOnly = true;
+            colDatumOd.Width = 130;
+            colDatumOd.DefaultCellStyle.Format = "dd.MM.yyyy";
+            colBrojKnjiga.DataPropertyName = "BrojKnjiga";
+            colBrojKnjiga.HeaderText = "Br. knj.";
+            colBrojKnjiga.Name = "colBrojKnjiga";
+            colBrojKnjiga.ReadOnly = true;
+            colBrojKnjiga.Width = 70;
+            colBrojKnjiga.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colStatus.DataPropertyName = "Status";
+            colStatus.HeaderText = "Status";
+            colStatus.Name = "colStatus";
+            colStatus.ReadOnly = true;
+            colStatus.Width = 90;
+            colDatumVracanjaP.DataPropertyName = "DatumVracanja";
+            colDatumVracanjaP.HeaderText = "Vraćeno";
+            colDatumVracanjaP.Name = "colDatumVracanjaP";
+            colDatumVracanjaP.ReadOnly = true;
+            colDatumVracanjaP.Width = 95;
+            colDatumVracanjaP.DefaultCellStyle.Format = "dd.MM.yyyy";
+            dgvPozajmice.Columns.AddRange(new DataGridViewColumn[] { colId, colClan, colDatumOd, colBrojKnjiga, colStatus, colDatumVracanjaP });
+            // 
+            // pnlDetalji
+            // 
             pnlDetalji.BackColor = Color.White;
             pnlDetalji.BorderStyle = BorderStyle.FixedSingle;
-            pnlDetalji.Location = new Point(720, 40);
-            pnlDetalji.Size = new Size(330, 515);
-            pnlDetalji.Controls.AddRange(new Control[] {
-                lblDetaljiNaslov, lblClan, lblClanVrednost,
-                lblDatum, lblDatumVrednost, lblBrojKnjiga, lblBrojKnjigaVrednost,
-                pnlStatusBar, lblStavkeNaslov, dgvStavke, btnVratiKnjigu
-            });
-
-            lblDetaljiNaslov.AutoSize = true; lblDetaljiNaslov.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            pnlDetalji.Controls.Add(lblDetaljiNaslov);
+            pnlDetalji.Controls.Add(lblClan);
+            pnlDetalji.Controls.Add(lblClanVrednost);
+            pnlDetalji.Controls.Add(lblDatum);
+            pnlDetalji.Controls.Add(lblDatumVrednost);
+            pnlDetalji.Controls.Add(lblBrojKnjiga);
+            pnlDetalji.Controls.Add(lblBrojKnjigaVrednost);
+            pnlDetalji.Controls.Add(pnlStatusBar);
+            pnlDetalji.Controls.Add(lblStavkeNaslov);
+            pnlDetalji.Controls.Add(dgvStavke);
+            pnlDetalji.Controls.Add(btnVratiKnjigu);
+            pnlDetalji.Dock = DockStyle.Right;
+            pnlDetalji.Location = new Point(768, 20);
+            pnlDetalji.Name = "pnlDetalji";
+            pnlDetalji.Padding = new Padding(15);
+            pnlDetalji.Size = new Size(370, 554);
+            pnlDetalji.TabIndex = 0;
+            // 
+            // lblDetaljiNaslov
+            // 
+            lblDetaljiNaslov.AutoSize = true;
+            lblDetaljiNaslov.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
             lblDetaljiNaslov.ForeColor = Color.FromArgb(18, 27, 41);
-            lblDetaljiNaslov.Location = new Point(15, 15); lblDetaljiNaslov.Text = "Detalji pozajmice";
-
-            lblClan.AutoSize = true; lblClan.Font = new Font("Segoe UI", 10F); lblClan.ForeColor = Color.Gray;
-            lblClan.Location = new Point(15, 55); lblClan.Text = "Član:";
-            lblClanVrednost.AutoSize = true; lblClanVrednost.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            lblClanVrednost.Location = new Point(110, 55); lblClanVrednost.Text = "Ime Prezime";
-
-            lblDatum.AutoSize = true; lblDatum.Font = new Font("Segoe UI", 10F); lblDatum.ForeColor = Color.Gray;
-            lblDatum.Location = new Point(15, 85); lblDatum.Text = "Datum:";
-            lblDatumVrednost.AutoSize = true; lblDatumVrednost.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            lblDatumVrednost.Location = new Point(110, 85); lblDatumVrednost.Text = "01.01.2024";
-
-            lblBrojKnjiga.AutoSize = true; lblBrojKnjiga.Font = new Font("Segoe UI", 10F); lblBrojKnjiga.ForeColor = Color.Gray;
-            lblBrojKnjiga.Location = new Point(15, 115); lblBrojKnjiga.Text = "Br. knjiga:";
-            lblBrojKnjigaVrednost.AutoSize = true; lblBrojKnjigaVrednost.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            lblBrojKnjigaVrednost.Location = new Point(110, 115); lblBrojKnjigaVrednost.Text = "0";
-
+            lblDetaljiNaslov.Location = new Point(15, 15);
+            lblDetaljiNaslov.Name = "lblDetaljiNaslov";
+            lblDetaljiNaslov.Size = new Size(177, 28);
+            lblDetaljiNaslov.TabIndex = 0;
+            lblDetaljiNaslov.Text = "Detalji pozajmice";
+            // 
+            // lblClan
+            // 
+            lblClan.AutoSize = true;
+            lblClan.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            lblClan.ForeColor = Color.Gray;
+            lblClan.Location = new Point(15, 55);
+            lblClan.Name = "lblClan";
+            lblClan.Size = new Size(48, 23);
+            lblClan.TabIndex = 1;
+            lblClan.Text = "Član:";
+            // 
+            // lblClanVrednost
+            // 
+            lblClanVrednost.AutoSize = true;
+            lblClanVrednost.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            lblClanVrednost.Location = new Point(110, 55);
+            lblClanVrednost.Name = "lblClanVrednost";
+            lblClanVrednost.Size = new Size(17, 23);
+            lblClanVrednost.TabIndex = 2;
+            lblClanVrednost.Text = "-";
+            // 
+            // lblDatum
+            // 
+            lblDatum.AutoSize = true;
+            lblDatum.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            lblDatum.ForeColor = Color.Gray;
+            lblDatum.Location = new Point(15, 85);
+            lblDatum.Name = "lblDatum";
+            lblDatum.Size = new Size(66, 23);
+            lblDatum.TabIndex = 3;
+            lblDatum.Text = "Datum:";
+            // 
+            // lblDatumVrednost
+            // 
+            lblDatumVrednost.AutoSize = true;
+            lblDatumVrednost.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            lblDatumVrednost.Location = new Point(110, 85);
+            lblDatumVrednost.Name = "lblDatumVrednost";
+            lblDatumVrednost.Size = new Size(17, 23);
+            lblDatumVrednost.TabIndex = 4;
+            lblDatumVrednost.Text = "-";
+            // 
+            // lblBrojKnjiga
+            // 
+            lblBrojKnjiga.AutoSize = true;
+            lblBrojKnjiga.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            lblBrojKnjiga.ForeColor = Color.Gray;
+            lblBrojKnjiga.Location = new Point(15, 115);
+            lblBrojKnjiga.Name = "lblBrojKnjiga";
+            lblBrojKnjiga.Size = new Size(84, 23);
+            lblBrojKnjiga.TabIndex = 5;
+            lblBrojKnjiga.Text = "Br. knjiga:";
+            // 
+            // lblBrojKnjigaVrednost
+            // 
+            lblBrojKnjigaVrednost.AutoSize = true;
+            lblBrojKnjigaVrednost.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            lblBrojKnjigaVrednost.Location = new Point(110, 115);
+            lblBrojKnjigaVrednost.Name = "lblBrojKnjigaVrednost";
+            lblBrojKnjigaVrednost.Size = new Size(20, 23);
+            lblBrojKnjigaVrednost.TabIndex = 6;
+            lblBrojKnjigaVrednost.Text = "0";
+            // 
             // pnlStatusBar
+            // 
             pnlStatusBar.BackColor = Color.FromArgb(230, 242, 255);
-            pnlStatusBar.Controls.AddRange(new Control[] { lblStatus, lblStatusVrednost });
-            pnlStatusBar.Location = new Point(15, 148); pnlStatusBar.Size = new Size(295, 38);
-            lblStatus.AutoSize = true; lblStatus.Font = new Font("Segoe UI", 10F);
-            lblStatus.Location = new Point(8, 8); lblStatus.Text = "Status:";
-            lblStatusVrednost.AutoSize = true; lblStatusVrednost.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            pnlStatusBar.Controls.Add(lblStatus);
+            pnlStatusBar.Controls.Add(lblStatusVrednost);
+            pnlStatusBar.Location = new Point(15, 145);
+            pnlStatusBar.Name = "pnlStatusBar";
+            pnlStatusBar.Size = new Size(325, 38);
+            pnlStatusBar.TabIndex = 7;
+            // 
+            // lblStatus
+            // 
+            lblStatus.AutoSize = true;
+            lblStatus.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            lblStatus.Location = new Point(8, 8);
+            lblStatus.Name = "lblStatus";
+            lblStatus.Size = new Size(60, 23);
+            lblStatus.TabIndex = 0;
+            lblStatus.Text = "Status:";
+            // 
+            // lblStatusVrednost
+            // 
+            lblStatusVrednost.AutoSize = true;
+            lblStatusVrednost.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
             lblStatusVrednost.ForeColor = Color.FromArgb(0, 123, 255);
-            lblStatusVrednost.Location = new Point(72, 8); lblStatusVrednost.Text = "Aktivna";
-
-            // Stavke pozajmice
-            lblStavkeNaslov.AutoSize = true; lblStavkeNaslov.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            lblStatusVrednost.Location = new Point(72, 8);
+            lblStatusVrednost.Name = "lblStatusVrednost";
+            lblStatusVrednost.Size = new Size(72, 23);
+            lblStatusVrednost.TabIndex = 1;
+            lblStatusVrednost.Text = "Aktivna";
+            // 
+            // lblStavkeNaslov
+            // 
+            lblStavkeNaslov.AutoSize = true;
+            lblStavkeNaslov.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
             lblStavkeNaslov.ForeColor = Color.FromArgb(18, 27, 41);
-            lblStavkeNaslov.Location = new Point(15, 205); lblStavkeNaslov.Text = "Pozajmljene knjige:";
-
-            // dgvStavke – Anchor Top+Left+Right+Bottom
-            dgvStavke.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom;
-            dgvStavke.AllowUserToAddRows = false; dgvStavke.AllowUserToDeleteRows = false;
+            lblStavkeNaslov.Location = new Point(15, 199);
+            lblStavkeNaslov.Name = "lblStavkeNaslov";
+            lblStavkeNaslov.Size = new Size(165, 23);
+            lblStavkeNaslov.TabIndex = 8;
+            lblStavkeNaslov.Text = "Pozajmljene knjige:";
+            // 
+            // dgvStavke
+            // 
+            dgvStavke.AllowUserToAddRows = false;
+            dgvStavke.AllowUserToDeleteRows = false;
+            dgvStavke.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvStavke.AutoGenerateColumns = false;
-            dgvStavke.BackgroundColor = Color.White; dgvStavke.BorderStyle = BorderStyle.FixedSingle;
-            dgvStavke.ColumnHeadersDefaultCellStyle = headerStyle;
+            dgvStavke.BackgroundColor = Color.White;
+            dgvStavke.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dgvStavke.DefaultCellStyle.BackColor = Color.White;
+            dgvStavke.DefaultCellStyle.ForeColor = Color.FromArgb(50, 50, 50);
+            dgvStavke.DefaultCellStyle.SelectionBackColor = Color.FromArgb(210, 228, 255);
+            dgvStavke.DefaultCellStyle.SelectionForeColor = Color.FromArgb(30, 30, 30);
             dgvStavke.ColumnHeadersHeight = 32;
             dgvStavke.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dgvStavke.DefaultCellStyle = cellStyle; dgvStavke.EnableHeadersVisualStyles = false;
-            dgvStavke.Location = new Point(15, 232); dgvStavke.Size = new Size(295, 230);
-            dgvStavke.MultiSelect = false; dgvStavke.ReadOnly = true;
-            dgvStavke.RowHeadersVisible = false; dgvStavke.RowTemplate.Height = 32;
-            dgvStavke.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvStavke.DataSource = bsStavke;
+            dgvStavke.EnableHeadersVisualStyles = false;
+            dgvStavke.Location = new Point(15, 225);
+            dgvStavke.MultiSelect = false;
+            dgvStavke.Name = "dgvStavke";
+            dgvStavke.ReadOnly = true;
+            dgvStavke.RowHeadersVisible = false;
+            dgvStavke.RowHeadersWidth = 51;
+            dgvStavke.RowTemplate.Height = 33;
+            dgvStavke.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvStavke.Size = new Size(335, 195);
+            dgvStavke.TabIndex = 9;
+            // kolone dgvStavke
+            colStavkaId.DataPropertyName = "IdKnjige";
+            colStavkaId.HeaderText = "ID";
+            colStavkaId.Name = "colStavkaId";
+            colStavkaId.ReadOnly = true;
+            colStavkaId.Visible = false;
+            colNazivKnjige.DataPropertyName = "NazivKnjige";
+            colNazivKnjige.HeaderText = "Knjiga";
+            colNazivKnjige.Name = "colNazivKnjige";
+            colNazivKnjige.ReadOnly = true;
+            colNazivKnjige.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            colRokPozajmice.DataPropertyName = "RokPozajmice";
+            colRokPozajmice.HeaderText = "Rok";
+            colRokPozajmice.Name = "colRokPozajmice";
+            colRokPozajmice.ReadOnly = true;
+            colRokPozajmice.Width = 80;
+            colRokPozajmice.DefaultCellStyle.Format = "dd.MM.yy";
+            colDatumVracanja.DataPropertyName = "DatumVracanja";
+            colDatumVracanja.HeaderText = "Vraćeno";
+            colDatumVracanja.Name = "colDatumVracanja";
+            colDatumVracanja.ReadOnly = true;
+            colDatumVracanja.Width = 80;
+            colDatumVracanja.DefaultCellStyle.Format = "dd.MM.yy";
             dgvStavke.Columns.AddRange(new DataGridViewColumn[] { colStavkaId, colNazivKnjige, colRokPozajmice, colDatumVracanja });
-
-            colStavkaId.DataPropertyName = "IdKnjige"; colStavkaId.HeaderText = "ID"; colStavkaId.Name = "colStavkaId";
-            colStavkaId.ReadOnly = true; colStavkaId.Visible = false;
-            colNazivKnjige.DataPropertyName = "NazivKnjige"; colNazivKnjige.HeaderText = "Knjiga"; colNazivKnjige.Name = "colNazivKnjige";
-            colNazivKnjige.ReadOnly = true; colNazivKnjige.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            colRokPozajmice.DataPropertyName = "RokPozajmice"; colRokPozajmice.HeaderText = "Rok"; colRokPozajmice.Name = "colRokPozajmice";
-            colRokPozajmice.ReadOnly = true; colRokPozajmice.Width = 80;
-            colDatumVracanja.DataPropertyName = "DatumVracanja"; colDatumVracanja.HeaderText = "Vraćeno"; colDatumVracanja.Name = "colDatumVracanja";
-            colDatumVracanja.ReadOnly = true; colDatumVracanja.Width = 75;
-
-            btnVratiKnjigu.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            btnVratiKnjigu.BackColor = Color.FromArgb(40, 167, 69); btnVratiKnjigu.Cursor = Cursors.Hand;
-            btnVratiKnjigu.FlatStyle = FlatStyle.Flat; btnVratiKnjigu.FlatAppearance.BorderSize = 0;
-            btnVratiKnjigu.Font = new Font("Segoe UI", 9F, FontStyle.Bold); btnVratiKnjigu.ForeColor = Color.White;
-            btnVratiKnjigu.Location = new Point(15, 470); btnVratiKnjigu.Size = new Size(295, 35);
+            dgvStavke.DataSource = bsStavke;
+            // 
+            // btnVratiKnjigu — odmah ispod dgvStavke (225 + 195 + 10 = 430)
+            // 
+            btnVratiKnjigu.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            btnVratiKnjigu.BackColor = Color.FromArgb(40, 167, 69);
+            btnVratiKnjigu.Cursor = Cursors.Hand;
+            btnVratiKnjigu.FlatAppearance.BorderSize = 0;
+            btnVratiKnjigu.FlatStyle = FlatStyle.Flat;
+            btnVratiKnjigu.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            btnVratiKnjigu.ForeColor = Color.White;
+            btnVratiKnjigu.Location = new Point(15, 430);
+            btnVratiKnjigu.Name = "btnVratiKnjigu";
+            btnVratiKnjigu.Size = new Size(335, 38);
+            btnVratiKnjigu.TabIndex = 10;
             btnVratiKnjigu.Text = "✓  Vrati selektovanu knjigu";
+            btnVratiKnjigu.UseVisualStyleBackColor = false;
             btnVratiKnjigu.Click += btnVratiKnjigu_Click;
-
+            // 
             // UCSvaZaduzenja
+            // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(245, 247, 250);
-            Dock = DockStyle.Fill; Padding = new Padding(20);
-            Controls.AddRange(new Control[] { pnlDetalji, dgvPozajmice, pnlPretraga, lblNaslov });
+            Controls.Add(pnlDetalji);
+            Controls.Add(dgvPozajmice);
+            Controls.Add(pnlPretraga);
+            Controls.Add(lblNaslov);
             Name = "UCSvaZaduzenja";
-
-            pnlPretraga.ResumeLayout(false); pnlPretraga.PerformLayout();
+            Padding = new Padding(20);
+            Size = new Size(1158, 594);
+            pnlPretraga.ResumeLayout(false);
+            pnlPretraga.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvPozajmice).EndInit();
             ((System.ComponentModel.ISupportInitialize)bsPozajmice).EndInit();
-            pnlDetalji.ResumeLayout(false); pnlDetalji.PerformLayout();
+            pnlDetalji.ResumeLayout(false);
+            pnlDetalji.PerformLayout();
+            pnlStatusBar.ResumeLayout(false);
+            pnlStatusBar.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvStavke).EndInit();
             ((System.ComponentModel.ISupportInitialize)bsStavke).EndInit();
-            pnlStatusBar.ResumeLayout(false); pnlStatusBar.PerformLayout();
-            ResumeLayout(false); PerformLayout();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         private Label lblNaslov;
         private Panel pnlPretraga;
-        private Label lblPretraga; private TextBox txtPretraga;
-        private Button btnPretrazi; private Button btnReset; private Label lblBroj;
-        private DataGridView dgvPozajmice; private BindingSource bsPozajmice;
+        private Label lblPretraga;
+        private TextBox txtPretraga;
+        private Button btnPretrazi;
+        private Button btnReset;
+        private Label lblBroj;
+        private DataGridView dgvPozajmice;
+        private BindingSource bsPozajmice;
         private Panel pnlDetalji;
         private Label lblDetaljiNaslov;
-        private Label lblClan; private Label lblClanVrednost;
-        private Label lblDatum; private Label lblDatumVrednost;
-        private Label lblBrojKnjiga; private Label lblBrojKnjigaVrednost;
-        private Panel pnlStatusBar; private Label lblStatus; private Label lblStatusVrednost;
+        private Label lblClan;
+        private Label lblClanVrednost;
+        private Label lblDatum;
+        private Label lblDatumVrednost;
+        private Label lblBrojKnjiga;
+        private Label lblBrojKnjigaVrednost;
+        private Panel pnlStatusBar;
+        private Label lblStatus;
+        private Label lblStatusVrednost;
         private Label lblStavkeNaslov;
-        private DataGridView dgvStavke; private BindingSource bsStavke;
+        private DataGridView dgvStavke;
+        private BindingSource bsStavke;
         private Button btnVratiKnjigu;
-        private DataGridViewTextBoxColumn colId, colClan, colDatumOd, colBrojKnjiga, colStatus;
-        private DataGridViewTextBoxColumn colStavkaId, colNazivKnjige, colRokPozajmice, colDatumVracanja;
+        private DataGridViewTextBoxColumn colId;
+        private DataGridViewTextBoxColumn colClan;
+        private DataGridViewTextBoxColumn colDatumOd;
+        private DataGridViewTextBoxColumn colBrojKnjiga;
+        private DataGridViewTextBoxColumn colStatus;
+        private DataGridViewTextBoxColumn colDatumVracanjaP;  // kolona "Vraćeno" u dgvPozajmice
+        private DataGridViewTextBoxColumn colStavkaId;
+        private DataGridViewTextBoxColumn colNazivKnjige;
+        private DataGridViewTextBoxColumn colRokPozajmice;
+        private DataGridViewTextBoxColumn colDatumVracanja;   // kolona "Vraćeno" u dgvStavke
     }
 }

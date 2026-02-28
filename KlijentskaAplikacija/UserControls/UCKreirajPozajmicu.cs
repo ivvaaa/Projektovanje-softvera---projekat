@@ -71,6 +71,16 @@ namespace KlijentskaAplikacija.UserControls
         {
             if (dgvKnjige.CurrentRow?.DataBoundItem is Knjiga k)
             {
+                if (k.BrojSlobodnih <= 0)
+                {
+                    MessageBox.Show(
+                        $"Knjiga '{k.Naziv}' nema slobodnih primeraka i ne može biti pozajmljena.",
+                        "Upozorenje",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                    return;
+                }
+
                 if (odabraneKnjige.Exists(x => x.Id == k.Id))
                 {
                     MessageBox.Show("Ova knjiga je već dodata.", "Info",
@@ -110,7 +120,7 @@ namespace KlijentskaAplikacija.UserControls
 
             if (odabraneKnjige.Count == 0)
             {
-                MessageBox.Show("Morate dodati bar jednu knjigu.", "Greška",
+                MessageBox.Show("Sistem ne moze da zapamti pozajmicu.", "Greška",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
@@ -138,13 +148,13 @@ namespace KlijentskaAplikacija.UserControls
 
                 if (idPozajmice > 0)
                 {
-                    MessageBox.Show($"Pozajmica uspešno kreirana! (ID: {idPozajmice})", "Uspeh",
+                    MessageBox.Show($"Sistem je zapamtio pozajmicu.", "Uspeh",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                     OcistiFormu();
                 }
                 else
                 {
-                    MessageBox.Show("Greška pri kreiranju pozajmice.", "Greška",
+                    MessageBox.Show("Sistem ne moze da zapamti pozajmicu.", "Greška",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
@@ -170,15 +180,6 @@ namespace KlijentskaAplikacija.UserControls
             OcistiFormu();
         }
 
-        private void txtPretragaKnjiga_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                List<Knjiga> knjige = Komunikacija.Instance.PretraziKnjige(txtPretragaKnjiga.Text);
-                dgvKnjige.DataSource = knjige;
-            }
-            catch { }
-        }
 
         private void dgvKnjige_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {

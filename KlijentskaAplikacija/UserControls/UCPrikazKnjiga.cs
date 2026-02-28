@@ -30,7 +30,6 @@ namespace KlijentskaAplikacija.UserControls
             {
                 List<Knjiga> lista = Komunikacija.Instance.PretraziKnjige("") ?? new List<Knjiga>();
                 bindingSource1.DataSource = lista;
-                lblBroj.Text = $"Ukupno knjiga: {lista.Count}";
                 ResetujBoje();
                 pnlDetalji.Visible = false;
                 selektovanaKnjiga = null;
@@ -144,8 +143,6 @@ namespace KlijentskaAplikacija.UserControls
                 List<Knjiga> lista = Komunikacija.Instance.PretraziKnjige(kriterijum) ?? new List<Knjiga>();
 
                 bindingSource1.DataSource = lista;
-                lblBroj.Text = $"Ukupno knjiga: {lista.Count}";
-
                 ResetujBoje();
                 pnlDetalji.Visible = false;
 
