@@ -18,17 +18,20 @@ namespace KlijentskaAplikacija.UserControls
 
         private void UcitajTipoveClanstva()
         {
-            var tipovi = new List<Clanstvo>
+            try
             {
-                new Clanstvo { Id = 1, Vrsta = "Mesečno",     Cena = 300  },
-                new Clanstvo { Id = 2, Vrsta = "Polugodišnje", Cena = 1200 },
-                new Clanstvo { Id = 3, Vrsta = "Godišnje",    Cena = 2000 }
-            };
-
-            cmbClanstvo.DataSource = tipovi;
-            cmbClanstvo.DisplayMember = "Vrsta";
-            cmbClanstvo.ValueMember = "Id";
-            cmbClanstvo.SelectedIndex = 0;
+                var tipovi = Komunikacija.Instance.VratiSvaClanstva() ?? new List<Clanstvo>();
+                cmbClanstvo.DataSource = tipovi;
+                cmbClanstvo.DisplayMember = "Vrsta";
+                cmbClanstvo.ValueMember = "Id";
+                if (tipovi.Count > 0)
+                    cmbClanstvo.SelectedIndex = 0;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Greška pri učitavanju vrsta članstva: " + ex.Message,
+                    "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void PostaviPocetneVrednosti()
@@ -44,13 +47,15 @@ namespace KlijentskaAplikacija.UserControls
             if (cmbClanstvo.SelectedItem is Clanstvo c)
             {
                 DateTime od = dtpDatumOd.Value.Date;
-                dtpDatumDo.Value = c.Vrsta switch
-                {
-                    "Mesečno" => od.AddMonths(1),
-                    "Polugodišnje" => od.AddMonths(6),
-                    "Godišnje" => od.AddYears(1),
-                    _ => od.AddMonths(1)
-                };
+                string vrsta = c.Vrsta?.ToLower().Trim() ?? "";
+
+                if (vrsta.Contains("godišnje") || vrsta.Contains("godisnje") || vrsta.Contains("god"))
+                    dtpDatumDo.Value = od.AddYears(1);
+                else if (vrsta.Contains("polugodišnje") || vrsta.Contains("polugodisnje") || vrsta.Contains("polu"))
+                    dtpDatumDo.Value = od.AddMonths(6);
+                else
+                    // Mesecno i sve ostalo - 1 mesec
+                    dtpDatumDo.Value = od.AddMonths(1);
             }
         }
 

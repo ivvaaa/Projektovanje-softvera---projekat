@@ -13,23 +13,22 @@ namespace Zajednicki
 
         //Knjige - SK14, SK15, SK16, SK17
         UbaciKnjigu,
-        VratiSveKnjige,
-        PretraziKnjigu,
+        PretraziKnjigu,     // prazan kriterijum = sve knjige
         IzmeniKnjigu,
         ObrisiKnjigu,
 
         //Clanovi - SK5, SK6, SK7, SK8
         KreirajClana,
-        VratiSveClanova,
-        PretraziClana,
+        PretraziClana,      // prazan kriterijum = svi clanovi
         IzmeniClana,
         ObrisiClana,
+        VratiSvaClanstva,   // pomocna - ucitavanje liste clanstava za forme (SK7 preduslov)
 
         //Pozajmice - SK1, SK2
         KreirajPozajmicu,
         PretraziPozajmicu,  //prazan kriterijum = sve
         VratiKnjigu,        //PromeniPozajmica - vracanje knjige
+        IzmeniRokPozajmice, //SK3 - promena roka pozajmice (stavke)
 
     }
 }
-

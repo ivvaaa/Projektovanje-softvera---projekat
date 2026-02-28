@@ -15,6 +15,7 @@ namespace Domeni
         public long IdClan { get; set; }
         public List<StavkaPozajmice> Stavke { get; set; } = new List<StavkaPozajmice>();
         public string ImePrezimeClana { get; set; }
+        public string ImePrezimeBibliotekar { get; set; }
         public int BrojKnjiga { get; set; }
         public string Status { get; set; }
         public DateTime? DatumVracanja =>

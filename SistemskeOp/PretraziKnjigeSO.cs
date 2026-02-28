@@ -7,7 +7,8 @@ using Domeni;
 
 namespace SistemskeOp
 {
-    //vratiListuKnjiga(kriterijumKnjiga, Lista<Knjiga>)
+    //vratiListuKnjiga(kriterijumKnjiga, Lista<Knjiga>) - SK10/SK15
+    //prazan kriterijum = vrati sve knjige
     public class PretraziKnjigeSO : SOBase
     {
         private string kriterijum;
@@ -20,16 +21,23 @@ namespace SistemskeOp
 
         protected override void ExecuteConcreteOperation()
         {
-            //basic
-            string condition = $"naziv LIKE '%{kriterijum}%' OR imePisca LIKE '%{kriterijum}%' OR prezimePisca LIKE '%{kriterijum}%'";
-            List<IEntity> listaKnjiga = broker.GetByCondition(new Knjiga(), condition);
-            List<Knjiga> knjige = listaKnjiga.Cast<Knjiga>().ToList();
+            List<Knjiga> knjige;
 
-            //sve knjige iz akrivnih poz - znaci koje nisu vracene
-            List<IEntity> listaStavki = broker.GetByCondition(new StavkaPozajmice(), "datumVracanja IS NULL");
-            List<StavkaPozajmice> aktivneStavke = listaStavki.Cast<StavkaPozajmice>().ToList();
+            if (string.IsNullOrWhiteSpace(kriterijum))
+            {
+                knjige = broker.GetAll(new Knjiga()).Cast<Knjiga>().ToList();
+            }
+            else
+            {
+                string condition = $"naziv LIKE '%{kriterijum}%' OR imePisca LIKE '%{kriterijum}%' OR prezimePisca LIKE '%{kriterijum}%'";
+                knjige = broker.GetByCondition(new Knjiga(), condition).Cast<Knjiga>().ToList();
+            }
 
-            //broj slobodnih za svaku knjigu
+            //BrojSlobodnih za sve knjige
+            List<StavkaPozajmice> aktivneStavke = broker
+                .GetByCondition(new StavkaPozajmice(), "datumVracanja IS NULL")
+                .Cast<StavkaPozajmice>().ToList();
+
             foreach (var knjiga in knjige)
             {
                 int pozajmljeno = aktivneStavke.Count(s => s.IdKnjige == knjiga.Id);
@@ -40,4 +48,3 @@ namespace SistemskeOp
         }
     }
 }
-

@@ -16,37 +16,33 @@ namespace SistemskeOp
 
         protected override void ExecuteConcreteOperation()
         {
-            //ucitavanje clanova svih ili po kriterijumu
-            List<Clan> clanovi;
+            // Ucitaj sve clanove i bibliotekare (potrebni za enrichment i pretragu)
+            List<Clan> sviClanovi = broker.GetAll(new Clan()).Cast<Clan>().ToList();
+            List<Bibliotekar> sviBibliotekar = broker.GetAll(new Bibliotekar()).Cast<Bibliotekar>().ToList();
+
+            // Ucitaj sve pozajmice (ili filtriraj po ID ako je kriterijum broj)
+            List<Pozajmica> svePozajmice;
             if (string.IsNullOrWhiteSpace(kriterijum))
             {
-                clanovi = broker.GetAll(new Clan()).Cast<Clan>().ToList();
+                svePozajmice = broker.GetAll(new Pozajmica()).Cast<Pozajmica>().ToList();
             }
             else
             {
-                string conditionClan = $"ime LIKE '%{kriterijum}%' OR prezime LIKE '%{kriterijum}%'";
-                clanovi = broker.GetByCondition(new Clan(), conditionClan).Cast<Clan>().ToList();
+                svePozajmice = broker.GetAll(new Pozajmica()).Cast<Pozajmica>().ToList();
             }
 
-            //poz za zvakog
-            List<Pozajmica> svePozajmice = new List<Pozajmica>();
-            foreach (var clan in clanovi)
-            {
-                List<Pozajmica> pozajmicaClana = broker.GetByCondition(new Pozajmica(), $"Pozajmica.idClan = {clan.Id}")
-                                                                        .Cast<Pozajmica>().ToList();
-                svePozajmice.AddRange(pozajmicaClana);
-            }
-
-            //za svaku poz stavke
+            // Enrich svake pozajmice sa stavkama, imenom clana i bibliotekara
             foreach (var pozajmica in svePozajmice)
             {
                 List<StavkaPozajmice> stavke = broker.GetByCondition(new StavkaPozajmice(), $"StavkaPozajmice.idPozajmica = {pozajmica.Id}")
                                                                       .Cast<StavkaPozajmice>().ToList();
                 pozajmica.Stavke = stavke;
 
-                //ime i prez iz vec ucitanih
-                Clan clan = clanovi.FirstOrDefault(c => c.Id == pozajmica.IdClan);
+                Clan clan = sviClanovi.FirstOrDefault(c => c.Id == pozajmica.IdClan);
                 pozajmica.ImePrezimeClana = clan != null ? $"{clan.Ime} {clan.Prezime}" : "";
+
+                Bibliotekar bib = sviBibliotekar.FirstOrDefault(b => b.Id == pozajmica.IdBibliotekar);
+                pozajmica.ImePrezimeBibliotekar = bib != null ? $"{bib.Ime} {bib.Prezime}" : "";
 
                 pozajmica.BrojKnjiga = stavke.Count;
 
@@ -56,6 +52,22 @@ namespace SistemskeOp
                 pozajmica.Status = !imaAktivnih ? "Vraceno"
                                  : imaZakasnelih ? "Zakasnelo"
                                  : "Aktivna";
+            }
+
+            // Filtriranje po svim kriterijumima (Pozajmica ID, Clan, Bibliotekar, Knjiga)
+            if (!string.IsNullOrWhiteSpace(kriterijum))
+            {
+                string k = kriterijum.ToLower().Trim();
+                svePozajmice = svePozajmice.Where(p =>
+                    // a) po ID pozajmice
+                    p.Id.ToString().Contains(k) ||
+                    // b) po clanu (ime ili prezime)
+                    p.ImePrezimeClana.ToLower().Contains(k) ||
+                    // c) po bibliotekaru (ime ili prezime)
+                    p.ImePrezimeBibliotekar.ToLower().Contains(k) ||
+                    // d) po nazivu knjige u stavkama
+                    p.Stavke.Any(s => s.NazivKnjige.ToLower().Contains(k))
+                ).ToList();
             }
 
             Result = svePozajmice;

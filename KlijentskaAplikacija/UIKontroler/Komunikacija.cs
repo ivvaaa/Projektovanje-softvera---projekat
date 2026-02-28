@@ -64,17 +64,7 @@ namespace KlijentskaAplikacija.UIKontroler
             return o.Signal;
         }
 
-        public List<Knjiga> VratiSveKnjige()
-        {
-            PoveziSe();
-            serializer.Send(new Zahtev { Operacija = Operacija.VratiSveKnjige });
-            Odgovor o = serializer.Receive<Odgovor>();
-            if (o.Signal && o.Podaci != null)
-                return JsonSerializer.Deserialize<List<Knjiga>>((JsonElement)o.Podaci) ?? new List<Knjiga>();
-            return new List<Knjiga>();
-        }
-
-        //vratiListuKnjiga(kriterijum) - SK15
+        // vratiListuKnjiga(kriterijum) - SK10/SK15, prazan kriterijum = sve knjige
         public List<Knjiga> PretraziKnjige(string kriterijum)
         {
             PoveziSe();
@@ -113,18 +103,7 @@ namespace KlijentskaAplikacija.UIKontroler
             return o.Signal;
         }
 
-        //vratiListuSviClan
-        public List<Clan> VratiSveClanova()
-        {
-            PoveziSe();
-            serializer.Send(new Zahtev { Operacija = Operacija.VratiSveClanova });
-            Odgovor o = serializer.Receive<Odgovor>();
-            if (o.Signal && o.Podaci != null)
-                return JsonSerializer.Deserialize<List<Clan>>((JsonElement)o.Podaci) ?? new List<Clan>();
-            return new List<Clan>();
-        }
-
-        //vratiListuClan(kriterijum) - SK6
+        // vratiListuClan(kriterijum) - SK6/SK7, prazan kriterijum = svi clanovi
         public List<Clan> PretraziClanove(string kriterijum)
         {
             PoveziSe();
@@ -151,6 +130,17 @@ namespace KlijentskaAplikacija.UIKontroler
             serializer.Send(new Zahtev { Operacija = Operacija.ObrisiClana, Podaci = id });
             Odgovor o = serializer.Receive<Odgovor>();
             return o.Signal;
+        }
+
+        // pomocna - ucitavanje liste clanstava (SK7 preduslov)
+        public List<Clanstvo> VratiSvaClanstva()
+        {
+            PoveziSe();
+            serializer.Send(new Zahtev { Operacija = Operacija.VratiSvaClanstva });
+            Odgovor o = serializer.Receive<Odgovor>();
+            if (o.Signal && o.Podaci != null)
+                return JsonSerializer.Deserialize<List<Clanstvo>>((JsonElement)o.Podaci) ?? new List<Clanstvo>();
+            return new List<Clanstvo>();
         }
 
         //pozajmice
@@ -187,6 +177,23 @@ namespace KlijentskaAplikacija.UIKontroler
                 {
                     { "idPozajmica", idPozajmica },
                     { "idKnjiga", idKnjiga }
+                }
+            });
+            Odgovor o = serializer.Receive<Odgovor>();
+            return o.Signal;
+        }
+
+        // SK3 - PromeniPozajmica: izmena roka pozajmice
+        public bool IzmeniRokPozajmice(long idPozajmica, DateTime noviRok)
+        {
+            PoveziSe();
+            serializer.Send(new Zahtev
+            {
+                Operacija = Operacija.IzmeniRokPozajmice,
+                Podaci = new Dictionary<string, string>
+                {
+                    { "idPozajmica", idPozajmica.ToString() },
+                    { "noviRok", noviRok.ToString("yyyy-MM-dd") }
                 }
             });
             Odgovor o = serializer.Receive<Odgovor>();

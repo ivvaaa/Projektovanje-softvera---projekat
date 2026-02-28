@@ -200,8 +200,8 @@
             // colBrojSlobodnih
             //
             colBrojSlobodnih = new DataGridViewTextBoxColumn();
-            colBrojSlobodnih.DataPropertyName = "BrojPrimeraka";
-            colBrojSlobodnih.HeaderText = "Ukupno";
+            colBrojSlobodnih.DataPropertyName = "BrojSlobodnih";
+            colBrojSlobodnih.HeaderText = "Slobodnih";
             colBrojSlobodnih.Name = "colBrojSlobodnih";
             colBrojSlobodnih.ReadOnly = true;
             colBrojSlobodnih.Width = 80;

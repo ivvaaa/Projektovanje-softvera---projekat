@@ -82,13 +82,7 @@ namespace Server
                         odgovor.Poruka = "Sistem je zapamtio knjigu.";
                         break;
 
-                    //vratiListuSviKnjiga
-                    case Operacija.VratiSveKnjige:
-                        odgovor.Podaci = Kontroler.Instance.VratiSveKnjige();
-                        odgovor.Poruka = "OK";
-                        break;
-
-                    //vratiListuKnjiga(kriterijum) - SK15
+                    //vratiListuKnjiga(kriterijum) - SK10/SK15, prazan = sve
                     case Operacija.PretraziKnjigu:
                         string kritKnjiga = zahtev.Podaci?.ToString() ?? "";
                         odgovor.Podaci = Kontroler.Instance.PretraziKnjige(kritKnjiga);
@@ -116,13 +110,7 @@ namespace Server
                         odgovor.Poruka = "Sistem je zapamtio člana.";
                         break;
 
-                    //vratiListuSviClan
-                    case Operacija.VratiSveClanova:
-                        odgovor.Podaci = Kontroler.Instance.VratiSveClanova();
-                        odgovor.Poruka = "OK";
-                        break;
-
-                    //vratiListuClan(kriterijum) - SK6
+                    //vratiListuClan(kriterijum) - SK6/SK7, prazan = svi
                     case Operacija.PretraziClana:
                         string kritClan = zahtev.Podaci?.ToString() ?? "";
                         odgovor.Podaci = Kontroler.Instance.PretraziClanove(kritClan);
@@ -141,6 +129,12 @@ namespace Server
                         long idClan = Convert.ToInt64(zahtev.Podaci?.ToString());
                         Kontroler.Instance.ObrisiClana(idClan);
                         odgovor.Poruka = "Sistem je obrisao člana.";
+                        break;
+
+                    // pomocna - ucitavanje liste clanstava za forme (SK7 preduslov)
+                    case Operacija.VratiSvaClanstva:
+                        odgovor.Podaci = Kontroler.Instance.VratiSvaClanstva();
+                        odgovor.Poruka = "OK";
                         break;
 
                     //SK1 - KreirajPozajmica
@@ -165,7 +159,16 @@ namespace Server
                         Kontroler.Instance.VratiKnjigu(podaci["idPozajmica"], podaci["idKnjiga"]);
                         odgovor.Poruka = "Knjiga vraćena.";
                         break;
-                  
+
+                    //SK3 - PromeniPozajmica: izmena roka pozajmice
+                    case Operacija.IzmeniRokPozajmice:
+                        var rokPodaci = serializer.ReadType<Dictionary<string, string>>(zahtev.Podaci);
+                        long idPozIzmena = long.Parse(rokPodaci["idPozajmica"]);
+                        DateTime noviRok = DateTime.Parse(rokPodaci["noviRok"]);
+                        Kontroler.Instance.IzmeniRokPozajmice(idPozIzmena, noviRok);
+                        odgovor.Poruka = "Sistem je zapamtio pozajmicu.";
+                        break;
+
 
                     default:
                         odgovor.Signal = false;

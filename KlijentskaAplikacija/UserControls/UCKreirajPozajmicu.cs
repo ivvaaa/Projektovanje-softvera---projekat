@@ -41,7 +41,7 @@ namespace KlijentskaAplikacija.UserControls
         {
             try
             {
-                List<Clan> clanovi = Komunikacija.Instance.VratiSveClanova();
+                List<Clan> clanovi = Komunikacija.Instance.PretraziClanove("");
                 cmbClan.DataSource = clanovi;
                 cmbClan.DisplayMember = "ImePrezime";
                 cmbClan.ValueMember = "Id";
@@ -57,7 +57,7 @@ namespace KlijentskaAplikacija.UserControls
         {
             try
             {
-                List<Knjiga> knjige = Komunikacija.Instance.VratiSveKnjige();
+                List<Knjiga> knjige = Komunikacija.Instance.PretraziKnjige("");
                 dgvKnjige.DataSource = knjige;
 
             }
@@ -120,7 +120,7 @@ namespace KlijentskaAplikacija.UserControls
 
             if (odabraneKnjige.Count == 0)
             {
-                MessageBox.Show("Sistem ne moze da zapamti pozajmicu.", "Greška",
+                MessageBox.Show("Morate dodati bar jednu knjigu.", "Greška",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
@@ -148,13 +148,13 @@ namespace KlijentskaAplikacija.UserControls
 
                 if (idPozajmice > 0)
                 {
-                    MessageBox.Show($"Sistem je zapamtio pozajmicu.", "Uspeh",
+                    MessageBox.Show($"Pozajmica uspešno kreirana! (ID: {idPozajmice})", "Uspeh",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                     OcistiFormu();
                 }
                 else
                 {
-                    MessageBox.Show("Sistem ne moze da zapamti pozajmicu.", "Greška",
+                    MessageBox.Show("Greška pri kreiranju pozajmice.", "Greška",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
