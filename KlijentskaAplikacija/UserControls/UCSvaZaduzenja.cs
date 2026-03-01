@@ -11,31 +11,23 @@ namespace KlijentskaAplikacija.UserControls
     public partial class UCSvaZaduzenja : UserControl
     {
         private Pozajmica selektovanaPozajmica = null;
-        private bool eksplicitnaSelekcijaAktivna = false; // SK2 korak 8: prati eksplicitni klik korisnika
-        private bool punjenjePodataka = false;            // zastavica: ignorisi SelectionChanged tokom punjenja grida
+        private bool punjenjePodataka = false;
+        private bool pretrazivanjeAktivno = false;
 
         public UCSvaZaduzenja()
         {
             InitializeComponent();
 
-            dgvStavke.DataSource = bsStavke;
             dgvPozajmice.CellFormatting += dgvPozajmice_CellFormatting;
             dgvStavke.CellFormatting += dgvStavke_CellFormatting;
-
-            // SelectionChanged se kaci POSLE punjenja da ne okida gresku pri init
-            UcitajPozajmice();
-            pnlDetalji.Visible = false;
-
             dgvPozajmice.SelectionChanged += dgvPozajmice_SelectionChanged;
-            dgvPozajmice.CellClick += dgvPozajmice_CellClick;
+
+            UcitajPozajmice();
         }
 
-        // SK2 korak 6: bibliotekar eksplicitno bira pozajmicu klikom
-        private void dgvPozajmice_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0) // ignorisi klik na header
-                eksplicitnaSelekcijaAktivna = true;
-        }
+        // -----------------------------------------------------------------------
+        // Punjenje liste
+        // -----------------------------------------------------------------------
 
         private void UcitajPozajmice()
         {
@@ -48,16 +40,15 @@ namespace KlijentskaAplikacija.UserControls
                     .ThenBy(p => p.DatumOd)
                     .ToList();
 
-                // Postavi zastavicu pre dodele DataSource-a jer WinForms okida SelectionChanged
-                // interno tokom punjenja, pre nego sto su indeksi validni
                 punjenjePodataka = true;
                 bsPozajmice.DataSource = lista;
                 dgvPozajmice.DataSource = bsPozajmice;
                 punjenjePodataka = false;
 
+                lblBroj.Text = $"Ukupno: {lista.Count}";
                 pnlDetalji.Visible = false;
                 selektovanaPozajmica = null;
-                lblBroj.Text = $"Ukupno: {lista.Count}";
+                pretrazivanjeAktivno = false;
             }
             catch (Exception ex)
             {
@@ -67,80 +58,77 @@ namespace KlijentskaAplikacija.UserControls
             }
         }
 
+        // -----------------------------------------------------------------------
+        // Selekcija — BeginInvoke osigurava da se izvrsava NAKON sto WinForms
+        // zavrsi postavljanje redova, cime se eliminise ArgumentOutOfRangeException
+        // -----------------------------------------------------------------------
+
         private void dgvPozajmice_SelectionChanged(object sender, EventArgs e)
         {
-            // SelectionChanged se okida interno tokom punjenja DataSource-a (WinForms behavior).
-            // U tom trenutku DataGridView je u nestabilnom stanju - preskoci event.
-            if (punjenjePodataka)
-                return;
+            if (punjenjePodataka) return;
 
+            // Odlazimo sa trenutnog call stacka i izvrsavamo tek u sledecem
+            // message pump ciklusu — grid je tada 100% spreman
+            BeginInvoke(new Action(PrikaziSelektovanu));
+        }
+
+        private void PrikaziSelektovanu()
+        {
             try
             {
-                // Guard: nema validnog reda
-                if (dgvPozajmice.CurrentRow == null ||
-                    dgvPozajmice.CurrentRow.Index < 0 ||
-                    dgvPozajmice.CurrentRow.Index >= dgvPozajmice.Rows.Count)
+                if (dgvPozajmice.CurrentRow == null || dgvPozajmice.Rows.Count == 0)
                 {
                     pnlDetalji.Visible = false;
                     selektovanaPozajmica = null;
                     return;
                 }
 
-                if (dgvPozajmice.CurrentRow.DataBoundItem is Pozajmica p)
-                {
-                    selektovanaPozajmica = p;
-                    PrikaziDetalje(p);
-                    pnlDetalji.Visible = true;
-
-                    // SK2 korak 8: sistem prikazuje pozajmicu i poruku - samo pri eksplicitnom kliku bibliotekara
-                    if (eksplicitnaSelekcijaAktivna)
-                    {
-                        eksplicitnaSelekcijaAktivna = false;
-                        MessageBox.Show(
-                            "Sistem je našao pozajmicu.",
-                            "Pronađena pozajmica",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Information);
-                    }
-                }
-                else
+                int idx = dgvPozajmice.CurrentRow.Index;
+                if (idx < 0 || idx >= bsPozajmice.Count)
                 {
                     pnlDetalji.Visible = false;
                     selektovanaPozajmica = null;
-                    eksplicitnaSelekcijaAktivna = false;
+                    return;
+                }
+
+                Pozajmica p = bsPozajmice[idx] as Pozajmica;
+                if (p == null)
+                {
+                    pnlDetalji.Visible = false;
+                    selektovanaPozajmica = null;
+                    return;
+                }
+
+                selektovanaPozajmica = p;
+                PrikaziDetalje(p);
+                pnlDetalji.Visible = true;
+                if (pretrazivanjeAktivno)
+                {
+                    MessageBox.Show($"Sistem je našao pozajmicu.",
+                        "Informacija", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
-            catch (ArgumentOutOfRangeException)
+            catch (Exception ex)
             {
-                // WinForms interno baca ArgumentOutOfRangeException tokom internog
-                // preracunavanja indeksa u DataGridView - bezbedno ignorisati.
-                // Ovo NIJE greška u podacima - DataGridView je u tranziciji.
                 pnlDetalji.Visible = false;
                 selektovanaPozajmica = null;
-                eksplicitnaSelekcijaAktivna = false;
-            }
-            catch (Exception)
-            {
-                // SK2 alternativa 8.1: sistem ne može da nađe pozajmicu
-                pnlDetalji.Visible = false;
-                selektovanaPozajmica = null;
-                eksplicitnaSelekcijaAktivna = false;
-                MessageBox.Show(
-                    "Sistem ne može da nađe pozajmicu.",
-                    "Greška",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                System.Diagnostics.Debug.WriteLine("PrikaziSelektovanu greška: " + ex.Message);
             }
         }
 
+        // -----------------------------------------------------------------------
+        // Prikaz detalja — radi za SVE statuse
+        // -----------------------------------------------------------------------
+
         private void PrikaziDetalje(Pozajmica p)
         {
-            lblClanVrednost.Text = p.ImePrezimeClana;
-            lblBibliotekarVrednost.Text = string.IsNullOrEmpty(p.ImePrezimeBibliotekar) ? "-" : p.ImePrezimeBibliotekar;
+            lblClanVrednost.Text = p.ImePrezimeClana ?? "-";
+            lblBibliotekarVrednost.Text = string.IsNullOrEmpty(p.ImePrezimeBibliotekar)
+                ? "-" : p.ImePrezimeBibliotekar;
             lblDatumVrednost.Text = p.DatumOd.ToString("dd.MM.yyyy");
             lblBrojKnjigaVrednost.Text = p.BrojKnjiga.ToString();
 
-            lblStatusVrednost.Text = p.Status;
+            lblStatusVrednost.Text = p.Status ?? "-";
             switch (p.Status)
             {
                 case "Aktivna":
@@ -155,29 +143,41 @@ namespace KlijentskaAplikacija.UserControls
                     lblStatusVrednost.ForeColor = Color.FromArgb(40, 167, 69);
                     pnlStatusBar.BackColor = Color.FromArgb(232, 245, 233);
                     break;
+                default:
+                    lblStatusVrednost.ForeColor = Color.Gray;
+                    pnlStatusBar.BackColor = Color.FromArgb(240, 240, 240);
+                    break;
             }
 
             bsStavke.DataSource = null;
-            bsStavke.DataSource = p.Stavke;
+            bsStavke.DataSource = p.Stavke ?? new List<StavkaPozajmice>();
 
-            // Postavi DateTimePicker na najkasniji rok aktivnih stavki (ili sutra ako nema)
-            var aktivneStavke = p.Stavke?.Where(s => s.DatumVracanja == null).ToList();
-            if (aktivneStavke != null && aktivneStavke.Count > 0)
+            bool aktivnaIliZakasnela = p.Status == "Aktivna" || p.Status == "Zakasnelo";
+            btnVratiKnjigu.Visible = aktivnaIliZakasnela;
+            grpIzmenaRoka.Visible = aktivnaIliZakasnela;
+
+            if (aktivnaIliZakasnela && p.Stavke != null && p.Stavke.Count > 0)
             {
-                dtpNoviRok.Value = aktivneStavke.Max(s => s.RokPozajmice);
-                grpIzmenaRoka.Visible = true;
-            }
-            else
-            {
-                // Sve knjige vraćene - izmena roka nije moguća
-                grpIzmenaRoka.Visible = false;
+                var aktivne = p.Stavke.Where(s => s.DatumVracanja == null).ToList();
+                DateTime noviRokValue = (aktivne.Count > 0)
+                    ? aktivne.Max(s => s.RokPozajmice)
+                    : DateTime.Today.AddDays(7);
+
+                // Privremeno ukloni MinDate - zakasnele pozajmice imaju rok u proslosti
+                dtpNoviRok.MinDate = DateTimePicker.MinimumDateTime;
+                dtpNoviRok.Value = noviRokValue;
+                // Vrati MinDate na sutra (validacija pri cuvanju)
+                dtpNoviRok.MinDate = DateTime.Today.AddDays(1);
             }
         }
+
+        // -----------------------------------------------------------------------
+        // Formatiranje ćelija
+        // -----------------------------------------------------------------------
 
         private void dgvPozajmice_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (e.RowIndex < 0 || e.Value == null) return;
-
             string prop = dgvPozajmice.Columns[e.ColumnIndex].DataPropertyName;
 
             if (prop == "Status")
@@ -198,8 +198,7 @@ namespace KlijentskaAplikacija.UserControls
                 }
             }
 
-            // Prikaži crtu za null DatumVracanja
-            if (prop == "DatumVracanja" && e.Value == DBNull.Value)
+            if (prop == "DatumVracanja" && (e.Value == DBNull.Value || e.Value == null))
             {
                 e.Value = "—";
                 e.CellStyle.ForeColor = Color.LightGray;
@@ -210,10 +209,8 @@ namespace KlijentskaAplikacija.UserControls
         private void dgvStavke_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (e.RowIndex < 0 || e.RowIndex >= dgvStavke.Rows.Count || e.ColumnIndex < 0) return;
-
             string prop = dgvStavke.Columns[e.ColumnIndex].DataPropertyName;
 
-            // Vraćeno: prikaži crtu ako null, inače datum
             if (prop == "DatumVracanja")
             {
                 if (e.Value == null || e.Value == DBNull.Value)
@@ -230,7 +227,6 @@ namespace KlijentskaAplikacija.UserControls
                 }
             }
 
-            // Rok: crven ako je prošao a knjiga nije vraćena
             if (prop == "RokPozajmice" && e.Value is DateTime rok)
             {
                 if (dgvStavke.Rows[e.RowIndex].DataBoundItem is StavkaPozajmice s
@@ -242,10 +238,11 @@ namespace KlijentskaAplikacija.UserControls
             }
         }
 
-        private void btnPretrazi_Click(object sender, EventArgs e)
-        {
-            Pretrazi();
-        }
+        // -----------------------------------------------------------------------
+        // Pretraga
+        // -----------------------------------------------------------------------
+
+        private void btnPretrazi_Click(object sender, EventArgs e) => Pretrazi();
 
         private void Pretrazi()
         {
@@ -254,7 +251,6 @@ namespace KlijentskaAplikacija.UserControls
                 string kriterijum = txtPretraga.Text.Trim();
                 List<Pozajmica> lista = Komunikacija.Instance.PretraziPozajmice(kriterijum) ?? new List<Pozajmica>();
 
-                //sort
                 lista = lista
                     .OrderBy(p => p.Status == "Zakasnelo" ? 0 : p.Status == "Aktivna" ? 1 : 2)
                     .ThenBy(p => p.DatumOd)
@@ -262,32 +258,27 @@ namespace KlijentskaAplikacija.UserControls
 
                 punjenjePodataka = true;
                 bsPozajmice.DataSource = lista;
+                dgvPozajmice.DataSource = bsPozajmice;
                 punjenjePodataka = false;
 
                 pnlDetalji.Visible = false;
                 selektovanaPozajmica = null;
 
-                // SK2 - korak 4 / alternativa 4.1
                 if (lista.Count == 0)
                 {
                     lblBroj.Text = "Ukupno: 0";
-                    MessageBox.Show(
-                        "Sistem ne može da nađe pozajmice po zadatim kriterijumima.",
-                        "Informacija",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information);
+                    MessageBox.Show("Sistem ne može da nađe pozajmice po zadatim kriterijumima.",
+                        "Informacija", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
                     lblBroj.Text = $"Ukupno: {lista.Count}";
-                    // SK2 - korak 4: poruka o uspešnoj pretrazi (samo kad je unet kriterijum)
-                    if (!string.IsNullOrEmpty(kriterijum))
+                    // Poruka samo ako je korisnik zaista uneo kriterijum (nije Reset)
+                    if (!string.IsNullOrWhiteSpace(kriterijum))
                     {
-                        MessageBox.Show(
-                            $"Sistem je našao {lista.Count} pozajmic{(lista.Count == 1 ? "u" : lista.Count < 5 ? "e" : "a")} po zadatim kriterijumima.",
-                            "Pretraga uspešna",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Information);
+                        pretrazivanjeAktivno = true;
+                        MessageBox.Show($"Sistem je našao pozajmice po zadatom kriterijumu.",
+                            "Pretraga", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
             }
@@ -307,18 +298,19 @@ namespace KlijentskaAplikacija.UserControls
 
         private void txtPretraga_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
-            {
-                e.SuppressKeyPress = true;
-                Pretrazi();
-            }
+            if (e.KeyCode == Keys.Enter) { e.SuppressKeyPress = true; Pretrazi(); }
         }
+
+        // -----------------------------------------------------------------------
+        // Vraćanje knjige
+        // -----------------------------------------------------------------------
 
         private void btnVratiKnjigu_Click(object sender, EventArgs e)
         {
             if (selektovanaPozajmica == null) return;
 
-            if (dgvStavke.CurrentRow == null || !(dgvStavke.CurrentRow.DataBoundItem is StavkaPozajmice stavka))
+            if (dgvStavke.CurrentRow == null ||
+                !(dgvStavke.CurrentRow.DataBoundItem is StavkaPozajmice stavka))
             {
                 MessageBox.Show("Izaberite stavku (knjigu) za vraćanje.", "Info",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -332,24 +324,17 @@ namespace KlijentskaAplikacija.UserControls
                 return;
             }
 
-            var confirm = MessageBox.Show(
-                $"Da li ste sigurni da želite da vratite knjigu '{stavka.NazivKnjige}'?",
-                "Potvrda vraćanja",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question);
-
-            if (confirm != DialogResult.Yes) return;
+            if (MessageBox.Show($"Da li ste sigurni da želite da vratite '{stavka.NazivKnjige}'?",
+                "Potvrda", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+                return;
 
             try
             {
                 bool uspeh = Komunikacija.Instance.VratiKnjigu(selektovanaPozajmica.Id, stavka.IdKnjige);
-
                 if (uspeh)
                 {
                     MessageBox.Show("Knjiga je uspešno vraćena!", "Uspeh",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                    //osvezi prikaz - ponovo ucitaj sve pozajmice (sa azuriranim stavkama)
                     UcitajPozajmice();
                 }
                 else
@@ -365,70 +350,49 @@ namespace KlijentskaAplikacija.UserControls
             }
         }
 
-        // SK3 - PromeniPozajmica: izmena roka pozajmice
+        // -----------------------------------------------------------------------
+        // Izmena roka
+        // -----------------------------------------------------------------------
+
         private void btnSacuvajRok_Click(object sender, EventArgs e)
         {
             if (selektovanaPozajmica == null) return;
 
-            // SK3 korak 10 - validacija
             if (dtpNoviRok.Value.Date <= DateTime.Today)
             {
-                MessageBox.Show(
-                    "Novi rok mora biti datum u budućnosti.",
-                    "Validacija",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
+                MessageBox.Show("Novi rok mora biti datum u budućnosti.",
+                    "Validacija", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            var confirm = MessageBox.Show(
-                $"Da li ste sigurni da želite da promenite rok pozajmice #{selektovanaPozajmica.Id}\n" +
-                $"na {dtpNoviRok.Value:dd.MM.yyyy}?\n\n" +
-                "Rok će biti promenjen za sve aktivne (nevrаćene) knjige.",
-                "Potvrda izmene",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question);
-
-            if (confirm != DialogResult.Yes) return;
+            if (MessageBox.Show(
+                $"Promeniti rok pozajmice #{selektovanaPozajmica.Id} na {dtpNoviRok.Value:dd.MM.yyyy}?\n" +
+                "Važi za sve aktivne knjige.",
+                "Potvrda", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+                return;
 
             try
             {
-                // SK3 korak 11-12 - poziv sistema
                 bool uspeh = Komunikacija.Instance.IzmeniRokPozajmice(
-                    selektovanaPozajmica.Id,
-                    dtpNoviRok.Value.Date);
+                    selektovanaPozajmica.Id, dtpNoviRok.Value.Date);
 
                 if (uspeh)
                 {
-                    // SK3 korak 13 - poruka o uspehu
-                    MessageBox.Show(
-                        "Sistem je zapamtio pozajmicu.",
-                        "Uspeh",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information);
-
-                    Pretrazi(); // osveži listu
+                    MessageBox.Show("Sistem je zapamtio pozajmicu.", "Uspeh",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    UcitajPozajmice();
                 }
                 else
                 {
-                    // SK3 alternativa 13.1
-                    MessageBox.Show(
-                        "Sistem ne može da zapamti pozajmicu.",
-                        "Greška",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
+                    MessageBox.Show("Sistem ne može da zapamti pozajmicu.", "Greška",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
             {
-                // SK3 alternativa 13.1
-                MessageBox.Show(
-                    "Sistem ne može da zapamti pozajmicu.\n" + ex.Message,
-                    "Greška",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                MessageBox.Show("Sistem ne može da zapamti pozajmicu.\n" + ex.Message,
+                    "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
     }
 }

@@ -30,7 +30,7 @@ namespace Domeni
 
         public string PrimaryKey => "idPozajmica";
 
-        public string Join => "INNER JOIN Clan c ON Pozajmica.idClan = c.idClan";
+        public string Join => "";
 
         public List<IEntity> GetReaderList(SqlDataReader reader)
         {

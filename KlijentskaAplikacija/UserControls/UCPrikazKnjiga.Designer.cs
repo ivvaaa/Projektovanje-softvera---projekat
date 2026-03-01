@@ -29,6 +29,10 @@
             colNaziv = new DataGridViewTextBoxColumn();
             bindingSource1 = new BindingSource(components);
             colCheck = new DataGridViewCheckBoxColumn();
+            colPisac = new DataGridViewTextBoxColumn();
+            colBrojPrimeraka = new DataGridViewTextBoxColumn();
+            colBrojSlobodnih = new DataGridViewTextBoxColumn();
+            colUkupnoPrimeraka = new DataGridViewTextBoxColumn();
             pnlDetalji = new Panel();
             grpIzmena = new GroupBox();
             btnPonistiIzmene = new Button();
@@ -149,7 +153,7 @@
             dgvKnjige.BackgroundColor = Color.White;
             dgvKnjige.BorderStyle = BorderStyle.Fixed3D;
             dgvKnjige.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvKnjige.Columns.AddRange(new DataGridViewColumn[] { colId, colNaziv, colPisac, colBrojPrimeraka, colBrojSlobodnih });
+            dgvKnjige.Columns.AddRange(new DataGridViewColumn[] { colId, colNaziv, colPisac, colBrojPrimeraka, colUkupnoPrimeraka, colBrojSlobodnih });
             dgvKnjige.DataSource = bindingSource1;
             dgvKnjige.Location = new Point(23, 150);
             dgvKnjige.MultiSelect = false;
@@ -177,35 +181,41 @@
             colNaziv.MinimumWidth = 6;
             colNaziv.Name = "colNaziv";
             colNaziv.ReadOnly = true;
-            colNaziv.Width = 250;
+            colNaziv.Width = 200;
             //
             // colPisac
             //
-            colPisac = new DataGridViewTextBoxColumn();
             colPisac.DataPropertyName = "ImePisca";
             colPisac.HeaderText = "Ime pisca";
             colPisac.Name = "colPisac";
             colPisac.ReadOnly = true;
-            colPisac.Width = 110;
+            colPisac.Width = 90;
             //
             // colPrezimePisca
             //
-            colBrojPrimeraka = new DataGridViewTextBoxColumn();
             colBrojPrimeraka.DataPropertyName = "PrezimePisca";
             colBrojPrimeraka.HeaderText = "Prezime pisca";
             colBrojPrimeraka.Name = "colBrojPrimeraka";
             colBrojPrimeraka.ReadOnly = true;
-            colBrojPrimeraka.Width = 120;
+            colBrojPrimeraka.Width = 115;
             //
             // colBrojSlobodnih
             //
-            colBrojSlobodnih = new DataGridViewTextBoxColumn();
             colBrojSlobodnih.DataPropertyName = "BrojSlobodnih";
-            colBrojSlobodnih.HeaderText = "Slobodnih";
+            colBrojSlobodnih.HeaderText = "Slobodno";
             colBrojSlobodnih.Name = "colBrojSlobodnih";
             colBrojSlobodnih.ReadOnly = true;
-            colBrojSlobodnih.Width = 80;
+            colBrojSlobodnih.Width = 115;
             colBrojSlobodnih.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            //
+            // colUkupnoPrimeraka
+            //
+            colUkupnoPrimeraka.DataPropertyName = "BrojPrimeraka";
+            colUkupnoPrimeraka.HeaderText = "Ukupno";
+            colUkupnoPrimeraka.Name = "colUkupnoPrimeraka";
+            colUkupnoPrimeraka.ReadOnly = true;
+            colUkupnoPrimeraka.Width = 60;
+            colUkupnoPrimeraka.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             // 
             // colCheck
             // 
@@ -580,5 +590,6 @@
         private DataGridViewTextBoxColumn colPisac;
         private DataGridViewTextBoxColumn colBrojPrimeraka;
         private DataGridViewTextBoxColumn colBrojSlobodnih;
+        private DataGridViewTextBoxColumn colUkupnoPrimeraka;
     }
 }

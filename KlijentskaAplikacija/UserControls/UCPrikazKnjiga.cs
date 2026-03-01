@@ -315,38 +315,9 @@ namespace KlijentskaAplikacija.UserControls
         private void PodesavanjeKolona()
         {
             dgvKnjige.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
-
-            if (dgvKnjige.Columns["colCheck"] != null)
-                dgvKnjige.Columns["colCheck"].Width = 50;
-
-            if (dgvKnjige.Columns["Naziv"] != null)
-                dgvKnjige.Columns["Naziv"].Width = 300;
-
-            if (dgvKnjige.Columns["ImePisca"] != null)
-                dgvKnjige.Columns["ImePisca"].Width = 120;
-
-            if (dgvKnjige.Columns["PrezimePisca"] != null)
-                dgvKnjige.Columns["PrezimePisca"].Width = 120;
-
-            if (dgvKnjige.Columns["BrojPrimeraka"] != null)
-            {
-                dgvKnjige.Columns["BrojPrimeraka"].Width = 120;
-                dgvKnjige.Columns["BrojPrimeraka"].HeaderText = "Ukupno";
-                dgvKnjige.Columns["BrojPrimeraka"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            }
-
-            if (dgvKnjige.Columns["BrojSlobodnih"] != null)
-            {
-                dgvKnjige.Columns["BrojSlobodnih"].Width = 120;
-                dgvKnjige.Columns["BrojSlobodnih"].HeaderText = "Slobodno";
-                dgvKnjige.Columns["BrojSlobodnih"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            }
-
-            if (dgvKnjige.Columns["Id"] != null)
-                dgvKnjige.Columns["Id"].Visible = false;
-
             dgvKnjige.RowTemplate.Height = 35;
             dgvKnjige.ColumnHeadersHeight = 40;
+            // Sirine su podesene u Designer-u, ovde samo dodatna podesavanja
         }
     }
 }
