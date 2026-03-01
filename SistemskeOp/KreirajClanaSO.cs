@@ -2,7 +2,6 @@
 
 namespace SistemskeOp
 {
-    //signal KreirajClan(Clan)
     public class KreirajClanaSO : SOBase
     {
         private Clan clan;

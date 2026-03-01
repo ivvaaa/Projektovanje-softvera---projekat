@@ -2,7 +2,6 @@
 
 namespace SistemskeOp
 {
-    //signal KreirajPozajmica(Pozajmica)
     public class KreirajPozajmicuSO : SOBase
     {
         private Pozajmica pozajmica;
@@ -15,11 +14,11 @@ namespace SistemskeOp
 
         protected override void ExecuteConcreteOperation()
         {
-            //ucitaj sve aktivne stavke, pa provjeri dostupnost
+            //ucitaj sve aktivne stavke, pa dostupnost
             List<IEntity> listaStavki = broker.GetByCondition(new StavkaPozajmice(), "datumVracanja IS NULL");
             List<StavkaPozajmice> aktivneStavke = listaStavki.Cast<StavkaPozajmice>().ToList();
 
-            foreach (var stavka in pozajmica.Stavke)
+            foreach (var stavka in pozajmica.Stavke) //svakak knjiga u poz koju sada kriramo
             {
                 //ucitaj knjgu da dobijemo broj primeraka
                 List<IEntity> listaKnjiga = broker.GetByCondition(new Knjiga(), $"idKnjiga = {stavka.IdKnjige}");

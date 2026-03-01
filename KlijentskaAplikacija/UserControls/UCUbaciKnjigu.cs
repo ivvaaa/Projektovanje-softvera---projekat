@@ -30,7 +30,8 @@ namespace KlijentskaAplikacija.UserControls
             {
                 Naziv = txtNaziv.Text.Trim(),
                 ImePisca = txtImePisca.Text.Trim(),
-                PrezimePisca = txtPrezimePisca.Text.Trim()
+                PrezimePisca = txtPrezimePisca.Text.Trim(),
+                BrojPrimeraka = (int)numBrojPrimeraka.Value
             };
 
             bool uspeh = Komunikacija.Instance.UbaciKnjigu(knjiga);
@@ -98,6 +99,7 @@ namespace KlijentskaAplikacija.UserControls
             txtImePisca.BackColor = Color.White;
             txtPrezimePisca.BackColor = Color.White;
 
+            numBrojPrimeraka.Value = 1;
             txtNaziv.Focus();
         }
     }

@@ -7,50 +7,49 @@ using Domeni;
 
 namespace SistemskeOp
 {
-    // vratiListuClan(kriterijumClan, Lista<Clan>) - SK6/SK7
-    // prazan kriterijum = vrati sve clanove
-    // rezimClanstva = true -> vrati listu clanstava (preduslov SK7)
+    //vratiListuClan(kriterijumClan, Lista<Clan>) - SK6/SK7
+    //prazan kriterijum = vrati sve clanove
+    //tipClanstva = true -> vrati listu clanstava (preduslov SK7)
     public class PretraziClanoveSO : SOBase
     {
         private string kriterijum;
-        private bool rezimClanstva;
+        private bool tipClanstva;
 
         public List<Clan> Result { get; private set; }
         public List<Clanstvo> ResultClanstva { get; private set; }
 
-        // Pretraga clanova (prazan = svi)
         public PretraziClanoveSO(string kriterijum)
         {
             this.kriterijum = kriterijum;
-            this.rezimClanstva = false;
+            this.tipClanstva = false;
         }
 
-        // Ucitavanje svih clanstava - preduslov SK7
-        public PretraziClanoveSO(bool rezimClanstva)
+        //Ucitavanje svih tipova clanstava - preduslov SK7
+        public PretraziClanoveSO(bool rezimClanstva) 
         {
             this.kriterijum = "";
-            this.rezimClanstva = rezimClanstva;
+            this.tipClanstva = rezimClanstva;
         }
 
         protected override void ExecuteConcreteOperation()
         {
-            if (rezimClanstva)
+            if (tipClanstva)
             {
                 ResultClanstva = broker.GetAll(new Clanstvo()).Cast<Clanstvo>().ToList();
-                return;
+                return;  //samo ucitava tipove clanstva
             }
 
             if (string.IsNullOrWhiteSpace(kriterijum))
             {
                 Result = broker.GetAll(new Clan()).Cast<Clan>().ToList();
-                return;
+                return; //uzima sve clanove
             }
 
-            // a) pretraga po clanu (ime, prezime, telefon)
+            //pretraga po clanu (ime, prezime, telefon)
             string conditionClan = $"ime LIKE '%{kriterijum}%' OR prezime LIKE '%{kriterijum}%' OR CAST(telefon AS VARCHAR) LIKE '%{kriterijum}%'";
             List<Clan> poClanovima = broker.GetByCondition(new Clan(), conditionClan).Cast<Clan>().ToList();
 
-            // b) pretraga po clanstvu (vrsta)
+            //pretraga po tipu clanstvua
             string conditionClanstvo = $"vrsta LIKE '%{kriterijum}%'";
             List<Clanstvo> clanstva = broker.GetByCondition(new Clanstvo(), conditionClanstvo).Cast<Clanstvo>().ToList();
 
@@ -61,9 +60,9 @@ namespace SistemskeOp
                 poClanstvu.AddRange(clanoviTipa);
             }
 
-            // Unija bez duplikata
+            //unija
             Result = poClanovima
-                .Union(poClanstvu, new ClanIdEqualityComparer())
+                .Union(poClanstvu, new ClanIdEqualityComparer())  //nema dupliakta
                 .ToList();
         }
     }

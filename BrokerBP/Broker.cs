@@ -54,7 +54,7 @@ namespace BrokerBP
             Console.WriteLine("Dodat entitet u " + entity.TableName);
         }
 
-        public long AddAndGetId(IEntity entity)
+        public long AddAndGetId(IEntity entity)  //samo za id pozajmice zbog dodavanja stavki
         {
             SqlCommand cmd = CreateCommand();
             cmd.CommandText = $"INSERT INTO {entity.TableName} ({entity.InsertColumns}) VALUES ({entity.Values}); SELECT SCOPE_IDENTITY();";

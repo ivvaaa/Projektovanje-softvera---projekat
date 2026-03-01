@@ -16,22 +16,14 @@ namespace SistemskeOp
 
         protected override void ExecuteConcreteOperation()
         {
-            // Ucitaj sve clanove i bibliotekare (potrebni za enrichment i pretragu)
+            //sve clanove i bibliotekare
             List<Clan> sviClanovi = broker.GetAll(new Clan()).Cast<Clan>().ToList();
             List<Bibliotekar> sviBibliotekar = broker.GetAll(new Bibliotekar()).Cast<Bibliotekar>().ToList();
 
-            // Ucitaj sve pozajmice (ili filtriraj po ID ako je kriterijum broj)
-            List<Pozajmica> svePozajmice;
-            if (string.IsNullOrWhiteSpace(kriterijum))
-            {
-                svePozajmice = broker.GetAll(new Pozajmica()).Cast<Pozajmica>().ToList();
-            }
-            else
-            {
-                svePozajmice = broker.GetAll(new Pozajmica()).Cast<Pozajmica>().ToList();
-            }
+            List<Pozajmica> svePozajmice = broker.GetAll(new Pozajmica()).Cast<Pozajmica>().ToList();
+            
 
-            // Enrich svake pozajmice sa stavkama, imenom clana i bibliotekara
+            //pozajmice sa stavkama, imenom clana i bibliotekara
             foreach (var pozajmica in svePozajmice)
             {
                 List<StavkaPozajmice> stavke = broker.GetByCondition(new StavkaPozajmice(), $"StavkaPozajmice.idPozajmica = {pozajmica.Id}")
@@ -54,18 +46,14 @@ namespace SistemskeOp
                                  : "Aktivna";
             }
 
-            // Filtriranje po svim kriterijumima (Pozajmica ID, Clan, Bibliotekar, Knjiga)
+            // po svim kriterijumima
             if (!string.IsNullOrWhiteSpace(kriterijum))
             {
                 string k = kriterijum.ToLower().Trim();
                 svePozajmice = svePozajmice.Where(p =>
-                    // a) po ID pozajmice
                     p.Id.ToString().Contains(k) ||
-                    // b) po clanu (ime ili prezime)
                     p.ImePrezimeClana.ToLower().Contains(k) ||
-                    // c) po bibliotekaru (ime ili prezime)
                     p.ImePrezimeBibliotekar.ToLower().Contains(k) ||
-                    // d) po nazivu knjige u stavkama
                     p.Stavke.Any(s => s.NazivKnjige.ToLower().Contains(k))
                 ).ToList();
             }

@@ -43,7 +43,7 @@ namespace Server
             finally
             {
                 if (ulogovaniBibliotekar != null)
-                    ulogovaniBibliotekar.Ulogovan = false;
+                    Kontroler.Instance.OdjaviSe(ulogovaniBibliotekar.Id);
                 klijenti.Remove(this);
                 serializer.Close();
             }
@@ -62,7 +62,7 @@ namespace Server
                     case Operacija.PrijaviBibliotekar:
                         var b = serializer.ReadType<Bibliotekar>(zahtev.Podaci);
                         var logBib = Kontroler.Instance.PrijaviBibliotekara(b);
-                        if (logBib == null)
+                       if (logBib == null)
                         {
                             odgovor.Signal = false;
                             odgovor.Poruka = "Neispravni kredencijali.";

@@ -26,7 +26,9 @@
             txtPrezimePisca = new TextBox();
             btnSacuvaj = new Button();
             btnOcisti = new Button();
+            numBrojPrimeraka = new NumericUpDown();
             pnlForma = new Panel();
+            ((System.ComponentModel.ISupportInitialize)numBrojPrimeraka).BeginInit();
             pnlForma.SuspendLayout();
             SuspendLayout();
             // 
@@ -106,7 +108,7 @@
             btnSacuvaj.FlatStyle = FlatStyle.Flat;
             btnSacuvaj.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
             btnSacuvaj.ForeColor = Color.White;
-            btnSacuvaj.Location = new Point(23, 280);
+            btnSacuvaj.Location = new Point(23, 330);
             btnSacuvaj.Margin = new Padding(3, 4, 3, 4);
             btnSacuvaj.Name = "btnSacuvaj";
             btnSacuvaj.Size = new Size(183, 53);
@@ -123,7 +125,7 @@
             btnOcisti.FlatStyle = FlatStyle.Flat;
             btnOcisti.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
             btnOcisti.ForeColor = Color.White;
-            btnOcisti.Location = new Point(229, 280);
+            btnOcisti.Location = new Point(229, 330);
             btnOcisti.Margin = new Padding(3, 4, 3, 4);
             btnOcisti.Name = "btnOcisti";
             btnOcisti.Size = new Size(183, 53);
@@ -131,6 +133,17 @@
             btnOcisti.Text = "Očisti";
             btnOcisti.UseVisualStyleBackColor = false;
             btnOcisti.Click += btnOcisti_Click;
+            // 
+            // numBrojPrimeraka
+            // 
+            numBrojPrimeraka.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            numBrojPrimeraka.Location = new Point(29, 293);
+            numBrojPrimeraka.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
+            numBrojPrimeraka.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            numBrojPrimeraka.Name = "numBrojPrimeraka";
+            numBrojPrimeraka.Size = new Size(100, 30);
+            numBrojPrimeraka.TabIndex = 9;
+            numBrojPrimeraka.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
             // pnlForma
             // 
@@ -143,12 +156,13 @@
             pnlForma.Controls.Add(txtNaziv);
             pnlForma.Controls.Add(lblPrezimePisca);
             pnlForma.Controls.Add(lblImePisca);
+            pnlForma.Controls.Add(numBrojPrimeraka);
             pnlForma.Controls.Add(lblNaziv);
             pnlForma.Location = new Point(23, 73);
             pnlForma.Margin = new Padding(3, 4, 3, 4);
             pnlForma.Name = "pnlForma";
             pnlForma.Padding = new Padding(23, 27, 23, 27);
-            pnlForma.Size = new Size(457, 373);
+            pnlForma.Size = new Size(457, 453);
             pnlForma.TabIndex = 1;
             // 
             // UCUbaciKnjigu
@@ -161,6 +175,7 @@
             Margin = new Padding(3, 4, 3, 4);
             Name = "UCUbaciKnjigu";
             Size = new Size(686, 533);
+            ((System.ComponentModel.ISupportInitialize)numBrojPrimeraka).EndInit();
             pnlForma.ResumeLayout(false);
             pnlForma.PerformLayout();
             ResumeLayout(false);
@@ -179,5 +194,6 @@
         private TextBox txtPrezimePisca;
         private Button btnSacuvaj;
         private Button btnOcisti;
+        private NumericUpDown numBrojPrimeraka;
     }
 }

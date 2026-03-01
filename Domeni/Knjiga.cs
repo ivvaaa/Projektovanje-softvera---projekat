@@ -16,10 +16,7 @@ namespace Domeni
         public string PrezimePisca { get; set; }
         public int BrojPrimeraka { get; set; } = 1;
         public int BrojSlobodnih { get; set; }
-
         public bool Dostupna => BrojSlobodnih > 0;
-
-        // IEntity -  SAKRIJ IZ DATAGRIDVIEW
         [Browsable(false)]
         public string TableName => "Knjiga";
 

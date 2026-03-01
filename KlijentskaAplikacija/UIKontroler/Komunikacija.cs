@@ -28,10 +28,11 @@ namespace KlijentskaAplikacija.UIKontroler
 
         public void PoveziSe()
         {
-            if (soket != null && soket.Connected && serializer != null) return;
+            if (soket != null && soket.Connected)
+                return;
 
-            try { soket?.Shutdown(SocketShutdown.Both); } catch { }
             try { soket?.Close(); } catch { }
+
             soket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             soket.Connect("127.0.0.1", 9999);
             serializer = new JsonNetworkSerializer(soket);

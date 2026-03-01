@@ -20,7 +20,6 @@ namespace Zajednicki
                 AutoFlush = true
             };
         }
-
         public void Send(object z)
         {
             writer.WriteLine(JsonSerializer.Serialize(z));
@@ -29,6 +28,10 @@ namespace Zajednicki
         public T Receive<T>()
         {
             string json = reader.ReadLine();
+
+            if (json == null)
+                throw new Exception("Konekcija sa serverom je prekinuta.");
+
             return JsonSerializer.Deserialize<T>(json);
         }
 

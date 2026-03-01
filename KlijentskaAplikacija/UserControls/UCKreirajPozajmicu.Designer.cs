@@ -154,7 +154,7 @@
             pnlOdabraneKnjige.Controls.Add(btnUkloniKnjigu);
             pnlOdabraneKnjige.Location = new Point(0, 120);
             pnlOdabraneKnjige.Name = "pnlOdabraneKnjige";
-            pnlOdabraneKnjige.Size = new Size(420, 513);
+            pnlOdabraneKnjige.Size = new Size(420, 321);
             pnlOdabraneKnjige.TabIndex = 6;
             // 
             // lblOdabraneKnjige
@@ -199,7 +199,7 @@
             dgvOdabraneKnjige.RowHeadersWidth = 51;
             dgvOdabraneKnjige.RowTemplate.Height = 35;
             dgvOdabraneKnjige.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvOdabraneKnjige.Size = new Size(420, 403);
+            dgvOdabraneKnjige.Size = new Size(420, 238);
             dgvOdabraneKnjige.TabIndex = 1;
             dgvOdabraneKnjige.DataBindingComplete += dgvOdabraneKnjige_DataBindingComplete;
             // 
@@ -222,7 +222,7 @@
             btnUkloniKnjigu.FlatStyle = FlatStyle.Flat;
             btnUkloniKnjigu.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             btnUkloniKnjigu.ForeColor = Color.White;
-            btnUkloniKnjigu.Location = new Point(297, 441);
+            btnUkloniKnjigu.Location = new Point(297, 286);
             btnUkloniKnjigu.Name = "btnUkloniKnjigu";
             btnUkloniKnjigu.Size = new Size(120, 32);
             btnUkloniKnjigu.TabIndex = 3;

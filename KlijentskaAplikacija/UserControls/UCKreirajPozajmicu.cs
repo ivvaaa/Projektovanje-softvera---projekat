@@ -31,7 +31,6 @@ namespace KlijentskaAplikacija.UserControls
 
         private void dtpDatumPozajmice_ValueChanged(object sender, EventArgs e)
         {
-            // Rok vracanja mora biti posle datuma pozajmice
             dtpRokVracanja.MinDate = dtpDatumPozajmice.Value.AddDays(1);
             if (dtpRokVracanja.Value <= dtpDatumPozajmice.Value)
                 dtpRokVracanja.Value = dtpDatumPozajmice.Value.AddDays(14);

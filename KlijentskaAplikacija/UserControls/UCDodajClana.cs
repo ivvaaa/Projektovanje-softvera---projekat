@@ -20,12 +20,15 @@ namespace KlijentskaAplikacija.UserControls
         {
             try
             {
+                // Odspoji event dok postavljamo DataSource - sprečava okidanje pre PostaviPocetneVrednosti
+                cmbClanstvo.SelectedIndexChanged -= cmbClanstvo_SelectedIndexChanged;
                 var tipovi = Komunikacija.Instance.VratiSvaClanstva() ?? new List<Clanstvo>();
                 cmbClanstvo.DataSource = tipovi;
                 cmbClanstvo.DisplayMember = "Vrsta";
                 cmbClanstvo.ValueMember = "Id";
                 if (tipovi.Count > 0)
                     cmbClanstvo.SelectedIndex = 0;
+                cmbClanstvo.SelectedIndexChanged += cmbClanstvo_SelectedIndexChanged;
             }
             catch (Exception ex)
             {
@@ -49,10 +52,11 @@ namespace KlijentskaAplikacija.UserControls
                 DateTime od = dtpDatumOd.Value.Date;
                 string vrsta = c.Vrsta?.ToLower().Trim() ?? "";
 
-                if (vrsta.Contains("godišnje") || vrsta.Contains("godisnje") || vrsta.Contains("god"))
-                    dtpDatumDo.Value = od.AddYears(1);
-                else if (vrsta.Contains("polugodišnje") || vrsta.Contains("polugodisnje") || vrsta.Contains("polu"))
+                // VAZNO: polu mora biti pre god jer "polugodišnje".Contains("god") = true
+                if (vrsta.Contains("polugodišnje") || vrsta.Contains("polugodisnje") || vrsta.Contains("polu"))
                     dtpDatumDo.Value = od.AddMonths(6);
+                else if (vrsta.Contains("godišnje") || vrsta.Contains("godisnje") || vrsta.Contains("god"))
+                    dtpDatumDo.Value = od.AddYears(1);
                 else
                     // Mesecno i sve ostalo - 1 mesec
                     dtpDatumDo.Value = od.AddMonths(1);

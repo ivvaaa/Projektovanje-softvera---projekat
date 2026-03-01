@@ -11,18 +11,31 @@ namespace Server
             get
             {
                 if (instance == null) instance = new Kontroler();
+                if (instance == null) instance = new Kontroler();
                 return instance;
             }
         }
 
         private Kontroler() { }
 
+        private static List<long> ulogovani = new List<long>();
+
+
         //SK9
         public Bibliotekar PrijaviBibliotekara(Bibliotekar b)
         {
             LoginSO so = new LoginSO(b);
             so.ExecuteTemplate();
+
+            if (ulogovani.Contains(so.Result.Id))
+                throw new Exception("Korisnik je već prijavljen.");
+
+            ulogovani.Add(so.Result.Id);
             return so.Result;
+        }
+        public void OdjaviSe(long id)
+        {
+            ulogovani.Remove(id);
         }
 
         //SK14

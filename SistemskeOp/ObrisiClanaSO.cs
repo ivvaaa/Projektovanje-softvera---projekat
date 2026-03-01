@@ -18,8 +18,14 @@ namespace SistemskeOp
 
         protected override void ExecuteConcreteOperation()
         {
-            string condition = "idClan = " + id;
-            broker.Delete(new Clan(), condition);
+            List<IEntity> pozajmice = broker.GetByCondition(
+                new Pozajmica(), $"idClan = {id}");
+
+            if (pozajmice.Count > 0)
+                throw new Exception(
+                    $"Član ne može biti obrisan jer ima {pozajmice.Count} pozajmica u sistemu.");
+
+            broker.Delete(new Clan(), $"idClan = {id}");
         }
     }
 }

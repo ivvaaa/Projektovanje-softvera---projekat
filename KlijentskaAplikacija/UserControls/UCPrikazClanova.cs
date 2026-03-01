@@ -235,8 +235,8 @@ namespace KlijentskaAplikacija.UserControls
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Greška: " + ex.Message, "Greška",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Nije moguće brisanje - clan ima pozajmice",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -285,7 +285,6 @@ namespace KlijentskaAplikacija.UserControls
 
         private void btnPonisti_Click(object sender, EventArgs e)
         {
-            // Poništi izmene - vrati originalne vrednosti
             if (selektovaniClan != null)
                 PrikaziDetalje(selektovaniClan);
         }

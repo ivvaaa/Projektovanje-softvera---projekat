@@ -25,10 +25,6 @@ namespace SistemskeOp
             if (Result == null)
                 throw new Exception("Neispravni kredencijali.");
 
-            if (Result.Ulogovan)
-                throw new Exception("Korisnik je već prijavljen.");
-
-            Result.Ulogovan = true;
         }
     }
 

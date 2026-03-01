@@ -2,7 +2,6 @@
 
 namespace SistemskeOp
 {
-    // signal PromeniKnjiga(Knjiga)
     public class IzmeniKnjiguSO : SOBase
     {
         private Knjiga knjiga;

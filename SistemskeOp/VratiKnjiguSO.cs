@@ -7,14 +7,14 @@ using Domeni;
 
 namespace SistemskeOp
 {
-    // PromeniPozajmica - SK3
-    // Režim 1: vraćanje knjige (postavlja datumVracanja)
-    // Režim 2: izmena roka pozajmice (menja rokPozajmice za aktivne stavke)
+    //PromeniPozajmica - SK3
+    //1: vraćanje knjige (postavlja datumVracanja)
+    //2: izmena roka pozajmice
     public class VratiKnjiguSO : SOBase
     {
         private long idPozajmica;
-        private long? idKnjiga;      // null = režim izmene roka
-        private DateTime? noviRok;   // null = režim vraćanja knjige
+        private long? idKnjiga;      //izmena roka null
+        private DateTime? noviRok;   //vracanje null
 
         //SK3a - vraćanje knjige
         public VratiKnjiguSO(long idPozajmica, long idKnjiga)
@@ -36,14 +36,14 @@ namespace SistemskeOp
         {
             if (noviRok.HasValue)
             {
-                // SK3b: izmena roka za sve aktivne (nevraćene) stavke
+                //SK3b: izmena roka za sve aktivne (nevraćene) stavke
                 string setClause = $"rokPozajmice = '{noviRok.Value:yyyy-MM-dd}'";
                 string condition = $"idPozajmica = {idPozajmica} AND datumVracanja IS NULL";
                 broker.Update(new StavkaPozajmice(), setClause, condition);
             }
             else
             {
-                // SK3a: vraćanje konkretne knjige
+                //SK3a: vraćanje konkretne knjige
                 string setClause = $"datumVracanja = '{DateTime.Now:yyyy-MM-dd}'";
                 string condition = $"idPozajmica = {idPozajmica} AND idKnjiga = {idKnjiga} AND datumVracanja IS NULL";
                 broker.Update(new StavkaPozajmice(), setClause, condition);
