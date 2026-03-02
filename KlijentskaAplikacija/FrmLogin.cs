@@ -60,7 +60,7 @@ namespace KlijentskaAplikacija
                 var k = Komunikacija.Instance;
                 var b = k.PrijaviBibliotekara(kred);
 
-                if (b == null)
+                if (b == null)  //moye bey ovoga
                 {
                     MessageBox.Show("Neispravni kredencijali.", "Prijava neuspešna",
                                     MessageBoxButtons.OK, MessageBoxIcon.Warning);

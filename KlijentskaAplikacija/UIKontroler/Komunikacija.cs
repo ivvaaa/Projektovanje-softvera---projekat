@@ -52,7 +52,7 @@ namespace KlijentskaAplikacija.UIKontroler
 
                 return b;
             }
-            return null;
+            return null; //ovde throw o.poruka
         }
 
         //knjige

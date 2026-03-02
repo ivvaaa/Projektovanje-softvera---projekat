@@ -62,7 +62,7 @@ namespace Server
                     case Operacija.PrijaviBibliotekar:
                         var b = serializer.ReadType<Bibliotekar>(zahtev.Podaci);
                         var logBib = Kontroler.Instance.PrijaviBibliotekara(b);
-                       if (logBib == null)
+                       if (logBib == null) //catch ako je prijavljen
                         {
                             odgovor.Signal = false;
                             odgovor.Poruka = "Neispravni kredencijali.";
@@ -179,7 +179,7 @@ namespace Server
             catch (Exception ex)
             {
                 odgovor.Signal = false;
-                odgovor.Poruka = ex.Message;
+                odgovor.Poruka = ex.Message;  //ako je vec projavljen
                 Debug.WriteLine("Greška: " + ex.Message);
             }
 

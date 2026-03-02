@@ -153,8 +153,32 @@ namespace KlijentskaAplikacija.UserControls
             bsStavke.DataSource = p.Stavke ?? new List<StavkaPozajmice>();
 
             bool aktivnaIliZakasnela = p.Status == "Aktivna" || p.Status == "Zakasnelo";
-            btnVratiKnjigu.Visible = aktivnaIliZakasnela;
+            btnVratiKnjigu.Visible = false;
             grpIzmenaRoka.Visible = aktivnaIliZakasnela;
+            btnSacuvajIzmene.Visible = aktivnaIliZakasnela;
+
+            // Reset checkbox kolone — checkbox vidljiv samo za aktivne stavke
+            dgvStavke.Columns["colVrati"].Visible = aktivnaIliZakasnela;
+            if (aktivnaIliZakasnela)
+            {
+                foreach (DataGridViewRow row in dgvStavke.Rows)
+                {
+                    if (row.DataBoundItem is StavkaPozajmice s)
+                    {
+                        bool vracena = s.DatumVracanja != null;
+                        row.Cells["colVrati"].Value = vracena; // vraćene = čekirano
+                        row.Cells["colVrati"].ReadOnly = vracena; // vraćene = zaključano
+                        if (vracena)
+                            row.DefaultCellStyle.ForeColor = Color.LightGray;
+                        else
+                            row.DefaultCellStyle.ForeColor = Color.Empty;
+                    }
+                }
+            }
+
+            // Reset checkbox i dtp pri svakoj novoj selekciji
+            chkIzmeniRok.Checked = false;
+            dtpNoviRok.Enabled = false;
 
             if (aktivnaIliZakasnela && p.Stavke != null && p.Stavke.Count > 0)
             {
@@ -163,10 +187,8 @@ namespace KlijentskaAplikacija.UserControls
                     ? aktivne.Max(s => s.RokPozajmice)
                     : DateTime.Today.AddDays(7);
 
-                // Privremeno ukloni MinDate - zakasnele pozajmice imaju rok u proslosti
                 dtpNoviRok.MinDate = DateTimePicker.MinimumDateTime;
                 dtpNoviRok.Value = noviRokValue;
-                // Vrati MinDate na sutra (validacija pri cuvanju)
                 dtpNoviRok.MinDate = DateTime.Today.AddDays(1);
             }
         }
@@ -302,96 +324,100 @@ namespace KlijentskaAplikacija.UserControls
         }
 
         // -----------------------------------------------------------------------
-        // Vraćanje knjige
+        // Vraćanje knjige + Izmena roka — zajedno
         // -----------------------------------------------------------------------
+
+        private void chkIzmeniRok_CheckedChanged(object sender, EventArgs e)
+        {
+            dtpNoviRok.Enabled = chkIzmeniRok.Checked;
+        }
 
         private void btnVratiKnjigu_Click(object sender, EventArgs e)
         {
-            if (selektovanaPozajmica == null) return;
-
-            if (dgvStavke.CurrentRow == null ||
-                !(dgvStavke.CurrentRow.DataBoundItem is StavkaPozajmice stavka))
-            {
-                MessageBox.Show("Izaberite stavku (knjigu) za vraćanje.", "Info",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
-
-            if (stavka.DatumVracanja != null)
-            {
-                MessageBox.Show("Ova knjiga je već vraćena.", "Info",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
-
-            if (MessageBox.Show($"Da li ste sigurni da želite da vratite '{stavka.NazivKnjige}'?",
-                "Potvrda", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
-                return;
-
-            try
-            {
-                bool uspeh = Komunikacija.Instance.VratiKnjigu(selektovanaPozajmica.Id, stavka.IdKnjige);
-                if (uspeh)
-                {
-                    MessageBox.Show("Knjiga je uspešno vraćena!", "Uspeh",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    UcitajPozajmice();
-                }
-                else
-                {
-                    MessageBox.Show("Greška pri vraćanju knjige.", "Greška",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Greška: " + ex.Message, "Greška",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            // dugme je sakriveno, ali handler ostaje za kompatibilnost
         }
 
-        // -----------------------------------------------------------------------
-        // Izmena roka
-        // -----------------------------------------------------------------------
-
-        private void btnSacuvajRok_Click(object sender, EventArgs e)
+        private void btnSacuvajIzmene_Click(object sender, EventArgs e)
         {
             if (selektovanaPozajmica == null) return;
 
-            if (dtpNoviRok.Value.Date <= DateTime.Today)
+            // Prikupi sve čekirane aktivne stavke za vraćanje
+            var stavkeZaVracanje = new List<StavkaPozajmice>();
+            foreach (DataGridViewRow row in dgvStavke.Rows)
+            {
+                if (row.DataBoundItem is StavkaPozajmice s
+                    && s.DatumVracanja == null
+                    && row.Cells["colVrati"].Value is true)
+                {
+                    stavkeZaVracanje.Add(s);
+                }
+            }
+
+            bool vratiKnjige = stavkeZaVracanje.Count > 0;
+            bool izmeniRok = chkIzmeniRok.Checked;
+
+            // Mora biti bar jedna akcija
+            if (!vratiKnjige && !izmeniRok)
+            {
+                MessageBox.Show(
+                    "Označite knjige za vraćanje (✓) i/ili označite izmenu roka.",
+                    "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            // Validacija roka
+            if (izmeniRok && dtpNoviRok.Value.Date <= DateTime.Today)
             {
                 MessageBox.Show("Novi rok mora biti datum u budućnosti.",
                     "Validacija", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            if (MessageBox.Show(
-                $"Promeniti rok pozajmice #{selektovanaPozajmica.Id} na {dtpNoviRok.Value:dd.MM.yyyy}?\n" +
-                "Važi za sve aktivne knjige.",
-                "Potvrda", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+            // Potvrda
+            string poruka = "Da li želite da sačuvate sledeće izmene?\n\n";
+            if (vratiKnjige)
+            {
+                poruka += "Vraćanje knjiga:\n";
+                foreach (var s in stavkeZaVracanje)
+                    poruka += $"   • {s.NazivKnjige}\n";
+            }
+            if (izmeniRok) poruka += $"\nNovi rok za sve aktivne knjige: {dtpNoviRok.Value:dd.MM.yyyy}\n";
+
+            if (MessageBox.Show(poruka, "Potvrda", MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question) != DialogResult.Yes)
                 return;
 
             try
             {
-                bool uspeh = Komunikacija.Instance.IzmeniRokPozajmice(
-                    selektovanaPozajmica.Id, dtpNoviRok.Value.Date);
+                bool greska = false;
 
-                if (uspeh)
+                // Vrati svaku označenu knjigu
+                foreach (var stavka in stavkeZaVracanje)
                 {
-                    MessageBox.Show("Sistem je zapamtio pozajmicu.", "Uspeh",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    UcitajPozajmice();
+                    bool uspeh = Komunikacija.Instance.VratiKnjigu(selektovanaPozajmica.Id, stavka.IdKnjige);
+                    if (!uspeh) greska = true;
                 }
-                else
+
+                if (izmeniRok)
                 {
-                    MessageBox.Show("Sistem ne može da zapamti pozajmicu.", "Greška",
+                    bool uspeh = Komunikacija.Instance.IzmeniRokPozajmice(
+                        selektovanaPozajmica.Id, dtpNoviRok.Value.Date);
+                    if (!uspeh) greska = true;
+                }
+
+                if (greska)
+                    MessageBox.Show("Jedna ili više izmena nije uspela.", "Greška",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                else
+                    MessageBox.Show("Sistem je zapamtio izmene.", "Uspeh",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                UcitajPozajmice();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Sistem ne može da zapamti pozajmicu.\n" + ex.Message,
-                    "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Greška: " + ex.Message, "Greška",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
