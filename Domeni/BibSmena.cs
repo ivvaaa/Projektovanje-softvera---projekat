@@ -24,8 +24,7 @@ namespace Domeni
 
         public string Values => $"{IdBibliotekara}, {IdTerminSmene}, '{Datum:yyyy-MM-dd}'";
 
-        public string PrimaryKey => "idBibliotekar, idTerminSmene";
-
+        public string PrimaryKey => "idBibliotekar, idTerminSmene, datum";
         public string Join => @"INNER JOIN Bibliotekar b ON [Bib-Smena].idBibliotekar = b.idBibliotekar 
                                 INNER JOIN TerminSmene t ON [Bib-Smena].idTerminSmene = t.idTerminSmene";
 

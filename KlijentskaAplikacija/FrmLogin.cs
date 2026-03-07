@@ -71,6 +71,7 @@ namespace KlijentskaAplikacija
 
                 MessageBox.Show($"Dobrodošla, {b.Ime} {b.Prezime}!", "Prijava uspešna",
                                 MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Komunikacija.UlogovaniBibliotekar = b;
 
                 this.Hide();
                 FrmMeni meni = new FrmMeni(b);

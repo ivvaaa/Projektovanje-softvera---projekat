@@ -24,6 +24,12 @@ namespace Zajednicki
         ObrisiClana,
         VratiSvaClanstva,   // pomocna - ucitavanje liste clanstava za forme (SK7 preduslov)
 
+        // Smene - novi
+        PretraziSmene,
+        DodajSmenu,
+        IzmeniSmenu,
+        VratiSveTermine,
+
         //Pozajmice - SK1, SK2
         KreirajPozajmicu,
         PretraziPozajmicu,  //prazan kriterijum = sve

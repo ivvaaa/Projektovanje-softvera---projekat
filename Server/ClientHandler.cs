@@ -169,6 +169,26 @@ namespace Server
                         odgovor.Poruka = "Sistem je zapamtio pozajmicu.";
                         break;
 
+                    // Smene
+                    case Operacija.PretraziSmene:
+                        string kritSmena = zahtev.Podaci?.ToString() ?? "";
+                        odgovor.Podaci = Kontroler.Instance.PretraziSmene(kritSmena);
+                        odgovor.Poruka = "OK";
+                        break;
+
+                    case Operacija.DodajSmenu:
+                        var novaSmena = serializer.ReadType<BibSmena>(zahtev.Podaci);
+                        Kontroler.Instance.DodajSmenu(novaSmena);
+                        odgovor.Poruka = "Smena je dodata.";
+                        break;
+
+                    case Operacija.IzmeniSmenu:
+                        var smeneData = serializer.ReadType<Dictionary<string, BibSmena>>(zahtev.Podaci);
+                        Kontroler.Instance.IzmeniSmenu(smeneData["stara"], smeneData["nova"]);
+                        odgovor.Poruka = "Smena je izmenjena.";
+                        break;
+
+                    
 
                     default:
                         odgovor.Signal = false;

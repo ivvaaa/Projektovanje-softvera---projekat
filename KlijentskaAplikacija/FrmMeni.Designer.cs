@@ -30,7 +30,6 @@ namespace KlijentskaAplikacija
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        /// 
 
         private void InitializeComponent()
         {
@@ -44,6 +43,7 @@ namespace KlijentskaAplikacija
             btnPronadjiClana = new Button();
             btnNovaPozajmica = new Button();
             btnSvaZaduzenja = new Button();
+            btnSmene = new Button();
             pnlLogo = new Panel();
             picLogo = new PictureBox();
             lblBib = new Label();
@@ -84,6 +84,7 @@ namespace KlijentskaAplikacija
             flpMenu.Controls.Add(btnPronadjiClana);
             flpMenu.Controls.Add(btnNovaPozajmica);
             flpMenu.Controls.Add(btnSvaZaduzenja);
+            flpMenu.Controls.Add(btnSmene);
             flpMenu.Dock = DockStyle.Fill;
             flpMenu.FlowDirection = FlowDirection.TopDown;
             flpMenu.ForeColor = Color.White;
@@ -245,6 +246,29 @@ namespace KlijentskaAplikacija
             btnSvaZaduzenja.UseVisualStyleBackColor = false;
             btnSvaZaduzenja.Click += btnSvaZaduzenja_Click;
             // 
+            // btnSmene
+            // 
+            btnSmene.BackColor = Color.White;
+            btnSmene.Cursor = Cursors.Hand;
+            btnSmene.FlatAppearance.BorderSize = 0;
+            btnSmene.FlatAppearance.MouseDownBackColor = Color.LightCyan;
+            btnSmene.FlatAppearance.MouseOverBackColor = Color.FromArgb(230, 230, 230);
+            btnSmene.FlatStyle = FlatStyle.Flat;
+            btnSmene.Font = new Font("Segoe UI", 9.5F, FontStyle.Regular, GraphicsUnit.Point);
+            btnSmene.ForeColor = Color.FromArgb(50, 50, 50);
+            btnSmene.Image = Properties.Resources.knjiga;
+            btnSmene.ImageAlign = ContentAlignment.MiddleLeft;
+            btnSmene.Location = new Point(15, 348);
+            btnSmene.Name = "btnSmene";
+            btnSmene.Padding = new Padding(10, 0, 0, 0);
+            btnSmene.Size = new Size(193, 45);
+            btnSmene.TabIndex = 7;
+            btnSmene.Text = "Smene";
+            btnSmene.TextAlign = ContentAlignment.MiddleLeft;
+            btnSmene.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnSmene.UseVisualStyleBackColor = false;
+            btnSmene.Click += btnSmene_Click;
+            // 
             // pnlLogo
             // 
             pnlLogo.Controls.Add(picLogo);
@@ -375,6 +399,7 @@ namespace KlijentskaAplikacija
         private Button btnPronadjiClana;
         private Button btnNovaPozajmica;
         private Button btnSvaZaduzenja;
+        private Button btnSmene;
         private Panel pnlTopbar;
         private Label lblDobrodosli;
         private Panel pnlMain;

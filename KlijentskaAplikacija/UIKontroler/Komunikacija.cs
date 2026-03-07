@@ -201,6 +201,53 @@ namespace KlijentskaAplikacija.UIKontroler
             return o.Signal;
         }
 
+        // Smene
+        /// <summary>Vraća listu smena filtrirano po kriterijumu.</summary>
+        public List<BibSmena> PretraziSmene(string kriterijum)
+        {
+            PoveziSe();
+            serializer.Send(new Zahtev { Operacija = Operacija.PretraziSmene, Podaci = kriterijum });
+            Odgovor o = serializer.Receive<Odgovor>();
+            if (o.Signal && o.Podaci != null)
+                return JsonSerializer.Deserialize<List<BibSmena>>((JsonElement)o.Podaci) ?? new List<BibSmena>();
+            return new List<BibSmena>();
+        }
 
+        /// <summary>Dodaje novu smenu bibliotekaru.</summary>
+        public bool DodajSmenu(BibSmena smena)
+        {
+            PoveziSe();
+            serializer.Send(new Zahtev { Operacija = Operacija.DodajSmenu, Podaci = smena });
+            Odgovor o = serializer.Receive<Odgovor>();
+            return o.Signal;
+        }
+
+        /// <summary>Menja termin i/ili datum postojeće smene.</summary>
+        public bool IzmeniSmenu(BibSmena stara, BibSmena nova)
+        {
+            PoveziSe();
+            serializer.Send(new Zahtev
+            {
+                Operacija = Operacija.IzmeniSmenu,
+                Podaci = new Dictionary<string, BibSmena>
+                {
+                    { "stara", stara },
+                    { "nova", nova }
+                }
+            });
+            Odgovor o = serializer.Receive<Odgovor>();
+            return o.Signal;
+        }
+
+        /// <summary>Učitava sve dostupne termine smena.</summary>
+        public List<TerminSmene> VratiSveTermine()
+        {
+            PoveziSe();
+            serializer.Send(new Zahtev { Operacija = Operacija.VratiSveTermine });
+            Odgovor o = serializer.Receive<Odgovor>();
+            if (o.Signal && o.Podaci != null)
+                return JsonSerializer.Deserialize<List<TerminSmene>>((JsonElement)o.Podaci) ?? new List<TerminSmene>();
+            return new List<TerminSmene>();
+        }
     }
 }
