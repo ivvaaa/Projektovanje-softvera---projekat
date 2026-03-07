@@ -67,8 +67,6 @@ namespace KlijentskaAplikacija.UserControls
         {
             if (punjenjePodataka) return;
 
-            // Odlazimo sa trenutnog call stacka i izvrsavamo tek u sledecem
-            // message pump ciklusu — grid je tada 100% spreman
             BeginInvoke(new Action(PrikaziSelektovanu));
         }
 
@@ -295,7 +293,7 @@ namespace KlijentskaAplikacija.UserControls
                 else
                 {
                     lblBroj.Text = $"Ukupno: {lista.Count}";
-                    // Poruka samo ako je korisnik zaista uneo kriterijum (nije Reset)
+                    // Poruka samo ako je korisnik zaista uneo kriterijum
                     if (!string.IsNullOrWhiteSpace(kriterijum))
                     {
                         pretrazivanjeAktivno = true;
@@ -323,9 +321,8 @@ namespace KlijentskaAplikacija.UserControls
             if (e.KeyCode == Keys.Enter) { e.SuppressKeyPress = true; Pretrazi(); }
         }
 
-        // -----------------------------------------------------------------------
-        // Vraćanje knjige + Izmena roka — zajedno
-        // -----------------------------------------------------------------------
+
+        // zaj izmena -----------------------------------------------------------------------
 
         private void chkIzmeniRok_CheckedChanged(object sender, EventArgs e)
         {
@@ -334,14 +331,13 @@ namespace KlijentskaAplikacija.UserControls
 
         private void btnVratiKnjigu_Click(object sender, EventArgs e)
         {
-            // dugme je sakriveno, ali handler ostaje za kompatibilnost
         }
 
         private void btnSacuvajIzmene_Click(object sender, EventArgs e)
         {
             if (selektovanaPozajmica == null) return;
 
-            // Prikupi sve čekirane aktivne stavke za vraćanje
+            //sve cekirane aktivne stavke za vraćanje
             var stavkeZaVracanje = new List<StavkaPozajmice>();
             foreach (DataGridViewRow row in dgvStavke.Rows)
             {
@@ -356,16 +352,16 @@ namespace KlijentskaAplikacija.UserControls
             bool vratiKnjige = stavkeZaVracanje.Count > 0;
             bool izmeniRok = chkIzmeniRok.Checked;
 
-            // Mora biti bar jedna akcija
+            //bar jedna akcija
             if (!vratiKnjige && !izmeniRok)
             {
                 MessageBox.Show(
-                    "Označite knjige za vraćanje (✓) i/ili označite izmenu roka.",
+                    "Označite knjige za vraćanje i/ili označite izmenu roka.",
                     "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
-            // Validacija roka
+            //Validacija roka
             if (izmeniRok && dtpNoviRok.Value.Date <= DateTime.Today)
             {
                 MessageBox.Show("Novi rok mora biti datum u budućnosti.",
@@ -373,7 +369,6 @@ namespace KlijentskaAplikacija.UserControls
                 return;
             }
 
-            // Potvrda
             string poruka = "Da li želite da sačuvate sledeće izmene?\n\n";
             if (vratiKnjige)
             {
@@ -391,7 +386,7 @@ namespace KlijentskaAplikacija.UserControls
             {
                 bool greska = false;
 
-                // Vrati svaku označenu knjigu
+                //Vrati svaku oznacenu knjigu
                 foreach (var stavka in stavkeZaVracanje)
                 {
                     bool uspeh = Komunikacija.Instance.VratiKnjigu(selektovanaPozajmica.Id, stavka.IdKnjige);
