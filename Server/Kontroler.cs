@@ -11,26 +11,41 @@ namespace Server
             get
             {
                 if (instance == null) instance = new Kontroler();
+                if (instance == null) instance = new Kontroler();
                 return instance;
             }
         }
 
         private Kontroler() { }
 
+        private static List<long> ulogovani = new List<long>();
+
+
+        //SK9
         public Bibliotekar PrijaviBibliotekara(Bibliotekar b)
         {
             LoginSO so = new LoginSO(b);
             so.ExecuteTemplate();
+
+            if (ulogovani.Contains(so.Result.Id))
+                throw new Exception("Korisnik je već prijavljen.");
+
+            ulogovani.Add(so.Result.Id);
             return so.Result;
         }
-
-        public List<Knjiga> VratiSveKnjige()
+        public void OdjaviSe(long id)
         {
-            VratiSveKnjigeSO so = new VratiSveKnjigeSO();
-            so.ExecuteTemplate();
-            return so.Result;
+            ulogovani.Remove(id);
         }
 
+        //SK14
+        public void UbaciKnjigu(Knjiga k)
+        {
+            UbaciKnjiguSO so = new UbaciKnjiguSO(k);
+            so.ExecuteTemplate();
+        }
+
+        // vratiListuKnjiga(kriterijum) - SK10/SK15, prazan kriterijum = sve knjige
         public List<Knjiga> PretraziKnjige(string kriterijum)
         {
             PretraziKnjigeSO so = new PretraziKnjigeSO(kriterijum);
@@ -38,24 +53,28 @@ namespace Server
             return so.Result;
         }
 
-        public void SacuvajKnjigu(Knjiga k)
-        {
-            SacuvajKnjiguSO so = new SacuvajKnjiguSO(k);
-            so.ExecuteTemplate();
-        }
-
+        //SK16 - PromeniKnjiga
         public void IzmeniKnjigu(Knjiga k)
         {
             IzmeniKnjiguSO so = new IzmeniKnjiguSO(k);
             so.ExecuteTemplate();
         }
 
+        //SK17 - ObrisiKnjiga
         public void ObrisiKnjigu(long id)
         {
             ObrisiKnjiguSO so = new ObrisiKnjiguSO(id);
             so.ExecuteTemplate();
         }
 
+        // SK5 - KreirajClan
+        public void KreirajClana(Clan c)
+        {
+            KreirajClanaSO so = new KreirajClanaSO(c);
+            so.ExecuteTemplate();
+        }
+
+        // vratiListuClan(kriterijum) - SK6/SK7, prazan kriterijum = svi clanovi
         public List<Clan> PretraziClanove(string kriterijum)
         {
             PretraziClanoveSO so = new PretraziClanoveSO(kriterijum);
@@ -63,24 +82,29 @@ namespace Server
             return so.Result;
         }
 
-        public void SacuvajClana(Clan c)
-        {
-            SacuvajClanaSO so = new SacuvajClanaSO(c);
-            so.ExecuteTemplate();
-        }
-
+        //SK7 - PromeniClan
         public void IzmeniClana(Clan c)
         {
             IzmeniClanaSO so = new IzmeniClanaSO(c);
             so.ExecuteTemplate();
         }
 
+        //SK8
         public void ObrisiClana(long id)
         {
             ObrisiClanaSO so = new ObrisiClanaSO(id);
             so.ExecuteTemplate();
         }
 
+        // pomocna - ucitavanje liste clanstava (SK7 preduslov)
+        public List<Clanstvo> VratiSvaClanstva()
+        {
+            PretraziClanoveSO so = new PretraziClanoveSO(true);
+            so.ExecuteTemplate();
+            return so.ResultClanstva;
+        }
+
+        //SK1
         public long KreirajPozajmicu(Pozajmica p)
         {
             KreirajPozajmicuSO so = new KreirajPozajmicuSO(p);
@@ -88,11 +112,27 @@ namespace Server
             return so.Result;
         }
 
+        // vratiListuPozajmica(kriterijum) - SK2, prazan kriterijum = sve pozajmice
         public List<Pozajmica> PretraziPozajmice(string kriterijum)
         {
             PretraziPozajmiceSO so = new PretraziPozajmiceSO(kriterijum);
             so.ExecuteTemplate();
             return so.Result;
         }
+
+        // SK3a - PromeniPozajmica: vracanje knjige
+        public void VratiKnjigu(long idPozajmica, long idKnjiga)
+        {
+            VratiKnjiguSO so = new VratiKnjiguSO(idPozajmica, idKnjiga);
+            so.ExecuteTemplate();
+        }
+
+        // SK3b - PromeniPozajmica: izmena roka pozajmice za aktivne stavke
+        public void IzmeniRokPozajmice(long idPozajmica, DateTime noviRok)
+        {
+            VratiKnjiguSO so = new VratiKnjiguSO(idPozajmica, noviRok);
+            so.ExecuteTemplate();
+        }
+
     }
 }

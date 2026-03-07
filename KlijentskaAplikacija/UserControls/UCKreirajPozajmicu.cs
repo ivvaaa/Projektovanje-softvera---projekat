@@ -18,10 +18,22 @@ namespace KlijentskaAplikacija.UserControls
             ulogovaniBibliotekar = bibliotekar;
 
             dtpDatumPozajmice.Value = DateTime.Now;
+            dtpDatumPozajmice.MinDate = DateTime.Today;
+
             dtpRokVracanja.Value = DateTime.Now.AddDays(14);
+            dtpRokVracanja.MinDate = DateTime.Today.AddDays(1);
+
+            dtpDatumPozajmice.ValueChanged += dtpDatumPozajmice_ValueChanged;
 
             UcitajClanove();
             UcitajKnjige();
+        }
+
+        private void dtpDatumPozajmice_ValueChanged(object sender, EventArgs e)
+        {
+            dtpRokVracanja.MinDate = dtpDatumPozajmice.Value.AddDays(1);
+            if (dtpRokVracanja.Value <= dtpDatumPozajmice.Value)
+                dtpRokVracanja.Value = dtpDatumPozajmice.Value.AddDays(14);
         }
 
         private void UcitajClanove()
@@ -46,6 +58,7 @@ namespace KlijentskaAplikacija.UserControls
             {
                 List<Knjiga> knjige = Komunikacija.Instance.PretraziKnjige("");
                 dgvKnjige.DataSource = knjige;
+
             }
             catch (Exception ex)
             {
@@ -57,6 +70,16 @@ namespace KlijentskaAplikacija.UserControls
         {
             if (dgvKnjige.CurrentRow?.DataBoundItem is Knjiga k)
             {
+                if (k.BrojSlobodnih <= 0)
+                {
+                    MessageBox.Show(
+                        $"Knjiga '{k.Naziv}' nema slobodnih primeraka i ne može biti pozajmljena.",
+                        "Upozorenje",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                    return;
+                }
+
                 if (odabraneKnjige.Exists(x => x.Id == k.Id))
                 {
                     MessageBox.Show("Ova knjiga je već dodata.", "Info",
@@ -147,6 +170,7 @@ namespace KlijentskaAplikacija.UserControls
             odabraneKnjige.Clear();
             OsveziListuOdabranihKnjiga();
             dtpDatumPozajmice.Value = DateTime.Now;
+            dtpRokVracanja.MinDate = DateTime.Today.AddDays(1);
             dtpRokVracanja.Value = DateTime.Now.AddDays(14);
         }
 
@@ -155,14 +179,47 @@ namespace KlijentskaAplikacija.UserControls
             OcistiFormu();
         }
 
-        private void txtPretragaKnjiga_TextChanged(object sender, EventArgs e)
+
+        private void dgvKnjige_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
-            try
-            {
-                List<Knjiga> knjige = Komunikacija.Instance.PretraziKnjige(txtPretragaKnjiga.Text);
-                dgvKnjige.DataSource = knjige;
-            }
-            catch { }
+            SakrijNepotrebneKolone(dgvKnjige);
         }
+
+        private void dgvOdabraneKnjige_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            SakrijNepotrebneKolone(dgvOdabraneKnjige);
+        }
+
+        private void SakrijNepotrebneKolone(DataGridView dgv)
+        {
+            string[] sakrij = { "TableName", "Values", "InsertColumns", "PrimaryKey", "Join", "ImePisca", "PrezimePisca", "Dostupna" };
+
+            foreach (string col in sakrij)
+            {
+                if (dgv.Columns.Contains(col))
+                    dgv.Columns[col].Visible = false;
+            }
+
+            if (dgv.Columns.Contains("Id"))
+            {
+                dgv.Columns["Id"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                dgv.Columns["Id"].Width = 50;
+            }
+            if (dgv.Columns.Contains("Naziv"))
+                dgv.Columns["Naziv"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            if (dgv.Columns.Contains("BrojPrimeraka"))
+            {
+                dgv.Columns["BrojPrimeraka"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                dgv.Columns["BrojPrimeraka"].Width = 120;
+                dgv.Columns["BrojPrimeraka"].HeaderText = "Br. primeraka";
+            }
+            if (dgv.Columns.Contains("BrojSlobodnih"))
+            {
+                dgv.Columns["BrojSlobodnih"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                dgv.Columns["BrojSlobodnih"].Width = 110;
+                dgv.Columns["BrojSlobodnih"].HeaderText = "Slobodnih";
+            }
+        }
+
     }
 }

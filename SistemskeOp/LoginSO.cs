@@ -22,11 +22,9 @@ namespace SistemskeOp
             string condition = $"username = '{bibliotekar.Username}' AND password = '{bibliotekar.Password}'";
             List<IEntity> lista = broker.GetByCondition(new Bibliotekar(), condition);
             Result = lista.Cast<Bibliotekar>().FirstOrDefault();
-
             if (Result == null)
-            {
                 throw new Exception("Neispravni kredencijali.");
-            }
+
         }
     }
 

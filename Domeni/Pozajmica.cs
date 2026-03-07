@@ -15,9 +15,13 @@ namespace Domeni
         public long IdClan { get; set; }
         public List<StavkaPozajmice> Stavke { get; set; } = new List<StavkaPozajmice>();
         public string ImePrezimeClana { get; set; }
+        public string ImePrezimeBibliotekar { get; set; }
         public int BrojKnjiga { get; set; }
         public string Status { get; set; }
-
+        public DateTime? DatumVracanja =>
+            Stavke != null && Stavke.Count > 0 && Stavke.All(s => s.DatumVracanja.HasValue)
+                ? Stavke.Max(s => s.DatumVracanja)
+                : null;
         public string TableName => "Pozajmica";
 
         public string InsertColumns => "datumOd, idBibliotekar, idClan";
@@ -26,7 +30,7 @@ namespace Domeni
 
         public string PrimaryKey => "idPozajmica";
 
-        public string Join => "INNER JOIN Clan c ON Pozajmica.idClan = c.idClan";
+        public string Join => "";
 
         public List<IEntity> GetReaderList(SqlDataReader reader)
         {

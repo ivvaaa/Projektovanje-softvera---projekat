@@ -21,32 +21,30 @@ namespace KlijentskaAplikacija.UserControls
 
         private void btnSacuvaj_Click(object sender, EventArgs e)
         {
-            // Validacija
             if (!Validacija())
             {
                 return;
             }
 
-            // Kreiranje objekta
             Knjiga knjiga = new Knjiga
             {
                 Naziv = txtNaziv.Text.Trim(),
                 ImePisca = txtImePisca.Text.Trim(),
-                PrezimePisca = txtPrezimePisca.Text.Trim()
+                PrezimePisca = txtPrezimePisca.Text.Trim(),
+                BrojPrimeraka = (int)numBrojPrimeraka.Value
             };
 
-            // Slanje na server
             bool uspeh = Komunikacija.Instance.UbaciKnjigu(knjiga);
 
             if (uspeh)
             {
-                MessageBox.Show("Knjiga je uspešno sačuvana!", "Uspeh",
+                MessageBox.Show("Sistem je zapamtio knjigu.", "Uspeh",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
                 OcistiPolja();
             }
             else
             {
-                MessageBox.Show("Greška pri čuvanju knjige.", "Greška",
+                MessageBox.Show("Sistem ne moze da zapamti knjigu.", "Greška",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -60,7 +58,6 @@ namespace KlijentskaAplikacija.UserControls
         {
             bool ok = true;
 
-            // Reset boja
             txtNaziv.BackColor = Color.White;
             txtImePisca.BackColor = Color.White;
             txtPrezimePisca.BackColor = Color.White;
@@ -85,7 +82,7 @@ namespace KlijentskaAplikacija.UserControls
 
             if (!ok)
             {
-                MessageBox.Show("Molimo popunite sva obavezna polja!", "Validacija",
+                MessageBox.Show("Sistem ne moze da zapamti knjigu.", "Validacija",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
@@ -102,6 +99,7 @@ namespace KlijentskaAplikacija.UserControls
             txtImePisca.BackColor = Color.White;
             txtPrezimePisca.BackColor = Color.White;
 
+            numBrojPrimeraka.Value = 1;
             txtNaziv.Focus();
         }
     }

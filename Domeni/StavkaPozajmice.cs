@@ -9,8 +9,8 @@ namespace Domeni
 {
     public class StavkaPozajmice : IEntity
     {
-        public long Id { get; set; }    //rbStavkaPozajmice
-        public long IdPozajmica { get; set; }     //idPozajmica (FK)
+        public long Id { get; set; }   //rbStavkaPozajmice
+        public long IdPozajmica { get; set; }  
         public DateTime RokPozajmice { get; set; }
         public long IdKnjige { get; set; }
         public DateTime? DatumVracanja { get; set; }
@@ -35,7 +35,9 @@ namespace Domeni
                     IdKnjige = (long)reader["idKnjiga"],
                     DatumVracanja = reader["datumVracanja"] == DBNull.Value
                                     ? null
-                                    : (DateTime)reader["datumVracanja"]
+                                    : (DateTime)reader["datumVracanja"],
+                    NazivKnjige = reader["naziv"] != DBNull.Value ? (string)reader["naziv"] : "" 
+
                 });
             }
             return lista;

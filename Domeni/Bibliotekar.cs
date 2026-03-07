@@ -9,6 +9,8 @@ namespace Domeni
         public string Prezime { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
+        public bool Ulogovan { get; set; } = false;
+
         public string ImePrezime => $"{Ime} {Prezime}";
         public string TableName => "Bibliotekar";
 

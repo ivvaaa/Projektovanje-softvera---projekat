@@ -17,329 +17,343 @@
 
         private void InitializeComponent()
         {
-            DataGridViewCellStyle headerStyle = new DataGridViewCellStyle();
-            DataGridViewCellStyle cellStyle = new DataGridViewCellStyle();
-
-            this.pnlTop = new Panel();
-            this.lblNaslov = new Label();
-            this.pnlLeft = new Panel();
-            this.lblClan = new Label();
-            this.cmbClan = new ComboBox();
-            this.lblDatumPozajmice = new Label();
-            this.dtpDatumPozajmice = new DateTimePicker();
-            this.lblRokVracanja = new Label();
-            this.dtpRokVracanja = new DateTimePicker();
-            this.pnlOdabraneKnjige = new Panel();
-            this.lblOdabraneKnjige = new Label();
-            this.dgvOdabraneKnjige = new DataGridView();
-            this.lblBrojKnjiga = new Label();
-            this.btnUkloniKnjigu = new Button();
-            this.btnSacuvaj = new Button();
-            this.btnOcisti = new Button();
-            this.pnlRight = new Panel();
-            this.lblDostupneKnjige = new Label();
-            this.txtPretragaKnjiga = new TextBox();
-            this.dgvKnjige = new DataGridView();
-            this.btnDodajKnjigu = new Button();
-
-            this.pnlTop.SuspendLayout();
-            this.pnlLeft.SuspendLayout();
-            this.pnlOdabraneKnjige.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)this.dgvOdabraneKnjige).BeginInit();
-            this.pnlRight.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)this.dgvKnjige).BeginInit();
-            this.SuspendLayout();
-
-            // Header style
-            headerStyle.BackColor = Color.FromArgb(18, 27, 41);
-            headerStyle.ForeColor = Color.White;
-            headerStyle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            headerStyle.SelectionBackColor = Color.FromArgb(18, 27, 41);
-            headerStyle.SelectionForeColor = Color.White;
-
-            cellStyle.BackColor = Color.White;
-            cellStyle.ForeColor = Color.FromArgb(50, 50, 50);
-            cellStyle.SelectionBackColor = Color.FromArgb(232, 240, 254);
-            cellStyle.SelectionForeColor = Color.FromArgb(50, 50, 50);
-
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            pnlTop = new Panel();
+            lblNaslov = new Label();
+            pnlLeft = new Panel();
+            lblClan = new Label();
+            cmbClan = new ComboBox();
+            lblDatumPozajmice = new Label();
+            dtpDatumPozajmice = new DateTimePicker();
+            lblRokVracanja = new Label();
+            dtpRokVracanja = new DateTimePicker();
+            pnlOdabraneKnjige = new Panel();
+            lblOdabraneKnjige = new Label();
+            dgvOdabraneKnjige = new DataGridView();
+            lblBrojKnjiga = new Label();
+            btnUkloniKnjigu = new Button();
+            btnSacuvaj = new Button();
+            btnOcisti = new Button();
+            pnlRight = new Panel();
+            lblDostupneKnjige = new Label();
+            dgvKnjige = new DataGridView();
+            btnDodajKnjigu = new Button();
+            pnlTop.SuspendLayout();
+            pnlLeft.SuspendLayout();
+            pnlOdabraneKnjige.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvOdabraneKnjige).BeginInit();
+            pnlRight.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvKnjige).BeginInit();
+            SuspendLayout();
             // 
             // pnlTop
             // 
-            this.pnlTop.Controls.Add(this.lblNaslov);
-            this.pnlTop.Dock = DockStyle.Top;
-            this.pnlTop.Location = new Point(20, 20);
-            this.pnlTop.Name = "pnlTop";
-            this.pnlTop.Size = new Size(760, 50);
-
+            pnlTop.Controls.Add(lblNaslov);
+            pnlTop.Dock = DockStyle.Top;
+            pnlTop.Location = new Point(20, 20);
+            pnlTop.Name = "pnlTop";
+            pnlTop.Padding = new Padding(0, 10, 0, 0);
+            pnlTop.Size = new Size(1118, 50);
+            pnlTop.TabIndex = 2;
             // 
             // lblNaslov
             // 
-            this.lblNaslov.AutoSize = true;
-            this.lblNaslov.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            this.lblNaslov.ForeColor = Color.FromArgb(18, 27, 41);
-            this.lblNaslov.Location = new Point(0, 10);
-            this.lblNaslov.Name = "lblNaslov";
-            this.lblNaslov.Text = "Nova pozajmica";
-
+            lblNaslov.AutoSize = true;
+            lblNaslov.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
+            lblNaslov.ForeColor = Color.FromArgb(18, 27, 41);
+            lblNaslov.Location = new Point(0, 10);
+            lblNaslov.Name = "lblNaslov";
+            lblNaslov.Size = new Size(197, 32);
+            lblNaslov.TabIndex = 0;
+            lblNaslov.Text = "Nova pozajmica";
             // 
             // pnlLeft
             // 
-            this.pnlLeft.Controls.Add(this.lblClan);
-            this.pnlLeft.Controls.Add(this.cmbClan);
-            this.pnlLeft.Controls.Add(this.lblDatumPozajmice);
-            this.pnlLeft.Controls.Add(this.dtpDatumPozajmice);
-            this.pnlLeft.Controls.Add(this.lblRokVracanja);
-            this.pnlLeft.Controls.Add(this.dtpRokVracanja);
-            this.pnlLeft.Controls.Add(this.pnlOdabraneKnjige);
-            this.pnlLeft.Controls.Add(this.btnSacuvaj);
-            this.pnlLeft.Controls.Add(this.btnOcisti);
-            this.pnlLeft.Dock = DockStyle.Left;
-            this.pnlLeft.Location = new Point(20, 70);
-            this.pnlLeft.Name = "pnlLeft";
-            this.pnlLeft.Size = new Size(350, 430);
-
+            pnlLeft.Controls.Add(lblClan);
+            pnlLeft.Controls.Add(cmbClan);
+            pnlLeft.Controls.Add(lblDatumPozajmice);
+            pnlLeft.Controls.Add(dtpDatumPozajmice);
+            pnlLeft.Controls.Add(lblRokVracanja);
+            pnlLeft.Controls.Add(dtpRokVracanja);
+            pnlLeft.Controls.Add(pnlOdabraneKnjige);
+            pnlLeft.Controls.Add(btnSacuvaj);
+            pnlLeft.Controls.Add(btnOcisti);
+            pnlLeft.Dock = DockStyle.Left;
+            pnlLeft.Location = new Point(20, 70);
+            pnlLeft.Name = "pnlLeft";
+            pnlLeft.Padding = new Padding(0, 0, 15, 0);
+            pnlLeft.Size = new Size(450, 593);
+            pnlLeft.TabIndex = 1;
             // 
             // lblClan
             // 
-            this.lblClan.AutoSize = true;
-            this.lblClan.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            this.lblClan.Location = new Point(0, 0);
-            this.lblClan.Name = "lblClan";
-            this.lblClan.Text = "Član:";
-
+            lblClan.AutoSize = true;
+            lblClan.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            lblClan.Location = new Point(0, 0);
+            lblClan.Name = "lblClan";
+            lblClan.Size = new Size(43, 20);
+            lblClan.TabIndex = 0;
+            lblClan.Text = "Član:";
             // 
             // cmbClan
             // 
-            this.cmbClan.DropDownStyle = ComboBoxStyle.DropDownList;
-            this.cmbClan.Font = new Font("Segoe UI", 10F);
-            this.cmbClan.Location = new Point(0, 22);
-            this.cmbClan.Name = "cmbClan";
-            this.cmbClan.Size = new Size(320, 28);
-
+            cmbClan.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            cmbClan.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbClan.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            cmbClan.Location = new Point(0, 22);
+            cmbClan.Name = "cmbClan";
+            cmbClan.Size = new Size(420, 31);
+            cmbClan.TabIndex = 1;
             // 
             // lblDatumPozajmice
             // 
-            this.lblDatumPozajmice.AutoSize = true;
-            this.lblDatumPozajmice.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            this.lblDatumPozajmice.Location = new Point(0, 60);
-            this.lblDatumPozajmice.Name = "lblDatumPozajmice";
-            this.lblDatumPozajmice.Text = "Datum pozajmice:";
-
+            lblDatumPozajmice.AutoSize = true;
+            lblDatumPozajmice.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            lblDatumPozajmice.Location = new Point(0, 60);
+            lblDatumPozajmice.Name = "lblDatumPozajmice";
+            lblDatumPozajmice.Size = new Size(135, 20);
+            lblDatumPozajmice.TabIndex = 2;
+            lblDatumPozajmice.Text = "Datum pozajmice:";
             // 
             // dtpDatumPozajmice
             // 
-            this.dtpDatumPozajmice.Format = DateTimePickerFormat.Short;
-            this.dtpDatumPozajmice.Font = new Font("Segoe UI", 10F);
-            this.dtpDatumPozajmice.Location = new Point(0, 82);
-            this.dtpDatumPozajmice.Name = "dtpDatumPozajmice";
-            this.dtpDatumPozajmice.Size = new Size(150, 27);
-
+            dtpDatumPozajmice.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            dtpDatumPozajmice.Format = DateTimePickerFormat.Short;
+            dtpDatumPozajmice.Location = new Point(0, 82);
+            dtpDatumPozajmice.Name = "dtpDatumPozajmice";
+            dtpDatumPozajmice.Size = new Size(197, 30);
+            dtpDatumPozajmice.TabIndex = 3;
             // 
             // lblRokVracanja
             // 
-            this.lblRokVracanja.AutoSize = true;
-            this.lblRokVracanja.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            this.lblRokVracanja.Location = new Point(170, 60);
-            this.lblRokVracanja.Name = "lblRokVracanja";
-            this.lblRokVracanja.Text = "Rok vraćanja:";
-
+            lblRokVracanja.AutoSize = true;
+            lblRokVracanja.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            lblRokVracanja.Location = new Point(221, 61);
+            lblRokVracanja.Name = "lblRokVracanja";
+            lblRokVracanja.Size = new Size(102, 20);
+            lblRokVracanja.TabIndex = 4;
+            lblRokVracanja.Text = "Rok vraćanja:";
             // 
             // dtpRokVracanja
             // 
-            this.dtpRokVracanja.Format = DateTimePickerFormat.Short;
-            this.dtpRokVracanja.Font = new Font("Segoe UI", 10F);
-            this.dtpRokVracanja.Location = new Point(170, 82);
-            this.dtpRokVracanja.Name = "dtpRokVracanja";
-            this.dtpRokVracanja.Size = new Size(150, 27);
-
+            dtpRokVracanja.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            dtpRokVracanja.Format = DateTimePickerFormat.Short;
+            dtpRokVracanja.Location = new Point(221, 84);
+            dtpRokVracanja.Name = "dtpRokVracanja";
+            dtpRokVracanja.Size = new Size(199, 30);
+            dtpRokVracanja.TabIndex = 5;
             // 
             // pnlOdabraneKnjige
             // 
-            this.pnlOdabraneKnjige.Controls.Add(this.lblOdabraneKnjige);
-            this.pnlOdabraneKnjige.Controls.Add(this.dgvOdabraneKnjige);
-            this.pnlOdabraneKnjige.Controls.Add(this.lblBrojKnjiga);
-            this.pnlOdabraneKnjige.Controls.Add(this.btnUkloniKnjigu);
-            this.pnlOdabraneKnjige.Location = new Point(0, 120);
-            this.pnlOdabraneKnjige.Name = "pnlOdabraneKnjige";
-            this.pnlOdabraneKnjige.Size = new Size(320, 230);
-
+            pnlOdabraneKnjige.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            pnlOdabraneKnjige.Controls.Add(lblOdabraneKnjige);
+            pnlOdabraneKnjige.Controls.Add(dgvOdabraneKnjige);
+            pnlOdabraneKnjige.Controls.Add(lblBrojKnjiga);
+            pnlOdabraneKnjige.Controls.Add(btnUkloniKnjigu);
+            pnlOdabraneKnjige.Location = new Point(0, 120);
+            pnlOdabraneKnjige.Name = "pnlOdabraneKnjige";
+            pnlOdabraneKnjige.Size = new Size(420, 321);
+            pnlOdabraneKnjige.TabIndex = 6;
             // 
             // lblOdabraneKnjige
             // 
-            this.lblOdabraneKnjige.AutoSize = true;
-            this.lblOdabraneKnjige.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            this.lblOdabraneKnjige.Location = new Point(0, 0);
-            this.lblOdabraneKnjige.Name = "lblOdabraneKnjige";
-            this.lblOdabraneKnjige.Text = "Odabrane knjige:";
-
+            lblOdabraneKnjige.AutoSize = true;
+            lblOdabraneKnjige.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            lblOdabraneKnjige.Location = new Point(0, 0);
+            lblOdabraneKnjige.Name = "lblOdabraneKnjige";
+            lblOdabraneKnjige.Size = new Size(127, 20);
+            lblOdabraneKnjige.TabIndex = 0;
+            lblOdabraneKnjige.Text = "Odabrane knjige:";
             // 
             // dgvOdabraneKnjige
             // 
-            this.dgvOdabraneKnjige.AllowUserToAddRows = false;
-            this.dgvOdabraneKnjige.AllowUserToDeleteRows = false;
-            this.dgvOdabraneKnjige.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvOdabraneKnjige.BackgroundColor = Color.White;
-            this.dgvOdabraneKnjige.BorderStyle = BorderStyle.FixedSingle;
-            this.dgvOdabraneKnjige.ColumnHeadersDefaultCellStyle = headerStyle;
-            this.dgvOdabraneKnjige.ColumnHeadersHeight = 35;
-            this.dgvOdabraneKnjige.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.dgvOdabraneKnjige.DefaultCellStyle = cellStyle;
-            this.dgvOdabraneKnjige.EnableHeadersVisualStyles = false;
-            this.dgvOdabraneKnjige.Location = new Point(0, 22);
-            this.dgvOdabraneKnjige.MultiSelect = false;
-            this.dgvOdabraneKnjige.Name = "dgvOdabraneKnjige";
-            this.dgvOdabraneKnjige.ReadOnly = true;
-            this.dgvOdabraneKnjige.RowHeadersVisible = false;
-            this.dgvOdabraneKnjige.RowTemplate.Height = 35;
-            this.dgvOdabraneKnjige.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            this.dgvOdabraneKnjige.Size = new Size(320, 160);
-
+            dgvOdabraneKnjige.AllowUserToAddRows = false;
+            dgvOdabraneKnjige.AllowUserToDeleteRows = false;
+            dgvOdabraneKnjige.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgvOdabraneKnjige.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvOdabraneKnjige.BackgroundColor = Color.White;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(18, 27, 41);
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(18, 27, 41);
+            dataGridViewCellStyle1.SelectionForeColor = Color.White;
+            dgvOdabraneKnjige.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dgvOdabraneKnjige.ColumnHeadersHeight = 35;
+            dgvOdabraneKnjige.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.White;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = Color.FromArgb(50, 50, 50);
+            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(232, 240, 254);
+            dataGridViewCellStyle2.SelectionForeColor = Color.FromArgb(50, 50, 50);
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dgvOdabraneKnjige.DefaultCellStyle = dataGridViewCellStyle2;
+            dgvOdabraneKnjige.EnableHeadersVisualStyles = false;
+            dgvOdabraneKnjige.Location = new Point(0, 22);
+            dgvOdabraneKnjige.MultiSelect = false;
+            dgvOdabraneKnjige.Name = "dgvOdabraneKnjige";
+            dgvOdabraneKnjige.ReadOnly = true;
+            dgvOdabraneKnjige.RowHeadersVisible = false;
+            dgvOdabraneKnjige.RowHeadersWidth = 51;
+            dgvOdabraneKnjige.RowTemplate.Height = 35;
+            dgvOdabraneKnjige.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvOdabraneKnjige.Size = new Size(420, 238);
+            dgvOdabraneKnjige.TabIndex = 1;
+            dgvOdabraneKnjige.DataBindingComplete += dgvOdabraneKnjige_DataBindingComplete;
             // 
             // lblBrojKnjiga
             // 
-            this.lblBrojKnjiga.AutoSize = true;
-            this.lblBrojKnjiga.Font = new Font("Segoe UI", 9F);
-            this.lblBrojKnjiga.Location = new Point(0, 190);
-            this.lblBrojKnjiga.Name = "lblBrojKnjiga";
-            this.lblBrojKnjiga.Text = "Odabrano knjiga: 0";
-
+            lblBrojKnjiga.AutoSize = true;
+            lblBrojKnjiga.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            lblBrojKnjiga.Location = new Point(0, 300);
+            lblBrojKnjiga.Name = "lblBrojKnjiga";
+            lblBrojKnjiga.Size = new Size(135, 20);
+            lblBrojKnjiga.TabIndex = 2;
+            lblBrojKnjiga.Text = "Odabrano knjiga: 0";
             // 
             // btnUkloniKnjigu
             // 
-            this.btnUkloniKnjigu.BackColor = Color.FromArgb(220, 53, 69);
-            this.btnUkloniKnjigu.FlatAppearance.BorderSize = 0;
-            this.btnUkloniKnjigu.FlatStyle = FlatStyle.Flat;
-            this.btnUkloniKnjigu.Font = new Font("Segoe UI", 9F);
-            this.btnUkloniKnjigu.ForeColor = Color.White;
-            this.btnUkloniKnjigu.Location = new Point(200, 185);
-            this.btnUkloniKnjigu.Name = "btnUkloniKnjigu";
-            this.btnUkloniKnjigu.Size = new Size(120, 32);
-            this.btnUkloniKnjigu.Text = "Ukloni";
-            this.btnUkloniKnjigu.Cursor = Cursors.Hand;
-            this.btnUkloniKnjigu.Click += new EventHandler(this.btnUkloniKnjigu_Click);
-
+            btnUkloniKnjigu.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnUkloniKnjigu.BackColor = Color.FromArgb(220, 53, 69);
+            btnUkloniKnjigu.Cursor = Cursors.Hand;
+            btnUkloniKnjigu.FlatAppearance.BorderSize = 0;
+            btnUkloniKnjigu.FlatStyle = FlatStyle.Flat;
+            btnUkloniKnjigu.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            btnUkloniKnjigu.ForeColor = Color.White;
+            btnUkloniKnjigu.Location = new Point(297, 286);
+            btnUkloniKnjigu.Name = "btnUkloniKnjigu";
+            btnUkloniKnjigu.Size = new Size(120, 32);
+            btnUkloniKnjigu.TabIndex = 3;
+            btnUkloniKnjigu.Text = "Ukloni";
+            btnUkloniKnjigu.UseVisualStyleBackColor = false;
+            btnUkloniKnjigu.Click += btnUkloniKnjigu_Click;
             // 
             // btnSacuvaj
             // 
-            this.btnSacuvaj.BackColor = Color.FromArgb(18, 27, 41);
-            this.btnSacuvaj.FlatAppearance.BorderSize = 0;
-            this.btnSacuvaj.FlatStyle = FlatStyle.Flat;
-            this.btnSacuvaj.Font = new Font("Segoe UI", 10F);
-            this.btnSacuvaj.ForeColor = Color.White;
-            this.btnSacuvaj.Location = new Point(0, 370);
-            this.btnSacuvaj.Name = "btnSacuvaj";
-            this.btnSacuvaj.Size = new Size(150, 40);
-            this.btnSacuvaj.Text = "Sačuvaj";
-            this.btnSacuvaj.Cursor = Cursors.Hand;
-            this.btnSacuvaj.Click += new EventHandler(this.btnSacuvaj_Click);
-
+            btnSacuvaj.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            btnSacuvaj.BackColor = Color.FromArgb(18, 27, 41);
+            btnSacuvaj.Cursor = Cursors.Hand;
+            btnSacuvaj.FlatAppearance.BorderSize = 0;
+            btnSacuvaj.FlatStyle = FlatStyle.Flat;
+            btnSacuvaj.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            btnSacuvaj.ForeColor = Color.White;
+            btnSacuvaj.Location = new Point(0, 533);
+            btnSacuvaj.Name = "btnSacuvaj";
+            btnSacuvaj.Size = new Size(150, 40);
+            btnSacuvaj.TabIndex = 7;
+            btnSacuvaj.Text = "Sačuvaj";
+            btnSacuvaj.UseVisualStyleBackColor = false;
+            btnSacuvaj.Click += btnSacuvaj_Click;
             // 
             // btnOcisti
             // 
-            this.btnOcisti.BackColor = Color.Gray;
-            this.btnOcisti.FlatAppearance.BorderSize = 0;
-            this.btnOcisti.FlatStyle = FlatStyle.Flat;
-            this.btnOcisti.Font = new Font("Segoe UI", 10F);
-            this.btnOcisti.ForeColor = Color.White;
-            this.btnOcisti.Location = new Point(170, 370);
-            this.btnOcisti.Name = "btnOcisti";
-            this.btnOcisti.Size = new Size(150, 40);
-            this.btnOcisti.Text = "Očisti";
-            this.btnOcisti.Cursor = Cursors.Hand;
-            this.btnOcisti.Click += new EventHandler(this.btnOcisti_Click);
-
+            btnOcisti.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnOcisti.BackColor = Color.Gray;
+            btnOcisti.Cursor = Cursors.Hand;
+            btnOcisti.FlatAppearance.BorderSize = 0;
+            btnOcisti.FlatStyle = FlatStyle.Flat;
+            btnOcisti.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            btnOcisti.ForeColor = Color.White;
+            btnOcisti.Location = new Point(170, 533);
+            btnOcisti.Name = "btnOcisti";
+            btnOcisti.Size = new Size(150, 40);
+            btnOcisti.TabIndex = 8;
+            btnOcisti.Text = "Očisti";
+            btnOcisti.UseVisualStyleBackColor = false;
+            btnOcisti.Click += btnOcisti_Click;
             // 
             // pnlRight
             // 
-            this.pnlRight.Controls.Add(this.lblDostupneKnjige);
-            this.pnlRight.Controls.Add(this.txtPretragaKnjiga);
-            this.pnlRight.Controls.Add(this.dgvKnjige);
-            this.pnlRight.Controls.Add(this.btnDodajKnjigu);
-            this.pnlRight.Dock = DockStyle.Fill;
-            this.pnlRight.Location = new Point(370, 70);
-            this.pnlRight.Name = "pnlRight";
-            this.pnlRight.Size = new Size(410, 430);
-            this.pnlRight.Padding = new Padding(15, 0, 0, 0);
-
+            pnlRight.Controls.Add(lblDostupneKnjige);
+            pnlRight.Controls.Add(dgvKnjige);
+            pnlRight.Controls.Add(btnDodajKnjigu);
+            pnlRight.Dock = DockStyle.Fill;
+            pnlRight.Location = new Point(470, 70);
+            pnlRight.Name = "pnlRight";
+            pnlRight.Padding = new Padding(15, 0, 0, 0);
+            pnlRight.Size = new Size(668, 593);
+            pnlRight.TabIndex = 0;
             // 
             // lblDostupneKnjige
             // 
-            this.lblDostupneKnjige.AutoSize = true;
-            this.lblDostupneKnjige.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            this.lblDostupneKnjige.Location = new Point(15, 0);
-            this.lblDostupneKnjige.Name = "lblDostupneKnjige";
-            this.lblDostupneKnjige.Text = "Dostupne knjige:";
-
-            // 
-            // txtPretragaKnjiga
-            // 
-            this.txtPretragaKnjiga.BorderStyle = BorderStyle.FixedSingle;
-            this.txtPretragaKnjiga.Font = new Font("Segoe UI", 10F);
-            this.txtPretragaKnjiga.Location = new Point(15, 22);
-            this.txtPretragaKnjiga.Name = "txtPretragaKnjiga";
-            this.txtPretragaKnjiga.PlaceholderText = "Pretraži knjige...";
-            this.txtPretragaKnjiga.Size = new Size(380, 27);
-            this.txtPretragaKnjiga.TextChanged += new EventHandler(this.txtPretragaKnjiga_TextChanged);
-
+            lblDostupneKnjige.AutoSize = true;
+            lblDostupneKnjige.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            lblDostupneKnjige.Location = new Point(99, 60);
+            lblDostupneKnjige.Name = "lblDostupneKnjige";
+            lblDostupneKnjige.Size = new Size(127, 20);
+            lblDostupneKnjige.TabIndex = 0;
+            lblDostupneKnjige.Text = "Dostupne knjige:";
             // 
             // dgvKnjige
             // 
-            this.dgvKnjige.AllowUserToAddRows = false;
-            this.dgvKnjige.AllowUserToDeleteRows = false;
-            this.dgvKnjige.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvKnjige.BackgroundColor = Color.White;
-            this.dgvKnjige.BorderStyle = BorderStyle.FixedSingle;
-            this.dgvKnjige.ColumnHeadersDefaultCellStyle = headerStyle;
-            this.dgvKnjige.ColumnHeadersHeight = 35;
-            this.dgvKnjige.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.dgvKnjige.DefaultCellStyle = cellStyle;
-            this.dgvKnjige.EnableHeadersVisualStyles = false;
-            this.dgvKnjige.Location = new Point(15, 55);
-            this.dgvKnjige.MultiSelect = false;
-            this.dgvKnjige.Name = "dgvKnjige";
-            this.dgvKnjige.ReadOnly = true;
-            this.dgvKnjige.RowHeadersVisible = false;
-            this.dgvKnjige.RowTemplate.Height = 35;
-            this.dgvKnjige.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            this.dgvKnjige.Size = new Size(380, 310);
-
+            dgvKnjige.AllowUserToAddRows = false;
+            dgvKnjige.AllowUserToDeleteRows = false;
+            dgvKnjige.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgvKnjige.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvKnjige.BackgroundColor = Color.White;
+            dgvKnjige.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dgvKnjige.ColumnHeadersHeight = 35;
+            dgvKnjige.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle3.ForeColor = Color.FromArgb(50, 50, 50);
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(232, 240, 254);
+            dataGridViewCellStyle3.SelectionForeColor = Color.FromArgb(50, 50, 50);
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
+            dgvKnjige.DefaultCellStyle = dataGridViewCellStyle3;
+            dgvKnjige.EnableHeadersVisualStyles = false;
+            dgvKnjige.Location = new Point(99, 82);
+            dgvKnjige.MultiSelect = false;
+            dgvKnjige.Name = "dgvKnjige";
+            dgvKnjige.ReadOnly = true;
+            dgvKnjige.RowHeadersVisible = false;
+            dgvKnjige.RowHeadersWidth = 51;
+            dgvKnjige.RowTemplate.Height = 35;
+            dgvKnjige.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvKnjige.Size = new Size(554, 463);
+            dgvKnjige.TabIndex = 2;
+            dgvKnjige.DataBindingComplete += dgvKnjige_DataBindingComplete;
             // 
             // btnDodajKnjigu
             // 
-            this.btnDodajKnjigu.BackColor = Color.FromArgb(40, 167, 69);
-            this.btnDodajKnjigu.FlatAppearance.BorderSize = 0;
-            this.btnDodajKnjigu.FlatStyle = FlatStyle.Flat;
-            this.btnDodajKnjigu.Font = new Font("Segoe UI", 10F);
-            this.btnDodajKnjigu.ForeColor = Color.White;
-            this.btnDodajKnjigu.Location = new Point(15, 375);
-            this.btnDodajKnjigu.Name = "btnDodajKnjigu";
-            this.btnDodajKnjigu.Size = new Size(150, 35);
-            this.btnDodajKnjigu.Text = "← Dodaj knjigu";
-            this.btnDodajKnjigu.Cursor = Cursors.Hand;
-            this.btnDodajKnjigu.Click += new EventHandler(this.btnDodajKnjigu_Click);
-
+            btnDodajKnjigu.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            btnDodajKnjigu.BackColor = Color.FromArgb(40, 167, 69);
+            btnDodajKnjigu.Cursor = Cursors.Hand;
+            btnDodajKnjigu.FlatAppearance.BorderSize = 0;
+            btnDodajKnjigu.FlatStyle = FlatStyle.Flat;
+            btnDodajKnjigu.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            btnDodajKnjigu.ForeColor = Color.White;
+            btnDodajKnjigu.Location = new Point(99, 555);
+            btnDodajKnjigu.Name = "btnDodajKnjigu";
+            btnDodajKnjigu.Size = new Size(150, 35);
+            btnDodajKnjigu.TabIndex = 3;
+            btnDodajKnjigu.Text = "← Dodaj knjigu";
+            btnDodajKnjigu.UseVisualStyleBackColor = false;
+            btnDodajKnjigu.Click += btnDodajKnjigu_Click;
             // 
             // UCKreirajPozajmicu
             // 
-            this.BackColor = Color.FromArgb(245, 247, 250);
-            this.Controls.Add(this.pnlRight);
-            this.Controls.Add(this.pnlLeft);
-            this.Controls.Add(this.pnlTop);
-            this.Name = "UCKreirajPozajmicu";
-            this.Padding = new Padding(20);
-            this.Size = new Size(800, 520);
-
-            this.pnlTop.ResumeLayout(false);
-            this.pnlTop.PerformLayout();
-            this.pnlLeft.ResumeLayout(false);
-            this.pnlLeft.PerformLayout();
-            this.pnlOdabraneKnjige.ResumeLayout(false);
-            this.pnlOdabraneKnjige.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)this.dgvOdabraneKnjige).EndInit();
-            this.pnlRight.ResumeLayout(false);
-            this.pnlRight.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)this.dgvKnjige).EndInit();
-            this.ResumeLayout(false);
+            BackColor = Color.FromArgb(245, 247, 250);
+            Controls.Add(pnlRight);
+            Controls.Add(pnlLeft);
+            Controls.Add(pnlTop);
+            Name = "UCKreirajPozajmicu";
+            Padding = new Padding(20);
+            Size = new Size(1158, 683);
+            pnlTop.ResumeLayout(false);
+            pnlTop.PerformLayout();
+            pnlLeft.ResumeLayout(false);
+            pnlLeft.PerformLayout();
+            pnlOdabraneKnjige.ResumeLayout(false);
+            pnlOdabraneKnjige.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvOdabraneKnjige).EndInit();
+            pnlRight.ResumeLayout(false);
+            pnlRight.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvKnjige).EndInit();
+            ResumeLayout(false);
         }
 
         #endregion
@@ -362,7 +376,6 @@
         private Button btnOcisti;
         private Panel pnlRight;
         private Label lblDostupneKnjige;
-        private TextBox txtPretragaKnjiga;
         private DataGridView dgvKnjige;
         private Button btnDodajKnjigu;
     }

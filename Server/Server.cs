@@ -24,7 +24,7 @@ namespace Server
                 IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 9999);
 
                 socket.Bind(endPoint);
-                socket.Listen(10);
+                socket.Listen(100);
 
                 Thread acceptClientsThread = new Thread(AcceptClients);
                 acceptClientsThread.IsBackground = true;

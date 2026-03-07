@@ -174,6 +174,7 @@ namespace KlijentskaAplikacija
             btnDodajClana.TextAlign = ContentAlignment.MiddleLeft;
             btnDodajClana.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnDodajClana.UseVisualStyleBackColor = false;
+            btnDodajClana.Click += btnDodajClana_Click;
             // 
             // btnPronadjiClana
             // 
@@ -363,22 +364,22 @@ namespace KlijentskaAplikacija
         #endregion
 
         private Panel pnlSidebar;
-            private Panel pnlLogo;
-            private PictureBox picLogo;
-            private Label lblBib;
-            private FlowLayoutPanel flpMenu;
-            private Label lblMenu;
-            private Button btnUbaciKnjigu;
-            private Button btnSveKnjige;
-            private Button btnDodajClana;
-            private Button btnPronadjiClana;
-            private Button btnNovaPozajmica;
-            private Button btnSvaZaduzenja;
-            private Panel pnlTopbar;
-            private Label lblDobrodosli;
-            private Panel pnlMain;
-            private StatusStrip statusStrip1;
-            private ToolStripStatusLabel lblStatus;
-            private ImageList imageList1;
+        private Panel pnlLogo;
+        private PictureBox picLogo;
+        private Label lblBib;
+        private FlowLayoutPanel flpMenu;
+        private Label lblMenu;
+        private Button btnUbaciKnjigu;
+        private Button btnSveKnjige;
+        private Button btnDodajClana;
+        private Button btnPronadjiClana;
+        private Button btnNovaPozajmica;
+        private Button btnSvaZaduzenja;
+        private Panel pnlTopbar;
+        private Label lblDobrodosli;
+        private Panel pnlMain;
+        private StatusStrip statusStrip1;
+        private ToolStripStatusLabel lblStatus;
+        private ImageList imageList1;
     }
 }

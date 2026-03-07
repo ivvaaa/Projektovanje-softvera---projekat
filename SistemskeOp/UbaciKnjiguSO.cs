@@ -7,18 +7,20 @@ using Domeni;
 
 namespace SistemskeOp
 {
-    public class SacuvajClanaSO : SOBase
+    //ubaciKnjiga(Knjiga)
+    public class UbaciKnjiguSO : SOBase
     {
-        private Clan clan;
+        private Knjiga knjiga;
 
-        public SacuvajClanaSO(Clan c)
+        public UbaciKnjiguSO(Knjiga k)
         {
-            clan = c;
+            knjiga = k;
         }
 
         protected override void ExecuteConcreteOperation()
         {
-            broker.Add(clan);
+            broker.Add(knjiga);
         }
     }
 }
+

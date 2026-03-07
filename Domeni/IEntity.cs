@@ -9,11 +9,11 @@ namespace Domeni
 {
     public interface IEntity
     {
-        string TableName { get; }      //ime tabele
-        string Values { get; }          //vrednosti za INSERT
-        string InsertColumns { get; }    //kolone za INSERT
+        string TableName { get; }      
+        string Values { get; }          
+        string InsertColumns { get; }    
         string PrimaryKey { get; }          
-        string Join { get; }        // Join ako treba
+        string Join { get; }        
 
         List<IEntity> GetReaderList(SqlDataReader reader); 
     }
