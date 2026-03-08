@@ -1,4 +1,5 @@
-﻿using Domeni;
+﻿using BrokerBP;
+using Domeni;
 using SistemskeOp;
 
 namespace Server
@@ -134,5 +135,47 @@ namespace Server
             so.ExecuteTemplate();
         }
 
+        /// <summary>
+        /// Vraća listu smena, filtrirano po kriterijumu ili sve ako je kriterijum prazan.
+        /// </summary>
+        /// <param name="kriterijum">Ime/prezime bibliotekara za pretragu.</param>
+        public List<BibSmena> PretraziSmene(string kriterijum)
+        {
+            PretraziSmeneSO so = new PretraziSmeneSO(kriterijum);
+            so.ExecuteTemplate();
+            return so.Result;
+        }
+
+        /// <summary>
+        /// Dodaje novu smenu bibliotekaru uz proveru duplikata.
+        /// </summary>
+        /// <param name="smena">Smena koja se dodaje.</param>
+        public void DodajSmenu(BibSmena smena)
+        {
+            DodajSmenaSO so = new DodajSmenaSO(smena);
+            so.ExecuteTemplate();
+        }
+
+        /// <summary>
+        /// Menja termin i/ili datum postojeće smene.
+        /// </summary>
+        /// <param name="stara">Originalna smena (identifikator).</param>
+        /// <param name="nova">Nova smena sa ažuriranim vrednostima.</param>
+        public void IzmeniSmenu(BibSmena stara, BibSmena nova)
+        {
+            IzmeniSmenaSO so = new IzmeniSmenaSO(stara, nova);
+            so.ExecuteTemplate();
+        }
+
+        /// <summary>
+        /// Učitava sve dostupne termine smena iz baze.
+        /// </summary>
+        /// <summary>Učitava sve dostupne termine smena iz baze.</summary>
+        public List<TerminSmene> VratiSveTermine()
+        {
+            VratiTermineSO so = new VratiTermineSO();
+            so.ExecuteTemplate();
+            return so.Result;
+        }
     }
 }

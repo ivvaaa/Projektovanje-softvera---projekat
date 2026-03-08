@@ -16,15 +16,11 @@ namespace KlijentskaAplikacija
             InitializeComponent();
             this.Size = new Size(1400, 900);
             this.StartPosition = FormStartPosition.CenterScreen;
-
             ulogovani = bibliotekar;
-
             PostaviIkone();
             PostaviBeliLogo();
-
             lblDobrodosli.Text = $"Dobrodošli nazad, {ulogovani.Ime}!";
             lblStatus.Text = $"Prijavljen bibliotekar: {ulogovani.Ime} {ulogovani.Prezime} ({ulogovani.Username})";
-
         }
 
         private void PostaviIkone()
@@ -35,6 +31,12 @@ namespace KlijentskaAplikacija
             btnPronadjiClana.Image = PromeniVelicinu(Properties.Resources.nadji, 24, 24);
             btnNovaPozajmica.Image = PromeniVelicinu(Properties.Resources.clanarina, 24, 24);
             btnSvaZaduzenja.Image = PromeniVelicinu(Properties.Resources.knjiga, 24, 24);
+
+            // btnSmene — bez ikonice, samo tekst centriran
+            btnSmene.Image = null;
+            btnSmene.TextImageRelation = TextImageRelation.Overlay;
+            btnSmene.TextAlign = ContentAlignment.MiddleCenter;
+            btnSmene.Padding = new Padding(0);
         }
 
         private Image PromeniVelicinu(Image original, int sirina, int visina)
@@ -56,16 +58,13 @@ namespace KlijentskaAplikacija
             int velicina = 32;
             Bitmap original = new Bitmap(PromeniVelicinu(Properties.Resources.biblioteka, velicina, velicina));
             Bitmap bela = new Bitmap(original.Width, original.Height);
-
             for (int x = 0; x < original.Width; x++)
             {
                 for (int y = 0; y < original.Height; y++)
                 {
                     Color pixelColor = original.GetPixel(x, y);
                     if (pixelColor.A > 0)
-                    {
                         bela.SetPixel(x, y, Color.FromArgb(pixelColor.A, 255, 255, 255));
-                    }
                 }
             }
             picLogo.Image = bela;
@@ -80,40 +79,37 @@ namespace KlijentskaAplikacija
 
         private void btnUbaciKnjigu_Click(object sender, EventArgs e)
         {
-            var uc = new UCUbaciKnjigu();
-            PrikazUC(uc);
+            PrikazUC(new UCUbaciKnjigu());
         }
 
         private void btnSveKnjige_Click(object sender, EventArgs e)
         {
-            var uc = new UCPrikazKnjiga();
-            PrikazUC(uc);
+            PrikazUC(new UCPrikazKnjiga());
         }
 
         private void btnPronadjiClana_Click(object sender, EventArgs e)
         {
-            var uc = new UCPrikazClanova();
-            PrikazUC(uc);
-
+            PrikazUC(new UCPrikazClanova());
         }
 
         private void btnNovaPozajmica_Click(object sender, EventArgs e)
         {
-            var uc = new UCKreirajPozajmicu(ulogovani);
-            PrikazUC(uc);
+            PrikazUC(new UCKreirajPozajmicu(ulogovani));
         }
 
         private void btnSvaZaduzenja_Click(object sender, EventArgs e)
         {
-            var uc = new UCSvaZaduzenja();
-            PrikazUC(uc);
-
+            PrikazUC(new UCSvaZaduzenja());
         }
 
         private void btnDodajClana_Click(object sender, EventArgs e)
         {
-            var uc = new UCDodajClana();
-            PrikazUC(uc);
+            PrikazUC(new UCDodajClana());
+        }
+
+        private void btnSmene_Click(object sender, EventArgs e)
+        {
+            PrikazUC(new UCSmena());
         }
     }
 }

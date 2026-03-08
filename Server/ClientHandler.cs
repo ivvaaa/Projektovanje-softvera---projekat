@@ -62,7 +62,7 @@ namespace Server
                     case Operacija.PrijaviBibliotekar:
                         var b = serializer.ReadType<Bibliotekar>(zahtev.Podaci);
                         var logBib = Kontroler.Instance.PrijaviBibliotekara(b);
-                       if (logBib == null) //catch ako je prijavljen
+                        if (logBib == null) //catch ako je prijavljen
                         {
                             odgovor.Signal = false;
                             odgovor.Poruka = "Neispravni kredencijali.";
@@ -169,6 +169,29 @@ namespace Server
                         odgovor.Poruka = "Sistem je zapamtio pozajmicu.";
                         break;
 
+                    // Smene
+                    case Operacija.PretraziSmene:
+                        string kritSmena = zahtev.Podaci?.ToString() ?? "";
+                        odgovor.Podaci = Kontroler.Instance.PretraziSmene(kritSmena);
+                        odgovor.Poruka = "OK";
+                        break;
+
+                    case Operacija.DodajSmenu:
+                        var novaSmena = serializer.ReadType<BibSmena>(zahtev.Podaci);
+                        Kontroler.Instance.DodajSmenu(novaSmena);
+                        odgovor.Poruka = "Smena je dodata.";
+                        break;
+
+                    case Operacija.IzmeniSmenu:
+                        var smeneData = serializer.ReadType<Dictionary<string, BibSmena>>(zahtev.Podaci);
+                        Kontroler.Instance.IzmeniSmenu(smeneData["stara"], smeneData["nova"]);
+                        odgovor.Poruka = "Smena je izmenjena.";
+                        break;
+
+                    case Operacija.VratiSveTermine:
+                        odgovor.Podaci = Kontroler.Instance.VratiSveTermine();
+                        odgovor.Poruka = "OK";
+                        break;
 
                     default:
                         odgovor.Signal = false;
