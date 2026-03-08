@@ -11,9 +11,7 @@ namespace KlijentskaAplikacija
         public FrmLogin()
         {
             InitializeComponent();
-
-            // UX
-            this.AcceptButton = btnLogin;          // Enter = Login
+            this.AcceptButton = btnLogin;
             txtBoxPass.UseSystemPasswordChar = true;
         }
 
@@ -23,7 +21,7 @@ namespace KlijentskaAplikacija
             txtBoxPass.BackColor = Color.White;
         }
 
-        private bool Validacija()
+        public bool Validacija()
         {
             ResetValidation();
             bool ok = true;
@@ -56,13 +54,13 @@ namespace KlijentskaAplikacija
                 Password = txtBoxPass.Text
             };
 
-            btnLogin.Enabled = true;
+            btnLogin.Enabled = false;
             try
             {
                 var k = Komunikacija.Instance;
                 var b = k.PrijaviBibliotekara(kred);
 
-                if (b == null)
+                if (b == null)  //moye bey ovoga
                 {
                     MessageBox.Show("Neispravni kredencijali.", "Prijava neuspešna",
                                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -71,14 +69,14 @@ namespace KlijentskaAplikacija
                     return;
                 }
 
-                // Uspeh
                 MessageBox.Show($"Dobrodošla, {b.Ime} {b.Prezime}!", "Prijava uspešna",
                                 MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Komunikacija.UlogovaniBibliotekar = b;
 
-                // mali reset
-                txtBoxPass.Clear();
-                txtBoxUsername.SelectAll();
-                txtBoxUsername.Focus();
+                this.Hide();
+                FrmMeni meni = new FrmMeni(b);
+                meni.ShowDialog();
+                this.Close();
             }
             catch (Exception ex)
             {
