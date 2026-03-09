@@ -7,13 +7,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domeni", "Domeni\Domeni.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrokerBP", "BrokerBP\BrokerBP.csproj", "{CE3AC1E1-8782-41D1-B195-C4DF01F78420}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PoslovnaLogika", "PoslovnaLogika\PoslovnaLogika.csproj", "{266E3C10-A10E-471F-A187-A65EF8C1D221}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KlijentskaAplikacija", "KlijentskaAplikacija\KlijentskaAplikacija.csproj", "{9AE48086-3273-4723-A1A1-02C95423283A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerskaApp", "ServerskaApp\ServerskaApp.csproj", "{75DE5045-0AEC-4530-829E-1DCB234A680B}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zajednicki", "Zajednicki\Zajednicki.csproj", "{EABAE8B6-5469-4A80-A6B2-A2D4175CAB58}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SistemskeOp", "SistemskeOp\SistemskeOp.csproj", "{4D3ED3E6-C1EC-4FF2-AAAA-700843E227AB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csproj", "{E4E2C365-F7F6-42F9-BEFC-72E7240C823E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testovi", "Testovi\Testovi.csproj", "{CDB2BEC5-E865-4DE5-AF35-58C3F332EC23}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,22 +31,26 @@ Global
 		{CE3AC1E1-8782-41D1-B195-C4DF01F78420}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE3AC1E1-8782-41D1-B195-C4DF01F78420}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE3AC1E1-8782-41D1-B195-C4DF01F78420}.Release|Any CPU.Build.0 = Release|Any CPU
-		{266E3C10-A10E-471F-A187-A65EF8C1D221}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{266E3C10-A10E-471F-A187-A65EF8C1D221}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{266E3C10-A10E-471F-A187-A65EF8C1D221}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{266E3C10-A10E-471F-A187-A65EF8C1D221}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9AE48086-3273-4723-A1A1-02C95423283A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9AE48086-3273-4723-A1A1-02C95423283A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9AE48086-3273-4723-A1A1-02C95423283A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9AE48086-3273-4723-A1A1-02C95423283A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{75DE5045-0AEC-4530-829E-1DCB234A680B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{75DE5045-0AEC-4530-829E-1DCB234A680B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{75DE5045-0AEC-4530-829E-1DCB234A680B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{75DE5045-0AEC-4530-829E-1DCB234A680B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EABAE8B6-5469-4A80-A6B2-A2D4175CAB58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EABAE8B6-5469-4A80-A6B2-A2D4175CAB58}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EABAE8B6-5469-4A80-A6B2-A2D4175CAB58}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EABAE8B6-5469-4A80-A6B2-A2D4175CAB58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D3ED3E6-C1EC-4FF2-AAAA-700843E227AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D3ED3E6-C1EC-4FF2-AAAA-700843E227AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D3ED3E6-C1EC-4FF2-AAAA-700843E227AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D3ED3E6-C1EC-4FF2-AAAA-700843E227AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4E2C365-F7F6-42F9-BEFC-72E7240C823E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4E2C365-F7F6-42F9-BEFC-72E7240C823E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4E2C365-F7F6-42F9-BEFC-72E7240C823E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4E2C365-F7F6-42F9-BEFC-72E7240C823E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDB2BEC5-E865-4DE5-AF35-58C3F332EC23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDB2BEC5-E865-4DE5-AF35-58C3F332EC23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDB2BEC5-E865-4DE5-AF35-58C3F332EC23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDB2BEC5-E865-4DE5-AF35-58C3F332EC23}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
