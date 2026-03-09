@@ -1,4 +1,4 @@
-# Bibliotečki Sistem — Projektovanje Softvera
+# Bibliotekarski Sistem 
 
 Višeslojna klijent-server desktop aplikacija za upravljanje radom biblioteke razvijena u C#/.NET-u sa WinForms korisničkim interfejsom. Sistem omogućava bibliotekaru da upravlja knjigama, članovima, pozajmicama i smenama.
 
@@ -69,3 +69,4 @@ Sve domenske i SO klase dokumentovane su XML Summary komentarima. Dokumentacija 
 Kredencijali: `iva/iva123`, `ana/ana123`, `pera/pera123`
 
 ---
+
