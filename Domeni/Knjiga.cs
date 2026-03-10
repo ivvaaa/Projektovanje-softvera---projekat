@@ -9,23 +9,87 @@ namespace Domeni
     /// </summary>
     public class Knjiga : IEntity
     {
-        /// <summary>Jedinstveni identifikator knjige u bazi podataka.</summary>
-        public long Id { get; set; }
-
-        /// <summary>Naziv (naslov) knjige.</summary>
-        public string Naziv { get; set; }
-
-        /// <summary>Ime autora knjige.</summary>
-        public string ImePisca { get; set; }
-
-        /// <summary>Prezime autora knjige.</summary>
-        public string PrezimePisca { get; set; }
+        private long _id;
+        private string _naziv;
+        private string _imePisca;
+        private string _prezimePisca;
+        private int _brojPrimeraka = 1;
 
         /// <summary>
-        /// Ukupan broj primeraka knjige u biblioteci.
+        /// Jedinstveni identifikator knjige u bazi podataka.
+        /// </summary>
+        /// <exception cref="ArgumentException">Baca se ako je vrednost manja od ili jednaka nuli.</exception>
+        public long Id
+        {
+            get => _id;
+            set
+            {
+                if (value <= 0)
+                    throw new ArgumentException("Id mora biti pozitivan broj.");
+                _id = value;
+            }
+        }
+
+        /// <summary>
+        /// Naziv (naslov) knjige.
+        /// </summary>
+        /// <exception cref="ArgumentException">Baca se ako je vrednost null ili prazna.</exception>
+        public string Naziv
+        {
+            get => _naziv;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentException("Naziv ne sme biti prazan.");
+                _naziv = value;
+            }
+        }
+
+        /// <summary>
+        /// Ime autora knjige.
+        /// </summary>
+        /// <exception cref="ArgumentException">Baca se ako je vrednost null ili prazna.</exception>
+        public string ImePisca
+        {
+            get => _imePisca;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentException("Ime pisca ne sme biti prazno.");
+                _imePisca = value;
+            }
+        }
+
+        /// <summary>
+        /// Prezime autora knjige.
+        /// </summary>
+        /// <exception cref="ArgumentException">Baca se ako je vrednost null ili prazna.</exception>
+        public string PrezimePisca
+        {
+            get => _prezimePisca;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentException("Prezime pisca ne sme biti prazno.");
+                _prezimePisca = value;
+            }
+        }
+
+        /// <summary>
+        /// Ukupan broj primeraka knjige u biblioteci. Mora biti najmanje 1.
         /// Podrazumevano <c>1</c>.
         /// </summary>
-        public int BrojPrimeraka { get; set; } = 1;
+        /// <exception cref="ArgumentException">Baca se ako je vrednost manja od 1.</exception>
+        public int BrojPrimeraka
+        {
+            get => _brojPrimeraka;
+            set
+            {
+                if (value < 1)
+                    throw new ArgumentException("Broj primeraka mora biti najmanje 1.");
+                _brojPrimeraka = value;
+            }
+        }
 
         /// <summary>
         /// Broj slobodnih (ne pozajmljenih) primeraka.

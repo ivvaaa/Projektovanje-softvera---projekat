@@ -10,17 +10,70 @@ namespace Domeni
     /// </summary>
     public class StavkaPozajmice : IEntity
     {
-        /// <summary>Redni broj stavke unutar pozajmice (<c>rbStavkaPozajmice</c>).</summary>
-        public long Id { get; set; }
+        private long _id;
+        private long _idPozajmica;
+        private DateTime _rokPozajmice;
+        private long _idKnjige;
 
-        /// <summary>Identifikator pozajmice kojoj ova stavka pripada.</summary>
-        public long IdPozajmica { get; set; }
+        /// <summary>
+        /// Redni broj stavke unutar pozajmice (<c>rbStavkaPozajmice</c>).
+        /// </summary>
+        /// <exception cref="ArgumentException">Baca se ako je vrednost manja od ili jednaka nuli.</exception>
+        public long Id
+        {
+            get => _id;
+            set
+            {
+                if (value <= 0)
+                    throw new ArgumentException("Id mora biti pozitivan broj.");
+                _id = value;
+            }
+        }
 
-        /// <summary>Datum do kojeg knjiga mora biti vraćena.</summary>
-        public DateTime RokPozajmice { get; set; }
+        /// <summary>
+        /// Identifikator pozajmice kojoj ova stavka pripada.
+        /// </summary>
+        /// <exception cref="ArgumentException">Baca se ako je vrednost manja od ili jednaka nuli.</exception>
+        public long IdPozajmica
+        {
+            get => _idPozajmica;
+            set
+            {
+                if (value <= 0)
+                    throw new ArgumentException("IdPozajmica mora biti pozitivan broj.");
+                _idPozajmica = value;
+            }
+        }
 
-        /// <summary>Identifikator knjige koja je pozajmljena.</summary>
-        public long IdKnjige { get; set; }
+        /// <summary>
+        /// Datum do kojeg knjiga mora biti vraćena. Mora biti u budućnosti pri kreiranju.
+        /// </summary>
+        /// <exception cref="ArgumentException">Baca se ako je vrednost default (nije postavljena).</exception>
+        public DateTime RokPozajmice
+        {
+            get => _rokPozajmice;
+            set
+            {
+                if (value == default)
+                    throw new ArgumentException("RokPozajmice mora biti postavljen.");
+                _rokPozajmice = value;
+            }
+        }
+
+        /// <summary>
+        /// Identifikator knjige koja je pozajmljena.
+        /// </summary>
+        /// <exception cref="ArgumentException">Baca se ako je vrednost manja od ili jednaka nuli.</exception>
+        public long IdKnjige
+        {
+            get => _idKnjige;
+            set
+            {
+                if (value <= 0)
+                    throw new ArgumentException("IdKnjige mora biti pozitivan broj.");
+                _idKnjige = value;
+            }
+        }
 
         /// <summary>
         /// Datum kada je knjiga vraćena, ili <c>null</c> ako još nije vraćena.

@@ -8,33 +8,126 @@ namespace Domeni
     /// </summary>
     public class Clan : IEntity
     {
-        /// <summary>Jedinstveni identifikator člana u bazi podataka.</summary>
-        public long Id { get; set; }
+        private long _id;
+        private string _ime;
+        private string _prezime;
+        private long _telefon;
+        private DateTime _datumOd;
+        private DateTime _datumDo;
+        private long _idClanstva;
 
-        /// <summary>Ime člana.</summary>
-        public string Ime { get; set; }
+        /// <summary>
+        /// Jedinstveni identifikator člana u bazi podataka.
+        /// </summary>
+        /// <exception cref="ArgumentException">Baca se ako je vrednost manja od ili jednaka nuli.</exception>
+        public long Id
+        {
+            get => _id;
+            set
+            {
+                if (value <= 0)
+                    throw new ArgumentException("Id mora biti pozitivan broj.");
+                _id = value;
+            }
+        }
 
-        /// <summary>Prezime člana.</summary>
-        public string Prezime { get; set; }
+        /// <summary>
+        /// Ime člana.
+        /// </summary>
+        /// <exception cref="ArgumentException">Baca se ako je vrednost null ili prazna.</exception>
+        public string Ime
+        {
+            get => _ime;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentException("Ime ne sme biti prazno.");
+                _ime = value;
+            }
+        }
 
-        /// <summary>Kontakt telefon člana.</summary>
-        public long Telefon { get; set; }
+        /// <summary>
+        /// Prezime člana.
+        /// </summary>
+        /// <exception cref="ArgumentException">Baca se ako je vrednost null ili prazna.</exception>
+        public string Prezime
+        {
+            get => _prezime;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentException("Prezime ne sme biti prazno.");
+                _prezime = value;
+            }
+        }
 
-        /// <summary>Datum od kada važi aktivno članstvo.</summary>
-        public DateTime DatumOd { get; set; }
+        /// <summary>
+        /// Kontakt telefon člana.
+        /// </summary>
+        /// <exception cref="ArgumentException">Baca se ako je vrednost manja od ili jednaka nuli.</exception>
+        public long Telefon
+        {
+            get => _telefon;
+            set
+            {
+                if (value <= 0)
+                    throw new ArgumentException("Telefon mora biti pozitivan broj.");
+                _telefon = value;
+            }
+        }
 
-        /// <summary>Datum do kada važi aktivno članstvo.</summary>
-        public DateTime DatumDo { get; set; }
+        /// <summary>
+        /// Datum od kada važi aktivno članstvo.
+        /// </summary>
+        /// <exception cref="ArgumentException">Baca se ako je vrednost default (nije postavljena).</exception>
+        public DateTime DatumOd
+        {
+            get => _datumOd;
+            set
+            {
+                if (value == default)
+                    throw new ArgumentException("DatumOd mora biti postavljen.");
+                _datumOd = value;
+            }
+        }
 
-        /// <summary>Identifikator tipa članarine koji član ima (strani ključ ka tabeli <c>Clanstvo</c>).</summary>
-        public long IdClanstva { get; set; }
+        /// <summary>
+        /// Datum do kada važi aktivno članstvo.
+        /// </summary>
+        /// <exception cref="ArgumentException">Baca se ako je vrednost default ili pre datuma <see cref="DatumOd"/>.</exception>
+        public DateTime DatumDo
+        {
+            get => _datumDo;
+            set
+            {
+                if (value == default)
+                    throw new ArgumentException("DatumDo mora biti postavljen.");
+                if (_datumOd != default && value <= _datumOd)
+                    throw new ArgumentException("DatumDo mora biti posle DatumOd.");
+                _datumDo = value;
+            }
+        }
+
+        /// <summary>
+        /// Identifikator tipa članarine koji član ima (strani ključ ka tabeli <c>Clanstvo</c>).
+        /// </summary>
+        /// <exception cref="ArgumentException">Baca se ako je vrednost manja od ili jednaka nuli.</exception>
+        public long IdClanstva
+        {
+            get => _idClanstva;
+            set
+            {
+                if (value <= 0)
+                    throw new ArgumentException("IdClanstva mora biti pozitivan broj.");
+                _idClanstva = value;
+            }
+        }
 
         /// <summary>Vraća puno ime u obliku "Ime Prezime".</summary>
         public string ImePrezime => $"{Ime} {Prezime}";
 
         /// <summary>
-        /// Vraća <c>true</c> ako je datum isteka članarine u budućnosti ili danas,
-        /// tj. ako je članova a clanarina još uvek aktivna.
+        /// Vraća <c>true</c> ako je datum isteka članarine u budućnosti ili danas.
         /// </summary>
         public bool ClanarinaAktivna => DatumDo >= DateTime.Now;
 

@@ -9,14 +9,54 @@ namespace Domeni
     /// </summary>
     public class BibSmena : IEntity
     {
-        /// <summary>Identifikator bibliotekara koji je raspoređen u smenu.</summary>
-        public long IdBibliotekara { get; set; }
+        private long _idBibliotekara;
+        private long _idTerminSmene;
+        private DateTime _datum;
 
-        /// <summary>Identifikator termina smene (npr. 08-12, 12-16, 16-20).</summary>
-        public long IdTerminSmene { get; set; }
+        /// <summary>
+        /// Identifikator bibliotekara koji je raspoređen u smenu.
+        /// </summary>
+        /// <exception cref="ArgumentException">Baca se ako je vrednost manja od ili jednaka nuli.</exception>
+        public long IdBibliotekara
+        {
+            get => _idBibliotekara;
+            set
+            {
+                if (value <= 0)
+                    throw new ArgumentException("IdBibliotekara mora biti pozitivan broj.");
+                _idBibliotekara = value;
+            }
+        }
 
-        /// <summary>Datum kada se smena održava.</summary>
-        public DateTime Datum { get; set; }
+        /// <summary>
+        /// Identifikator termina smene (npr. 08-12, 12-16, 16-20).
+        /// </summary>
+        /// <exception cref="ArgumentException">Baca se ako je vrednost manja od ili jednaka nuli.</exception>
+        public long IdTerminSmene
+        {
+            get => _idTerminSmene;
+            set
+            {
+                if (value <= 0)
+                    throw new ArgumentException("IdTerminSmene mora biti pozitivan broj.");
+                _idTerminSmene = value;
+            }
+        }
+
+        /// <summary>
+        /// Datum kada se smena održava.
+        /// </summary>
+        /// <exception cref="ArgumentException">Baca se ako je vrednost default (nije postavljena).</exception>
+        public DateTime Datum
+        {
+            get => _datum;
+            set
+            {
+                if (value == default)
+                    throw new ArgumentException("Datum mora biti postavljen.");
+                _datum = value;
+            }
+        }
 
         /// <summary>
         /// Puno ime bibliotekara u obliku "Ime Prezime".

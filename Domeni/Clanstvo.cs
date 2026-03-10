@@ -8,14 +8,54 @@ namespace Domeni
     /// </summary>
     public class Clanstvo : IEntity
     {
-        /// <summary>Jedinstveni identifikator tipa članarine.</summary>
-        public long Id { get; set; }
+        private long _id;
+        private long _cena;
+        private string _vrsta;
 
-        /// <summary>Cena članarine u dinarima (RSD).</summary>
-        public long Cena { get; set; }
+        /// <summary>
+        /// Jedinstveni identifikator tipa članarine.
+        /// </summary>
+        /// <exception cref="ArgumentException">Baca se ako je vrednost manja od ili jednaka nuli.</exception>
+        public long Id
+        {
+            get => _id;
+            set
+            {
+                if (value <= 0)
+                    throw new ArgumentException("Id mora biti pozitivan broj.");
+                _id = value;
+            }
+        }
 
-        /// <summary>Naziv vrste članarine (npr. "Godišnja", "Mesečna").</summary>
-        public string Vrsta { get; set; }
+        /// <summary>
+        /// Cena članarine u dinarima (RSD). Mora biti veća od nule.
+        /// </summary>
+        /// <exception cref="ArgumentException">Baca se ako je vrednost manja od ili jednaka nuli.</exception>
+        public long Cena
+        {
+            get => _cena;
+            set
+            {
+                if (value <= 0)
+                    throw new ArgumentException("Cena mora biti pozitivan broj.");
+                _cena = value;
+            }
+        }
+
+        /// <summary>
+        /// Naziv vrste članarine (npr. "Godišnja", "Mesečna").
+        /// </summary>
+        /// <exception cref="ArgumentException">Baca se ako je vrednost null ili prazna.</exception>
+        public string Vrsta
+        {
+            get => _vrsta;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentException("Vrsta ne sme biti prazna.");
+                _vrsta = value;
+            }
+        }
 
         /// <inheritdoc/>
         public string TableName => "Clanstvo";

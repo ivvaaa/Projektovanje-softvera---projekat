@@ -8,20 +8,86 @@ namespace Domeni
     /// </summary>
     public class Bibliotekar : IEntity
     {
-        /// <summary>Jedinstveni identifikator bibliotekara u bazi podataka.</summary>
-        public long Id { get; set; }
+        private long _id;
+        private string _ime;
+        private string _prezime;
+        private string _username;
+        private string _password;
 
-        /// <summary>Ime bibliotekara.</summary>
-        public string Ime { get; set; }
+        /// <summary>
+        /// Jedinstveni identifikator bibliotekara u bazi podataka.
+        /// </summary>
+        /// <exception cref="ArgumentException">Baca se ako je vrednost manja od ili jednaka nuli.</exception>
+        public long Id
+        {
+            get => _id;
+            set
+            {
+                if (value <= 0)
+                    throw new ArgumentException("Id mora biti pozitivan broj.");
+                _id = value;
+            }
+        }
 
-        /// <summary>Prezime bibliotekara.</summary>
-        public string Prezime { get; set; }
+        /// <summary>
+        /// Ime bibliotekara.
+        /// </summary>
+        /// <exception cref="ArgumentException">Baca se ako je vrednost null ili prazna.</exception>
+        public string Ime
+        {
+            get => _ime;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentException("Ime ne sme biti prazno.");
+                _ime = value;
+            }
+        }
 
-        /// <summary>Korisničko ime za prijavljivanje u sistem.</summary>
-        public string Username { get; set; }
+        /// <summary>
+        /// Prezime bibliotekara.
+        /// </summary>
+        /// <exception cref="ArgumentException">Baca se ako je vrednost null ili prazna.</exception>
+        public string Prezime
+        {
+            get => _prezime;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentException("Prezime ne sme biti prazno.");
+                _prezime = value;
+            }
+        }
 
-        /// <summary>Lozinka za prijavljivanje u sistem.</summary>
-        public string Password { get; set; }
+        /// <summary>
+        /// Korisničko ime za prijavljivanje u sistem.
+        /// </summary>
+        /// <exception cref="ArgumentException">Baca se ako je vrednost null ili prazna.</exception>
+        public string Username
+        {
+            get => _username;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentException("Username ne sme biti prazan.");
+                _username = value;
+            }
+        }
+
+        /// <summary>
+        /// Lozinka za prijavljivanje u sistem.
+        /// </summary>
+        /// <exception cref="ArgumentException">Baca se ako je vrednost null ili prazna.</exception>
+        public string Password
+        {
+            get => _password;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentException("Password ne sme biti prazan.");
+                _password = value;
+            }
+        }
 
         /// <summary>
         /// Označava da li je bibliotekar trenutno prijavljen u sistem.

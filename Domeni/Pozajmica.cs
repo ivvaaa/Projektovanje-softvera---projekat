@@ -9,17 +9,70 @@ namespace Domeni
     /// </summary>
     public class Pozajmica : IEntity
     {
-        /// <summary>Jedinstveni identifikator pozajmice.</summary>
-        public long Id { get; set; }
+        private long _id;
+        private DateTime _datumOd;
+        private long _idBibliotekar;
+        private long _idClan;
 
-        /// <summary>Datum kreiranja pozajmice.</summary>
-        public DateTime DatumOd { get; set; }
+        /// <summary>
+        /// Jedinstveni identifikator pozajmice.
+        /// </summary>
+        /// <exception cref="ArgumentException">Baca se ako je vrednost manja od ili jednaka nuli.</exception>
+        public long Id
+        {
+            get => _id;
+            set
+            {
+                if (value <= 0)
+                    throw new ArgumentException("Id mora biti pozitivan broj.");
+                _id = value;
+            }
+        }
 
-        /// <summary>Identifikator bibliotekara koji je kreirao pozajmicu.</summary>
-        public long IdBibliotekar { get; set; }
+        /// <summary>
+        /// Datum kreiranja pozajmice.
+        /// </summary>
+        /// <exception cref="ArgumentException">Baca se ako je vrednost default (nije postavljena).</exception>
+        public DateTime DatumOd
+        {
+            get => _datumOd;
+            set
+            {
+                if (value == default)
+                    throw new ArgumentException("DatumOd mora biti postavljen.");
+                _datumOd = value;
+            }
+        }
 
-        /// <summary>Identifikator člana koji je uzeo knjige.</summary>
-        public long IdClan { get; set; }
+        /// <summary>
+        /// Identifikator bibliotekara koji je kreirao pozajmicu.
+        /// </summary>
+        /// <exception cref="ArgumentException">Baca se ako je vrednost manja od ili jednaka nuli.</exception>
+        public long IdBibliotekar
+        {
+            get => _idBibliotekar;
+            set
+            {
+                if (value <= 0)
+                    throw new ArgumentException("IdBibliotekar mora biti pozitivan broj.");
+                _idBibliotekar = value;
+            }
+        }
+
+        /// <summary>
+        /// Identifikator člana koji je uzeo knjige.
+        /// </summary>
+        /// <exception cref="ArgumentException">Baca se ako je vrednost manja od ili jednaka nuli.</exception>
+        public long IdClan
+        {
+            get => _idClan;
+            set
+            {
+                if (value <= 0)
+                    throw new ArgumentException("IdClan mora biti pozitivan broj.");
+                _idClan = value;
+            }
+        }
 
         /// <summary>
         /// Lista stavki pozajmice (knjige koje su pozajmljene).

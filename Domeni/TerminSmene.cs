@@ -8,11 +8,38 @@ namespace Domeni
     /// </summary>
     public class TerminSmene : IEntity
     {
-        /// <summary>Jedinstveni identifikator termina smene.</summary>
-        public long Id { get; set; }
+        private long _id;
+        private string _termin;
 
-        /// <summary>Tekstualni opis termina smene, npr. <c>"08-12"</c>.</summary>
-        public string Termin { get; set; }
+        /// <summary>
+        /// Jedinstveni identifikator termina smene.
+        /// </summary>
+        /// <exception cref="ArgumentException">Baca se ako je vrednost manja od ili jednaka nuli.</exception>
+        public long Id
+        {
+            get => _id;
+            set
+            {
+                if (value <= 0)
+                    throw new ArgumentException("Id mora biti pozitivan broj.");
+                _id = value;
+            }
+        }
+
+        /// <summary>
+        /// Tekstualni opis termina smene, npr. <c>"08-12"</c>.
+        /// </summary>
+        /// <exception cref="ArgumentException">Baca se ako je vrednost null ili prazna.</exception>
+        public string Termin
+        {
+            get => _termin;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentException("Termin ne sme biti prazan.");
+                _termin = value;
+            }
+        }
 
         /// <inheritdoc/>
         public string TableName => "TerminSmene";
