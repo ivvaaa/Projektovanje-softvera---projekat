@@ -34,6 +34,19 @@ namespace Testing.SistemskeOp
                 x.IdTerminSmene == 16 &&
                 x.Datum.Date == datum.Date);
         }
+
+        [Fact]
+        public void ExecuteTemplate_BacaIzuzetakAkoBibliotekarVecImaSmenuNaDatum()
+        {
+            var datum = DateTime.Today.AddDays(new Random().Next(100, 500));
+
+            // Dodaj prvu smenu
+            new DodajSmenaSO(new BibSmena { IdBibliotekara = 1, IdTerminSmene = 16, Datum = datum }).ExecuteTemplate();
+
+            // Pokušaj dodati drugu smenu istom bibliotekaru na isti datum
+            var so = new DodajSmenaSO(new BibSmena { IdBibliotekara = 1, IdTerminSmene = 17, Datum = datum });
+            Assert.Throws<Exception>(() => so.ExecuteTemplate());
+        }
     }
 }
 

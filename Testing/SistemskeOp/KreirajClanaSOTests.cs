@@ -50,5 +50,26 @@ namespace Testing.SistemskeOp
             var dodat = pretraga.Result.First(x => x.Ime == "XUnitTestIme");
             new ObrisiClanaSO(dodat.Id).ExecuteTemplate();
         }
+
+        [Fact]
+        public void ExecuteTemplate_BacaIzuzetakAkoJeImePrazno()
+        {
+            var c = new Clan();
+            Assert.Throws<ArgumentException>(() => c.Ime = "");
+        }
+
+        [Fact]
+        public void ExecuteTemplate_BacaIzuzetakAkoJeTelefonNegativni()
+        {
+            var c = new Clan();
+            Assert.Throws<ArgumentException>(() => c.Telefon = -1);
+        }
+
+        [Fact]
+        public void ExecuteTemplate_BacaIzuzetakAkoDatumDoPreDatumOd()
+        {
+            var c = new Clan { DatumOd = new DateTime(2025, 1, 1) };
+            Assert.Throws<ArgumentException>(() => c.DatumDo = new DateTime(2024, 1, 1));
+        }
     }
 }

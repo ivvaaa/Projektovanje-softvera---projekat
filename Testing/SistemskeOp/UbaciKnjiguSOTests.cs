@@ -36,6 +36,21 @@ namespace Testovi.SistemskeOp
             var obrisana = pretraga.Result.First(x => x.Naziv == "TestKnjigaXUnit");
             new ObrisiKnjiguSO(obrisana.Id).ExecuteTemplate();
         }
+
+        [Fact]
+        public void ExecuteTemplate_BacaIzuzetakAkoJeNazivPrazan()
+        {
+            var k = new Knjiga();
+            Assert.Throws<ArgumentException>(() => k.Naziv = "");
+            // Validacija je u domenskoj klasi — knjiga sa praznim nazivom se ne može ni kreirati
+        }
+
+        [Fact]
+        public void ExecuteTemplate_BacaIzuzetakAkoBrojPrimeraka_ManjiOd1()
+        {
+            var k = new Knjiga();
+            Assert.Throws<ArgumentException>(() => k.BrojPrimeraka = 0);
+        }
     }
 }
 
