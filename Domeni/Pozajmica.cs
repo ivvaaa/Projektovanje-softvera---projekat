@@ -23,7 +23,7 @@ namespace Domeni
             get => _id;
             set
             {
-                if (value <= 0)
+                if (value <0)
                     throw new ArgumentException("Id mora biti pozitivan broj.");
                 _id = value;
             }
@@ -53,7 +53,7 @@ namespace Domeni
             get => _idBibliotekar;
             set
             {
-                if (value <= 0)
+                if (value <0)
                     throw new ArgumentException("IdBibliotekar mora biti pozitivan broj.");
                 _idBibliotekar = value;
             }
@@ -68,7 +68,7 @@ namespace Domeni
             get => _idClan;
             set
             {
-                if (value <= 0)
+                if (value < 0)
                     throw new ArgumentException("IdClan mora biti pozitivan broj.");
                 _idClan = value;
             }

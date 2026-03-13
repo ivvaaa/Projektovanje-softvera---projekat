@@ -1,4 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
+using System.Text.Json.Serialization;
+
 
 namespace Domeni
 {
@@ -23,7 +25,7 @@ namespace Domeni
             get => _id;
             set
             {
-                if (value <= 0)
+                if (value <0)
                     throw new ArgumentException("Id mora biti pozitivan broj.");
                 _id = value;
             }
@@ -33,31 +35,34 @@ namespace Domeni
         /// Ime bibliotekara.
         /// </summary>
         /// <exception cref="ArgumentException">Baca se ako je vrednost null ili prazna.</exception>
-        public string Ime
-        {
-            get => _ime;
-            set
-            {
-                if (string.IsNullOrWhiteSpace(value))
-                    throw new ArgumentException("Ime ne sme biti prazno.");
-                _ime = value;
-            }
-        }
+        public string Ime { get; set; }
+
+        //public string Ime
+        //{
+        //    get => _ime;
+        //    set
+        //    {
+        //        if (string.IsNullOrWhiteSpace(value))
+        //            throw new ArgumentException("Ime ne sme biti prazno.");
+        //        _ime = value;
+        //    }
+        //}
 
         /// <summary>
         /// Prezime bibliotekara.
         /// </summary>
         /// <exception cref="ArgumentException">Baca se ako je vrednost null ili prazna.</exception>
-        public string Prezime
-        {
-            get => _prezime;
-            set
-            {
-                if (string.IsNullOrWhiteSpace(value))
-                    throw new ArgumentException("Prezime ne sme biti prazno.");
-                _prezime = value;
-            }
-        }
+        public string Prezime { get; set; }
+        //public string Prezime
+        //{
+        //    get => _prezime;
+        //    set
+        //    {
+        //        if (string.IsNullOrWhiteSpace(value))
+        //            throw new ArgumentException("Prezime ne sme biti prazno.");
+        //        _prezime = value;
+        //    }
+        //}
 
         /// <summary>
         /// Korisničko ime za prijavljivanje u sistem.
@@ -121,7 +126,7 @@ namespace Domeni
             {
                 lista.Add(new Bibliotekar
                 {
-                    Id = (long)reader["idBibliotekar"],
+                    Id = Convert.ToInt64(reader["idBibliotekar"]),
                     Ime = (string)reader["ime"],
                     Prezime = (string)reader["prezime"],
                     Username = (string)reader["username"],

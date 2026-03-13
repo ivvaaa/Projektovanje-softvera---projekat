@@ -35,13 +35,29 @@ namespace SistemskeOp
         /// <exception cref="Exception">
         /// Baca se ako u bazi ne postoji bibliotekar sa zadatim korisničkim imenom i lozinkom.
         /// </exception>
+        //protected override void ExecuteConcreteOperation()
+        //{
+        //    string condition = $"username = '{bibliotekar.Username}' AND password = '{bibliotekar.Password}'";
+        //    List<IEntity> lista = broker.GetByCondition(new Bibliotekar(), condition);
+        //    Result = lista.Cast<Bibliotekar>().FirstOrDefault();
+        //    if (Result == null)
+        //        throw new Exception("Neispravni kredencijali.");
+        //}
+
         protected override void ExecuteConcreteOperation()
         {
             string condition = $"username = '{bibliotekar.Username}' AND password = '{bibliotekar.Password}'";
+            Console.WriteLine($">>> Uslov: {condition}");
+
             List<IEntity> lista = broker.GetByCondition(new Bibliotekar(), condition);
+            Console.WriteLine($">>> Rezultata: {lista.Count}");
+
             Result = lista.Cast<Bibliotekar>().FirstOrDefault();
             if (Result == null)
                 throw new Exception("Neispravni kredencijali.");
+
+            Console.WriteLine($">>> Id pronađenog: {Result.Id}");
         }
+
     }
 }
