@@ -65,7 +65,7 @@ namespace Domeni
         //}
 
         /// <summary>
-        /// Korisničko ime za prijavljivanje u sistem.
+        /// Korisničko ime za prijavljivanje u sistem- novi komit.
         /// </summary>
         /// <exception cref="ArgumentException">Baca se ako je vrednost null ili prazna.</exception>
         public string Username
