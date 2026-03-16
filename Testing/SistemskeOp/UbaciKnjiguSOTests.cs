@@ -26,7 +26,6 @@ namespace Testovi.SistemskeOp
             var so = new UbaciKnjiguSO(k);
             so.ExecuteTemplate();
 
-            // Provjeri da li je knjiga stvarno dodata
             var pretraga = new PretraziKnjigeSO("TestKnjigaXUnit");
             pretraga.ExecuteTemplate();
             Assert.NotNull(pretraga.Result);

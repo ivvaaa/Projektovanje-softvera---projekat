@@ -37,6 +37,7 @@ namespace Testing.Domeni
             Assert.Null(p.DatumVracanja);
         }
 
+
         [Fact]
         public void DatumVracanja_SvimStavkamVracenim_VracaDatum()
         {
@@ -94,6 +95,15 @@ namespace Testing.Domeni
         {
             var p = new Pozajmica();
             Assert.Throws<ArgumentException>(() => p.IdClan = 0);
+        }
+
+        [Fact]
+        public void Vracanje()
+        {
+            var p = new Pozajmica();
+            p.DatumOd = new DateTime(2026, 3, 1);
+            DateTime test = new DateTime(2026, 3, 1);
+            Assert.Equal(p.DatumOd, test);
         }
     }
 }

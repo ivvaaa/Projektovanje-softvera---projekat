@@ -58,10 +58,6 @@ namespace KlijentskaAplikacija.UserControls
             }
         }
 
-        // -----------------------------------------------------------------------
-        // Selekcija — BeginInvoke osigurava da se izvrsava NAKON sto WinForms
-        // zavrsi postavljanje redova, cime se eliminise ArgumentOutOfRangeException
-        // -----------------------------------------------------------------------
 
         private void dgvPozajmice_SelectionChanged(object sender, EventArgs e)
         {
