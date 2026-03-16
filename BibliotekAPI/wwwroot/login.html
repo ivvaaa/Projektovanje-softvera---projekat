@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biblioteka — Prijava</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root { --accent: #2d5be3; --text: #1a1814; --muted: #7a7268; --border: #e2ddd6; --bg: #f4f2ee; }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+
+.login-wrap {
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.login-left {
+  background: #1a1814;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 64px;
+  position: relative;
+  overflow: hidden;
+}
+.login-left::before {
+  content: '';
+  position: absolute;
+  top: -100px; left: -100px;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(45,91,227,.25) 0%, transparent 70%);
+}
+.login-left::after {
+  content: '';
+  position: absolute;
+  bottom: -80px; right: -80px;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(45,91,227,.15) 0%, transparent 70%);
+}
+.login-logo {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 64px; position: relative; z-index: 1;
+}
+.login-logo-icon {
+  width: 40px; height: 40px; background: var(--accent); border-radius: 10px;
+  display: flex; align-items: center; justify-content: center; font-size: 20px;
+}
+.login-logo-text { color: #fff; font-size: 16px; font-weight: 600; }
+
+.login-heading { font-size: 36px; font-weight: 600; color: #fff; line-height: 1.2; letter-spacing: -.03em; margin-bottom: 16px; position: relative; z-index: 1; }
+.login-subhead { font-size: 15px; color: rgba(255,255,255,.5); max-width: 380px; line-height: 1.6; position: relative; z-index: 1; }
+
+.login-features { margin-top: 48px; display: flex; flex-direction: column; gap: 14px; position: relative; z-index: 1; }
+.login-feature { display: flex; align-items: center; gap: 10px; color: rgba(255,255,255,.6); font-size: 13px; }
+.login-feature-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; flex-shrink: 0; }
+
+.login-right {
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 48px 40px;
+}
+.login-form-title { font-size: 22px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+.login-form-sub { font-size: 13px; color: var(--muted); margin-bottom: 32px; }
+
+.form-group { margin-bottom: 16px; }
+.form-label { display: block; font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 6px; letter-spacing: .05em; text-transform: uppercase; }
+.form-control {
+  width: 100%; padding: 10px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 9px; font-size: 14px;
+  font-family: inherit; color: var(--text);
+  background: var(--bg); transition: border-color .15s;
+}
+.form-control:focus { outline: none; border-color: var(--accent); background: #fff; }
+
+.btn-login {
+  width: 100%; padding: 11px;
+  background: var(--accent); color: #fff;
+  border: none; border-radius: 9px;
+  font-size: 14px; font-weight: 600;
+  font-family: inherit; cursor: pointer;
+  transition: background .15s, transform .1s;
+  margin-top: 8px;
+}
+.btn-login:hover { background: #1e47cc; }
+.btn-login:active { transform: scale(.99); }
+.btn-login:disabled { opacity: .6; cursor: not-allowed; }
+
+.error-msg {
+  background: #fdeaea; color: #d63a3a;
+  border-radius: 8px; padding: 10px 14px;
+  font-size: 13px; margin-bottom: 16px;
+  display: none;
+}
+.error-msg.show { display: block; }
+
+@media (max-width: 768px) {
+  .login-wrap { grid-template-columns: 1fr; }
+  .login-left { display: none; }
+  .login-right { padding: 32px 24px; }
+}
+</style>
+</head>
+<body>
+<div class="login-wrap">
+  <div class="login-left">
+    <div class="login-logo">
+      <div class="login-logo-icon">📚</div>
+      <span class="login-logo-text">Biblioteka</span>
+    </div>
+    <h1 class="login-heading">Sistem za upravljanje bibliotekom</h1>
+    <p class="login-subhead">Evidencija pozajmica knjiga, upravljanje članovima i katalogom — sve na jednom mestu.</p>
+    <div class="login-features">
+      <div class="login-feature"><div class="login-feature-dot"></div>Upravljanje knjigama i katalogom</div>
+      <div class="login-feature"><div class="login-feature-dot"></div>Registracija i pretraga članova</div>
+      <div class="login-feature"><div class="login-feature-dot"></div>Praćenje pozajmica i rokova vraćanja</div>
+    </div>
+  </div>
+
+  <div class="login-right">
+    <h2 class="login-form-title">Dobrodošli</h2>
+    <p class="login-form-sub">Prijavite se da biste pristupili sistemu.</p>
+
+    <div class="error-msg" id="errorMsg">Neispravno korisničko ime ili lozinka.</div>
+
+    <form id="loginForm">
+      <div class="form-group">
+        <label class="form-label" for="username">Korisničko ime</label>
+        <input class="form-control" id="username" type="text" autocomplete="username" placeholder="Unesite korisničko ime">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="password">Lozinka</label>
+        <input class="form-control" id="password" type="password" autocomplete="current-password" placeholder="Unesite lozinku">
+      </div>
+      <button class="btn-login" id="btnLogin" type="submit">Prijavi se</button>
+    </form>
+  </div>
+</div>
+
+<script src="api.js"></script>
+<script>
+// Ako je vec ulogovan, idi na index
+(async () => {
+  try {
+    const s = await API.authStatus();
+    if (s.ulogovan) window.location.href = '/index.html';
+  } catch {}
+})();
+
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById('btnLogin');
+  const err = document.getElementById('errorMsg');
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value;
+
+  if (!username || !password) { err.textContent = 'Unesite korisničko ime i lozinku.'; err.classList.add('show'); return; }
+
+  btn.disabled = true;
+  btn.textContent = 'Prijava u toku...';
+  err.classList.remove('show');
+
+  try {
+    await API.login(username, password);
+    window.location.href = '/index.html';
+  } catch (ex) {
+    err.textContent = ex.message || 'Neispravni kredencijali.';
+    err.classList.add('show');
+    btn.disabled = false;
+    btn.textContent = 'Prijavi se';
+  }
+});
+</script>
+</body>
+</html>

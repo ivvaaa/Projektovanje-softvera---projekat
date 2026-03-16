@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biblioteka — Knjige</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app-shell">
+  <div class="main-content">
+    <div class="page-header">
+      <div>
+        <div class="page-title">Knjige</div>
+        <div class="page-subtitle">Katalog knjiga biblioteke</div>
+      </div>
+      <button class="btn btn-primary" onclick="openAddModal()">+ Dodaj knjigu</button>
+    </div>
+
+    <!-- Search -->
+    <div class="card" style="margin-bottom:20px">
+      <div class="card-body" style="padding:14px 20px">
+        <div class="search-bar">
+          <input class="search-input" id="txtSearch" type="text" placeholder="Pretraži po naslovu ili piscu..." style="width:320px">
+          <button class="btn btn-secondary" onclick="pretrazi()">Pretraži</button>
+          <button class="btn btn-secondary" onclick="reset()">Reset</button>
+          <span style="margin-left:auto;font-size:13px;color:var(--muted)" id="lblBroj"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Split layout: table + detail -->
+    <div class="split-layout">
+      <div class="card">
+        <div class="table-wrap">
+          <table id="tblKnjige">
+            <thead><tr>
+              <th>Naslov</th><th>Pisac</th><th>Primeraka</th><th>Slobodnih</th><th>Status</th><th></th>
+            </tr></thead>
+            <tbody id="tbodyKnjige">
+              <tr><td colspan="6"><div class="loading-state"><div class="spinner"></div> Učitavanje...</div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Detail panel -->
+      <div id="detailPanel" style="display:none">
+        <div class="detail-panel">
+          <div id="statusBar" class="status-bar"></div>
+          <div class="detail-row"><span class="detail-label">Naslov</span><span class="detail-value" id="dNaziv"></span></div>
+          <div class="detail-row"><span class="detail-label">Pisac</span><span class="detail-value" id="dPisac"></span></div>
+          <div class="detail-row"><span class="detail-label">Primeraka</span><span class="detail-value" id="dUkupno"></span></div>
+          <div class="detail-row"><span class="detail-label">Slobodnih</span><span class="detail-value" id="dSlobodnih"></span></div>
+
+          <hr style="margin:16px 0;border:none;border-top:1px solid var(--border)">
+          <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:12px">Izmena podataka</div>
+
+          <div class="form-group">
+            <label class="form-label">Naslov</label>
+            <input class="form-control" id="eNaziv" type="text">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Ime pisca</label>
+              <input class="form-control" id="eIme" type="text">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Prezime pisca</label>
+              <input class="form-control" id="ePrezime" type="text">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Broj primeraka</label>
+            <input class="form-control" id="eBroj" type="number" min="1">
+          </div>
+
+          <div style="display:flex;gap:8px;margin-top:4px">
+            <button class="btn btn-primary" style="flex:1" onclick="sacuvajIzmene()">Sačuvaj izmene</button>
+            <button class="btn btn-danger btn-sm" onclick="obrisiKnjigu()" title="Obriši">🗑</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Dodaj knjigu -->
+<div class="modal-overlay" id="addModal" style="display:none" onclick="if(event.target===this)closeAddModal()">
+  <div class="modal">
+    <div class="modal-title">Dodaj novu knjigu</div>
+    <div class="form-group">
+      <label class="form-label">Naslov knjige</label>
+      <input class="form-control" id="mNaziv" type="text" placeholder="Unesite naslov">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Ime pisca</label>
+        <input class="form-control" id="mIme" type="text" placeholder="Ime">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Prezime pisca</label>
+        <input class="form-control" id="mPrezime" type="text" placeholder="Prezime">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Broj primeraka</label>
+      <input class="form-control" id="mBroj" type="number" min="1" value="1">
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeAddModal()">Odustani</button>
+      <button class="btn btn-primary" onclick="dodajKnjigu()">Sačuvaj</button>
+    </div>
+  </div>
+</div>
+
+<script src="api.js"></script>
+<script src="sidebar.js"></script>
+<script>
+let knjige = [];
+let selektovanaKnjiga = null;
+
+initPage('knjige');
+
+async function ucitaj(q = '') {
+  try {
+    knjige = await API.getKnjige(q);
+    renderTabela();
+    document.getElementById('lblBroj').textContent = `Ukupno: ${knjige.length}`;
+  } catch(ex) {
+    toast('Greška pri učitavanju: ' + ex.message, 'error');
+  }
+}
+
+function renderTabela() {
+  const tb = document.getElementById('tbodyKnjige');
+  if (knjige.length === 0) {
+    tb.innerHTML = '<tr><td colspan="6"><div class="empty-state"><div class="empty-state-icon">📚</div><div class="empty-state-text">Nema rezultata</div></div></td></tr>';
+    return;
+  }
+  tb.innerHTML = knjige.map(k => `
+    <tr onclick="selektuj(${k.id})" class="${selektovanaKnjiga?.id === k.id ? 'selected' : ''}">
+      <td><strong>${k.naziv}</strong></td>
+      <td>${k.imePisca} ${k.prezimePisca}</td>
+      <td style="font-family:'DM Mono',monospace">${k.brojPrimeraka}</td>
+      <td style="font-family:'DM Mono',monospace;font-weight:600;color:${k.brojSlobodnih===0?'var(--danger)':'var(--success)'}">${k.brojSlobodnih}</td>
+      <td><span class="badge ${k.dostupna?'badge-success':'badge-danger'}">${k.dostupna?'Dostupna':'Nedostupna'}</span></td>
+      <td></td>
+    </tr>`).join('');
+}
+
+function selektuj(id) {
+  selektovanaKnjiga = knjige.find(k => k.id === id);
+  if (!selektovanaKnjiga) return;
+  renderTabela();
+  prikaziDetalje(selektovanaKnjiga);
+  document.getElementById('detailPanel').style.display = '';
+}
+
+function prikaziDetalje(k) {
+  const sb = document.getElementById('statusBar');
+  if (k.dostupna) { sb.className = 'status-bar active'; sb.textContent = '✓ Dostupna'; }
+  else { sb.className = 'status-bar expired'; sb.textContent = '✗ Nedostupna — svi primerci pozajmljeni'; }
+
+  document.getElementById('dNaziv').textContent = k.naziv;
+  document.getElementById('dPisac').textContent = `${k.imePisca} ${k.prezimePisca}`;
+  document.getElementById('dUkupno').textContent = k.brojPrimeraka;
+  document.getElementById('dSlobodnih').textContent = k.brojSlobodnih;
+
+  document.getElementById('eNaziv').value = k.naziv;
+  document.getElementById('eIme').value = k.imePisca;
+  document.getElementById('ePrezime').value = k.prezimePisca;
+  document.getElementById('eBroj').value = k.brojPrimeraka;
+  const pozajmljeno = k.brojPrimeraka - k.brojSlobodnih;
+  document.getElementById('eBroj').min = Math.max(1, pozajmljeno);
+}
+
+async function sacuvajIzmene() {
+  if (!selektovanaKnjiga) return;
+  const naziv = document.getElementById('eNaziv').value.trim();
+  const ime = document.getElementById('eIme').value.trim();
+  const prezime = document.getElementById('ePrezime').value.trim();
+  const broj = parseInt(document.getElementById('eBroj').value);
+
+  if (!naziv || !ime || !prezime || isNaN(broj) || broj < 1) {
+    toast('Popunite sva polja ispravno.', 'error'); return;
+  }
+  try {
+    await API.updateKnjiga(selektovanaKnjiga.id, { naziv, imePisca: ime, prezimePisca: prezime, brojPrimeraka: broj });
+    toast('Knjiga je uspešno izmenjena.');
+    await ucitaj(document.getElementById('txtSearch').value.trim());
+    // Reselektuj
+    const updated = knjige.find(k => k.id === selektovanaKnjiga.id);
+    if (updated) { selektovanaKnjiga = updated; prikaziDetalje(updated); }
+  } catch(ex) { toast(ex.message, 'error'); }
+}
+
+async function obrisiKnjigu() {
+  if (!selektovanaKnjiga) return;
+  if (!confirm(`Da li ste sigurni da želite da obrišete knjigu "${selektovanaKnjiga.naziv}"?`)) return;
+  try {
+    await API.deleteKnjiga(selektovanaKnjiga.id);
+    toast('Knjiga je uspešno obrisana.');
+    selektovanaKnjiga = null;
+    document.getElementById('detailPanel').style.display = 'none';
+    await ucitaj();
+  } catch(ex) { toast(ex.message, 'error'); }
+}
+
+function pretrazi() { ucitaj(document.getElementById('txtSearch').value.trim()); }
+function reset() { document.getElementById('txtSearch').value = ''; ucitaj(); }
+document.getElementById('txtSearch').addEventListener('keydown', e => { if(e.key==='Enter') pretrazi(); });
+
+function openAddModal() {
+  document.getElementById('mNaziv').value = '';
+  document.getElementById('mIme').value = '';
+  document.getElementById('mPrezime').value = '';
+  document.getElementById('mBroj').value = '1';
+  document.getElementById('addModal').style.display = 'flex';
+  setTimeout(() => document.getElementById('mNaziv').focus(), 50);
+}
+function closeAddModal() { document.getElementById('addModal').style.display = 'none'; }
+
+async function dodajKnjigu() {
+  const naziv = document.getElementById('mNaziv').value.trim();
+  const ime = document.getElementById('mIme').value.trim();
+  const prezime = document.getElementById('mPrezime').value.trim();
+  const broj = parseInt(document.getElementById('mBroj').value);
+  if (!naziv || !ime || !prezime || isNaN(broj) || broj < 1) {
+    toast('Popunite sva polja ispravno.', 'error'); return;
+  }
+  try {
+    await API.addKnjiga({ naziv, imePisca: ime, prezimePisca: prezime, brojPrimeraka: broj });
+    toast('Knjiga je uspešno dodata.');
+    closeAddModal();
+    await ucitaj();
+  } catch(ex) { toast(ex.message, 'error'); }
+}
+
+ucitaj();
+</script>
+</body>
+</html>

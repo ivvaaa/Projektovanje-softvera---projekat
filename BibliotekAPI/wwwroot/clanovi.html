@@ -1,0 +1,301 @@
+﻿<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteka — Članovi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-shell">
+        <div class="main-content">
+            <div class="page-header">
+                <div>
+                    <div class="page-title">Članovi</div>
+                    <div class="page-subtitle">Registrovani članovi biblioteke</div>
+                </div>
+                <button class="btn btn-primary" onclick="openAddModal()">+ Dodaj člana</button>
+            </div>
+
+            <!-- Search + filter -->
+            <div class="card" style="margin-bottom:20px">
+                <div class="card-body" style="padding:14px 20px">
+                    <div class="search-bar" style="flex-wrap:wrap;gap:8px">
+                        <input class="search-input" id="txtSearch" type="text" placeholder="Pretraži po imenu, prezimenu ili telefonu...">
+                        <select class="form-control" id="cmbClanstvo" style="width:180px">
+                            <option value="">Sva članstva</option>
+                        </select>
+                        <button class="btn btn-secondary" onclick="pretrazi()">Pretraži</button>
+                        <button class="btn btn-secondary" onclick="reset()">Reset</button>
+                        <span style="margin-left:auto;font-size:13px;color:var(--muted)" id="lblBroj"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="split-layout">
+                <div class="card">
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>Ime i prezime</th><th>Telefon</th><th>Članstvo</th><th>Važi do</th><th>Status</th></tr></thead>
+                            <tbody id="tbodyClanovi">
+                                <tr><td colspan="5"><div class="loading-state"><div class="spinner"></div> Učitavanje...</div></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Detail panel -->
+                <div id="detailPanel" style="display:none">
+                    <div class="detail-panel">
+                        <div id="statusBar" class="status-bar"></div>
+
+                        <div class="detail-row"><span class="detail-label">Vrsta članstva</span><span class="detail-value" id="dClanstvo"></span></div>
+                        <div class="detail-row"><span class="detail-label">Član od</span><span class="detail-value" id="dDatumOd"></span></div>
+                        <div class="detail-row"><span class="detail-label">Član do</span><span class="detail-value" id="dDatumDo"></span></div>
+
+                        <hr style="margin:16px 0;border:none;border-top:1px solid var(--border)">
+                        <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:12px">Izmena podataka</div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Ime</label>
+                                <input class="form-control" id="eIme" type="text">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Prezime</label>
+                                <input class="form-control" id="ePrezime" type="text">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Telefon</label>
+                            <input class="form-control" id="eTelefon" type="number">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Datum od</label>
+                                <input class="form-control" id="eDatumOd" type="date">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Datum do</label>
+                                <input class="form-control" id="eDatumDo" type="date">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Vrsta članarine</label>
+                            <select class="form-control" id="eClanstvo"></select>
+                        </div>
+
+                        <div style="display:flex;gap:8px;margin-top:4px">
+                            <button class="btn btn-primary" style="flex:1" onclick="sacuvajIzmene()">Sačuvaj izmene</button>
+                            <button class="btn btn-danger btn-sm" onclick="obrisiClana()" title="Obriši">🗑</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Dodaj člana -->
+    <div class="modal-overlay" id="addModal" style="display:none" onclick="if(event.target===this)closeAddModal()">
+        <div class="modal">
+            <div class="modal-title">Dodaj novog člana</div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Ime</label>
+                    <input class="form-control" id="mIme" type="text" placeholder="Ime">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Prezime</label>
+                    <input class="form-control" id="mPrezime" type="text" placeholder="Prezime">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Telefon</label>
+                <input class="form-control" id="mTelefon" type="number" placeholder="Broj telefona">
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Datum od</label>
+                    <input class="form-control" id="mDatumOd" type="date">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Datum do</label>
+                    <input class="form-control" id="mDatumDo" type="date">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Vrsta članarine</label>
+                <select class="form-control" id="mClanstvo"></select>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeAddModal()">Odustani</button>
+                <button class="btn btn-primary" onclick="dodajClana()">Sačuvaj</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="api.js"></script>
+    <script src="sidebar.js"></script>
+    <script>let clanovi = [];
+let clanstva = [];
+let selektovaniClan = null;
+
+initPage('clanovi');
+
+async function init() {
+  clanstva = await API.getClanstva().catch(() => []);
+
+  // Popuni filtere i selecte
+  const opts = clanstva.map(c => `<option value="${c.id}">${c.vrsta} (${c.cena} RSD)</option>`).join('');
+  document.getElementById('cmbClanstvo').innerHTML = '<option value="">Sva članstva</option>' + opts;
+  document.getElementById('eClanstvo').innerHTML = opts;
+  document.getElementById('mClanstvo').innerHTML = opts;
+
+  // Default datumi za novi clan
+  const today = new Date().toISOString().split('T')[0];
+  const nextYear = new Date(Date.now() + 365*86400000).toISOString().split('T')[0];
+  document.getElementById('mDatumOd').value = today;
+  document.getElementById('mDatumDo').value = nextYear;
+
+  await ucitaj();
+}
+
+async function ucitaj(q = '') {
+  try {
+    clanovi = await API.getClanovi(q);
+    const cmbVal = document.getElementById('cmbClanstvo').value;
+    let filtered = clanovi;
+    if (cmbVal) filtered = clanovi.filter(c => c.idClanstva == cmbVal);
+    renderTabela(filtered);
+    document.getElementById('lblBroj').textContent = `Ukupno: ${filtered.length}`;
+  } catch(ex) { toast('Greška: ' + ex.message, 'error'); }
+}
+
+function renderTabela(lista) {
+  const tb = document.getElementById('tbodyClanovi');
+  if (!lista || lista.length === 0) {
+    tb.innerHTML = '<tr><td colspan="5"><div class="empty-state"><div class="empty-state-icon">👤</div><div class="empty-state-text">Nema rezultata</div></div></td></tr>';
+    return;
+  }
+  tb.innerHTML = lista.map(c => {
+    const aktivan = new Date(c.datumDo) >= new Date();
+    const cs = clanstva.find(x => x.id === c.idClanstva);
+    return `<tr onclick="selektuj(${c.id})" class="${selektovaniClan?.id === c.id ? 'selected' : ''}">
+      <td><strong>${c.ime} ${c.prezime}</strong></td>
+      <td style="font-family:'DM Mono',monospace">${c.telefon}</td>
+      <td>${cs ? cs.vrsta : '—'}</td>
+      <td>${fmtDatum(c.datumDo)}</td>
+      <td><span class="badge ${aktivan?'badge-success':'badge-danger'}">${aktivan?'Aktivna':'Istekla'}</span></td>
+    </tr>`;
+  }).join('');
+}
+
+function selektuj(id) {
+  selektovaniClan = clanovi.find(c => c.id === id);
+  if (!selektovaniClan) return;
+  const filtered = getFiltered();
+  renderTabela(filtered);
+  prikaziDetalje(selektovaniClan);
+  document.getElementById('detailPanel').style.display = '';
+}
+
+function prikaziDetalje(c) {
+  const aktivan = new Date(c.datumDo) >= new Date();
+  const sb = document.getElementById('statusBar');
+  if (aktivan) { sb.className = 'status-bar active'; sb.textContent = '✓ Aktivna članarina'; }
+  else { sb.className = 'status-bar expired'; sb.textContent = '✗ Članarina istekla'; }
+
+  const cs = clanstva.find(x => x.id === c.idClanstva);
+  document.getElementById('dClanstvo').textContent = cs ? `${cs.vrsta} (${cs.cena} RSD)` : '—';
+  document.getElementById('dDatumOd').textContent = fmtDatum(c.datumOd);
+  document.getElementById('dDatumDo').textContent = fmtDatum(c.datumDo);
+
+  document.getElementById('eIme').value = c.ime;
+  document.getElementById('ePrezime').value = c.prezime;
+  document.getElementById('eTelefon').value = c.telefon;
+  document.getElementById('eDatumOd').value = c.datumOd?.split('T')[0] || '';
+  document.getElementById('eDatumDo').value = c.datumDo?.split('T')[0] || '';
+  document.getElementById('eClanstvo').value = c.idClanstva;
+}
+
+function getFiltered() {
+  const q = document.getElementById('txtSearch').value.trim().toLowerCase();
+  const cmbVal = document.getElementById('cmbClanstvo').value;
+  return clanovi.filter(c => {
+    const matchQ = !q || c.ime.toLowerCase().includes(q) || c.prezime.toLowerCase().includes(q) || String(c.telefon).includes(q);
+    const matchC = !cmbVal || c.idClanstva == cmbVal;
+    return matchQ && matchC;
+  });
+}
+
+function pretrazi() { const filtered = getFiltered(); renderTabela(filtered); document.getElementById('lblBroj').textContent = `Ukupno: ${filtered.length}`; }
+function reset() { document.getElementById('txtSearch').value = ''; document.getElementById('cmbClanstvo').value = ''; renderTabela(clanovi); }
+document.getElementById('txtSearch').addEventListener('keydown', e => { if(e.key==='Enter') pretrazi(); });
+
+async function sacuvajIzmene() {
+  if (!selektovaniClan) return;
+  const ime = document.getElementById('eIme').value.trim();
+  const prezime = document.getElementById('ePrezime').value.trim();
+  const telefon = parseInt(document.getElementById('eTelefon').value);
+  const datumOd = document.getElementById('eDatumOd').value;
+  const datumDo = document.getElementById('eDatumDo').value;
+  const idClanstva = parseInt(document.getElementById('eClanstvo').value);
+
+  if (!ime || !prezime || !telefon || !datumOd || !datumDo || !idClanstva) {
+    toast('Popunite sva polja.', 'error'); return;
+  }
+  try {
+    await API.updateClan(selektovaniClan.id, { ime, prezime, telefon, datumOd, datumDo, idClanstva });
+    toast('Član je uspešno izmenjen.');
+    await ucitaj(document.getElementById('txtSearch').value.trim());
+    const updated = clanovi.find(c => c.id === selektovaniClan.id);
+    if (updated) { selektovaniClan = updated; prikaziDetalje(updated); }
+  } catch(ex) { toast(ex.message, 'error'); }
+}
+
+async function obrisiClana() {
+  if (!selektovaniClan) return;
+  if (!confirm(`Obrisati člana ${selektovaniClan.ime} ${selektovaniClan.prezime}?`)) return;
+  try {
+    await API.deleteClan(selektovaniClan.id);
+    toast('Član je uspešno obrisan.');
+    selektovaniClan = null;
+    document.getElementById('detailPanel').style.display = 'none';
+    await ucitaj();
+  } catch(ex) { toast(ex.message, 'error'); }
+}
+
+function openAddModal() {
+  ['mIme','mPrezime','mTelefon'].forEach(id => document.getElementById(id).value = '');
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('mDatumOd').value = today;
+  document.getElementById('mDatumDo').value = new Date(Date.now()+365*86400000).toISOString().split('T')[0];
+  document.getElementById('addModal').style.display = 'flex';
+  setTimeout(() => document.getElementById('mIme').focus(), 50);
+}
+function closeAddModal() { document.getElementById('addModal').style.display = 'none'; }
+
+async function dodajClana() {
+  const ime = document.getElementById('mIme').value.trim();
+  const prezime = document.getElementById('mPrezime').value.trim();
+  const telefon = parseInt(document.getElementById('mTelefon').value);
+  const datumOd = document.getElementById('mDatumOd').value;
+  const datumDo = document.getElementById('mDatumDo').value;
+  const idClanstva = parseInt(document.getElementById('mClanstvo').value);
+
+  if (!ime || !prezime || !telefon || !datumOd || !datumDo || !idClanstva) {
+    toast('Popunite sva polja.', 'error'); return;
+  }
+  try {
+    await API.addClan({ ime, prezime, telefon, datumOd, datumDo, idClanstva });
+    toast('Član je uspešno dodat.');
+    closeAddModal();
+    await ucitaj();
+  } catch(ex) { toast(ex.message, 'error'); }
+}
+
+init();</script>
+</body>
+</html>
