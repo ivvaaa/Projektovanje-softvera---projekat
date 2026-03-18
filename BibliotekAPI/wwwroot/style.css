@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Grotesk:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@400;500;600&display=swap');
 
 *, *::before, *::after {
     box-sizing: border-box;
@@ -12,17 +12,17 @@
     --surface2: #ede8de;
     --border: rgba(26,26,26,.1);
     --text: #1a1a1a;
-    --muted: rgba(26,26,26,.42);
+    --muted: rgba(26,26,26,.45);
     --accent: #ff6b2b;
-    --accent2: #ffd166;
     --danger: #e63946;
     --success: #2a9d5c;
     --warning: #e9a800;
     --sidebar-w: 230px;
 }
 
+/* Syne samo za naslove i labele, Inter za sve ostalo */
 body {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 14px;
     background: var(--bg);
     color: var(--text);
@@ -40,18 +40,17 @@ body {
     border-radius: 2px;
 }
 
-/* ── APP SHELL ── */
+/* ════════════════════════════
+   SIDEBAR
+════════════════════════════ */
 .app-shell {
     display: flex;
     min-height: 100vh;
 }
 
-/* ════════════════════════════════════════
-   SIDEBAR — gradient warm editorial
-════════════════════════════════════════ */
 .sidebar {
     width: var(--sidebar-w);
-    background: linear-gradient(160deg, #1a1a1a 0%, #2d1810 45%, #1a0f0a 100%);
+    background: linear-gradient(170deg, #1c1c1c 0%, #2e1a10 55%, #1a0e08 100%);
     display: flex;
     flex-direction: column;
     position: fixed;
@@ -63,8 +62,8 @@ body {
 }
 
 .sidebar-brand {
-    padding: 26px 22px 22px;
-    border-bottom: 1px solid rgba(255,255,255,.08);
+    padding: 24px 20px 20px;
+    border-bottom: 1px solid rgba(255,255,255,.07);
     display: flex;
     align-items: center;
     gap: 11px;
@@ -77,72 +76,77 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
     font-family: 'Syne', sans-serif;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 800;
     color: #fff;
-    flex-shrink: 0;
-    clip-path: polygon(0 0, 100% 0, 100% 75%, 75% 100%, 0 100%);
+    clip-path: polygon(0 0, 100% 0, 100% 72%, 72% 100%, 0 100%);
 }
 
 .sidebar-brand-text {
     font-family: 'Syne', sans-serif;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 800;
-    letter-spacing: -.01em;
     color: #f5f0e8;
+    letter-spacing: -.01em;
+    line-height: 1.1;
 }
 
 .sidebar-brand-sub {
     font-size: 10px;
-    color: rgba(245,240,232,.35);
+    color: rgba(245,240,232,.3);
     letter-spacing: .1em;
     text-transform: uppercase;
-    font-family: 'Syne', sans-serif;
+    font-family: 'Inter', sans-serif;
 }
 
 .sidebar-nav {
     flex: 1;
-    padding: 18px 0;
+    padding: 16px 0;
 }
 
 .nav-section-label {
-    font-family: 'Syne', sans-serif;
     font-size: 9px;
-    font-weight: 700;
+    font-weight: 600;
     letter-spacing: .2em;
     text-transform: uppercase;
-    color: rgba(245,240,232,.25);
-    padding: 8px 22px 6px;
+    color: rgba(245,240,232,.22);
+    padding: 8px 20px 5px;
+    font-family: 'Inter', sans-serif;
 }
 
 .nav-link {
     display: flex;
     align-items: center;
     gap: 11px;
-    padding: 11px 22px;
-    color: rgba(245,240,232,.5);
+    padding: 10px 20px;
+    color: rgba(245,240,232,.48);
     text-decoration: none;
-    font-size: 13px;
+    font-size: 13.5px;
     font-weight: 500;
-    transition: all .18s;
+    transition: all .16s;
     border-left: 3px solid transparent;
     margin-left: -3px;
-    letter-spacing: .01em;
+    font-family: 'Inter', sans-serif;
 }
 
     .nav-link:hover {
         color: #f5f0e8;
         background: rgba(255,107,43,.1);
-        border-left-color: rgba(255,107,43,.4);
+        border-left-color: rgba(255,107,43,.35);
     }
 
     .nav-link.active {
         color: #fff;
-        background: rgba(255,107,43,.18);
+        background: rgba(255,107,43,.16);
         border-left-color: var(--accent);
         font-weight: 600;
     }
+
+        .nav-link.active .nav-link-icon {
+            color: var(--accent);
+        }
 
 .nav-link-icon {
     width: 20px;
@@ -156,45 +160,38 @@ body {
     display: block;
 }
 
-/* Colored dots next to active items */
-.nav-link.active .nav-link-icon {
-    color: var(--accent);
-}
-
 .sidebar-footer {
-    padding: 18px 22px;
+    padding: 16px 20px;
     border-top: 1px solid rgba(255,255,255,.07);
 }
 
 .sidebar-user {
-    font-family: 'Syne', sans-serif;
     font-size: 11px;
-    font-weight: 700;
-    color: rgba(245,240,232,.45);
+    font-weight: 600;
+    color: rgba(245,240,232,.4);
     margin-bottom: 10px;
-    letter-spacing: .06em;
-    text-transform: uppercase;
+    letter-spacing: .02em;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-family: 'Inter', sans-serif;
 }
 
 .btn-logout {
     display: flex;
     align-items: center;
     gap: 8px;
-    background: rgba(255,255,255,.06);
-    border: 1px solid rgba(255,255,255,.12);
-    color: rgba(245,240,232,.5);
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.1);
+    color: rgba(245,240,232,.45);
     padding: 8px 14px;
-    font-family: 'Syne', sans-serif;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: .1em;
-    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 600;
     cursor: pointer;
     width: 100%;
-    transition: all .18s;
+    transition: all .16s;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: .02em;
 }
 
     .btn-logout:hover {
@@ -203,7 +200,9 @@ body {
         background: rgba(230,57,70,.08);
     }
 
-/* ── MAIN CONTENT ── */
+/* ════════════════════════════
+   MAIN CONTENT
+════════════════════════════ */
 .main-content {
     margin-left: var(--sidebar-w);
     flex: 1;
@@ -211,7 +210,6 @@ body {
     max-width: 1300px;
 }
 
-/* ── PAGE HEADER ── */
 .page-header {
     margin-bottom: 32px;
     display: flex;
@@ -224,7 +222,7 @@ body {
 
 .page-title {
     font-family: 'Syne', sans-serif;
-    font-size: 36px;
+    font-size: 34px;
     font-weight: 800;
     letter-spacing: -.04em;
     line-height: 1;
@@ -232,24 +230,24 @@ body {
 }
 
 .page-subtitle {
-    font-size: 12px;
+    font-size: 11px;
     color: var(--muted);
     margin-top: 7px;
     letter-spacing: .06em;
     text-transform: uppercase;
-    font-family: 'Syne', sans-serif;
-    font-weight: 600;
+    font-weight: 500;
 }
 
-/* ── CARDS ── */
+/* ════════════════════════════
+   CARDS
+════════════════════════════ */
 .card {
     background: var(--surface);
     border: 1px solid var(--border);
-    outline: none;
 }
 
 .card-header {
-    padding: 16px 22px 14px;
+    padding: 14px 20px 12px;
     border-bottom: 1px solid var(--border);
     display: flex;
     align-items: center;
@@ -267,15 +265,17 @@ body {
 }
 
 .card-body {
-    padding: 22px;
+    padding: 20px;
 }
 
-/* ── STAT CARDS ── */
+/* ════════════════════════════
+   STAT CARDS
+════════════════════════════ */
 .stats-row {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 1px;
-    margin-bottom: 32px;
+    margin-bottom: 30px;
     background: var(--border);
     border: 1px solid var(--border);
 }
@@ -290,7 +290,6 @@ body {
         background: #faf7f2;
     }
 
-    /* First stat — accent orange */
     .stat-card:first-child {
         background: var(--accent);
     }
@@ -317,15 +316,16 @@ body {
 }
 
 .stat-label {
-    font-family: 'Syne', sans-serif;
-    font-size: 9px;
-    font-weight: 800;
+    font-size: 10px;
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: .14em;
+    letter-spacing: .1em;
     color: var(--muted);
 }
 
-/* ── TABLE ── */
+/* ════════════════════════════
+   TABLE
+════════════════════════════ */
 .table-wrap {
     overflow-x: auto;
 }
@@ -337,17 +337,17 @@ table {
 }
 
 thead th {
-    padding: 11px 18px;
+    padding: 10px 18px;
     text-align: left;
-    font-family: 'Syne', sans-serif;
-    font-size: 9px;
-    font-weight: 800;
-    letter-spacing: .16em;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .1em;
     text-transform: uppercase;
     color: var(--muted);
     background: var(--surface2);
     border-bottom: 1px solid var(--border);
     white-space: nowrap;
+    font-family: 'Inter', sans-serif;
 }
 
 tbody tr {
@@ -361,7 +361,7 @@ tbody tr {
     }
 
     tbody tr.selected {
-        background: rgba(255,107,43,.05);
+        background: rgba(255,107,43,.04);
         box-shadow: inset 3px 0 0 var(--accent);
     }
 
@@ -370,20 +370,23 @@ tbody tr {
     }
 
 td {
-    padding: 13px 18px;
+    padding: 12px 18px;
     vertical-align: middle;
+    font-family: 'Inter', sans-serif;
 }
 
-/* ── BADGES ── */
+/* ════════════════════════════
+   BADGES
+════════════════════════════ */
 .badge {
     display: inline-flex;
     align-items: center;
     padding: 3px 9px;
-    font-family: 'Syne', sans-serif;
-    font-size: 9px;
-    font-weight: 800;
-    letter-spacing: .08em;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .06em;
     text-transform: uppercase;
+    font-family: 'Inter', sans-serif;
 }
 
 .badge-success {
@@ -411,22 +414,24 @@ td {
     color: var(--muted);
 }
 
-/* ── BUTTONS ── */
+/* ════════════════════════════
+   BUTTONS
+════════════════════════════ */
 .btn {
     display: inline-flex;
     align-items: center;
     gap: 7px;
     padding: 9px 18px;
-    font-family: 'Syne', sans-serif;
-    font-size: 11px;
-    font-weight: 800;
+    font-size: 12px;
+    font-weight: 700;
     cursor: pointer;
     border: 1.5px solid transparent;
-    transition: all .16s;
+    transition: all .15s;
     text-decoration: none;
     white-space: nowrap;
-    letter-spacing: .08em;
+    letter-spacing: .04em;
     text-transform: uppercase;
+    font-family: 'Inter', sans-serif;
 }
 
 .btn-primary {
@@ -447,7 +452,7 @@ td {
 
     .btn-secondary:hover {
         background: var(--surface2);
-        border-color: rgba(26,26,26,.25);
+        border-color: rgba(26,26,26,.22);
     }
 
 .btn-danger {
@@ -462,7 +467,7 @@ td {
 
 .btn-sm {
     padding: 5px 12px;
-    font-size: 9px;
+    font-size: 10px;
 }
 
 .btn:disabled {
@@ -470,7 +475,9 @@ td {
     cursor: not-allowed;
 }
 
-/* ── SEARCH BAR ── */
+/* ════════════════════════════
+   SEARCH
+════════════════════════════ */
 .search-bar {
     display: flex;
     gap: 8px;
@@ -482,7 +489,7 @@ td {
     padding: 9px 14px;
     border: 1.5px solid var(--border);
     font-size: 13px;
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Inter', sans-serif;
     background: var(--surface2);
     color: var(--text);
     transition: border-color .15s;
@@ -498,20 +505,22 @@ td {
         background: #fff;
     }
 
-/* ── FORMS ── */
+/* ════════════════════════════
+   FORMS
+════════════════════════════ */
 .form-group {
     margin-bottom: 14px;
 }
 
 .form-label {
     display: block;
-    font-family: 'Syne', sans-serif;
-    font-size: 9px;
-    font-weight: 800;
+    font-size: 10px;
+    font-weight: 700;
     color: var(--muted);
     margin-bottom: 7px;
-    letter-spacing: .16em;
+    letter-spacing: .1em;
     text-transform: uppercase;
+    font-family: 'Inter', sans-serif;
 }
 
 .form-control {
@@ -519,7 +528,7 @@ td {
     padding: 9px 13px;
     border: 1.5px solid var(--border);
     font-size: 13px;
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Inter', sans-serif;
     color: var(--text);
     background: var(--surface2);
     transition: border-color .15s;
@@ -541,12 +550,14 @@ td {
     gap: 12px;
 }
 
-/* ── DETAIL PANEL ── */
+/* ════════════════════════════
+   DETAIL PANEL
+════════════════════════════ */
 .detail-panel {
     background: var(--surface);
     border: 1px solid var(--border);
-    padding: 22px;
-    animation: slideIn .18s ease;
+    padding: 20px;
+    animation: slideIn .16s ease;
 }
 
 @keyframes slideIn {
@@ -565,7 +576,7 @@ td {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 9px 0;
+    padding: 8px 0;
     border-bottom: 1px solid var(--border);
 }
 
@@ -574,24 +585,24 @@ td {
     }
 
 .detail-label {
-    font-family: 'Syne', sans-serif;
-    font-size: 9px;
-    font-weight: 800;
+    font-size: 10px;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: .14em;
+    letter-spacing: .1em;
     color: var(--muted);
+    font-family: 'Inter', sans-serif;
 }
 
 .detail-value {
     font-size: 13px;
     font-weight: 500;
+    font-family: 'Inter', sans-serif;
 }
 
 .status-bar {
     padding: 9px 14px;
-    font-family: 'Syne', sans-serif;
     font-size: 10px;
-    font-weight: 800;
+    font-weight: 700;
     margin-bottom: 16px;
     letter-spacing: .08em;
     text-transform: uppercase;
@@ -599,6 +610,7 @@ td {
     align-items: center;
     gap: 8px;
     border-left: 3px solid;
+    font-family: 'Inter', sans-serif;
 }
 
     .status-bar.active {
@@ -619,7 +631,9 @@ td {
         border-color: var(--warning);
     }
 
-/* ── MODAL ── */
+/* ════════════════════════════
+   MODAL
+════════════════════════════ */
 .modal-overlay {
     position: fixed;
     inset: 0;
@@ -645,11 +659,11 @@ td {
 .modal {
     background: var(--surface);
     border: 1.5px solid var(--border);
-    padding: 34px;
+    padding: 32px;
     width: 480px;
     max-width: 95vw;
     animation: modalIn .2s ease;
-    box-shadow: 6px 6px 0 rgba(26,26,26,.12);
+    box-shadow: 6px 6px 0 rgba(26,26,26,.1);
 }
 
 @keyframes modalIn {
@@ -681,17 +695,17 @@ td {
     margin-top: 22px;
 }
 
-/* ── TOAST ── */
+/* ════════════════════════════
+   TOAST
+════════════════════════════ */
 .toast {
     position: fixed;
     bottom: 24px;
     right: 24px;
     padding: 13px 18px;
-    font-family: 'Syne', sans-serif;
-    font-size: 11px;
-    font-weight: 800;
-    letter-spacing: .06em;
-    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .03em;
     z-index: 9999;
     opacity: 0;
     transform: translateY(8px);
@@ -700,6 +714,7 @@ td {
     background: var(--surface);
     color: var(--text);
     border: 1px solid var(--border);
+    font-family: 'Inter', sans-serif;
 }
 
     .toast.show {
@@ -721,7 +736,9 @@ td {
     color: var(--accent);
 }
 
-/* ── SPLIT LAYOUT ── */
+/* ════════════════════════════
+   SPLIT LAYOUT
+════════════════════════════ */
 .split-layout {
     display: grid;
     grid-template-columns: 1fr 340px;
@@ -735,28 +752,30 @@ td {
     }
 }
 
-/* ── EMPTY STATE ── */
+/* ════════════════════════════
+   EMPTY STATE / LOADING
+════════════════════════════ */
 .empty-state {
     text-align: center;
-    padding: 56px 24px;
+    padding: 52px 24px;
     color: var(--muted);
 }
 
 .empty-state-icon {
-    font-size: 28px;
     margin-bottom: 12px;
     opacity: .2;
+    display: flex;
+    justify-content: center;
 }
 
 .empty-state-text {
-    font-family: 'Syne', sans-serif;
     font-size: 11px;
-    font-weight: 700;
-    letter-spacing: .12em;
+    font-weight: 600;
+    letter-spacing: .1em;
     text-transform: uppercase;
+    font-family: 'Inter', sans-serif;
 }
 
-/* ── LOADING ── */
 .spinner {
     width: 16px;
     height: 16px;
@@ -780,33 +799,37 @@ td {
     color: var(--muted);
     padding: 40px;
     justify-content: center;
-    font-family: 'Syne', sans-serif;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: .12em;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .1em;
     text-transform: uppercase;
+    font-family: 'Inter', sans-serif;
 }
 
-/* ── PAGINATION ── */
+/* ════════════════════════════
+   PAGINATION
+════════════════════════════ */
 .pagination {
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 15px 22px;
+    padding: 14px 20px;
     border-top: 1px solid var(--border);
 }
 
 .pagination-info {
-    font-family: 'Syne', sans-serif;
     font-size: 10px;
     color: var(--muted);
     flex: 1;
-    font-weight: 700;
-    letter-spacing: .1em;
+    font-weight: 600;
+    letter-spacing: .08em;
     text-transform: uppercase;
+    font-family: 'Inter', sans-serif;
 }
 
-/* ── FILTER CHIPS ── */
+/* ════════════════════════════
+   FILTER CHIPS
+════════════════════════════ */
 .filter-chips {
     display: flex;
     gap: 6px;
@@ -818,18 +841,18 @@ td {
     padding: 6px 16px;
     background: var(--surface);
     border: 1.5px solid var(--border);
-    font-family: 'Syne', sans-serif;
-    font-size: 10px;
-    font-weight: 800;
+    font-size: 11px;
+    font-weight: 700;
     cursor: pointer;
-    transition: all .15s;
+    transition: all .14s;
     color: var(--muted);
     text-transform: uppercase;
-    letter-spacing: .1em;
+    letter-spacing: .08em;
+    font-family: 'Inter', sans-serif;
 }
 
     .filter-chip:hover {
-        border-color: var(--text);
+        border-color: rgba(26,26,26,.3);
         color: var(--text);
     }
 
@@ -849,12 +872,14 @@ td {
         border-color: var(--success);
     }
 
-/* ── STAVKE ── */
+/* ════════════════════════════
+   STAVKE (pozajmice detalji)
+════════════════════════════ */
 .stavka-row {
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 10px 14px;
+    padding: 10px 13px;
     background: var(--surface2);
     margin-bottom: 6px;
     border: 1px solid var(--border);
@@ -862,7 +887,7 @@ td {
 }
 
     .stavka-row:hover {
-        background: #e8e2d6;
+        background: #e5dfd4;
     }
 
     .stavka-row input[type=checkbox] {
@@ -876,13 +901,14 @@ td {
     flex: 1;
     font-size: 13px;
     font-weight: 500;
+    font-family: 'Inter', sans-serif;
 }
 
 .stavka-rok {
-    font-family: 'Syne', sans-serif;
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 700;
-    letter-spacing: .04em;
+    letter-spacing: .03em;
+    font-family: 'Inter', sans-serif;
 }
 
 .stavka-zakasnela {
@@ -893,3 +919,464 @@ td {
 .stavka-vracena {
     opacity: .4;
 }
+
+/* Inline section headings */
+.section-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    color: var(--muted);
+    margin-bottom: 10px;
+    font-family: 'Inter', sans-serif;
+}
+/* ════════════════════════════════════════════
+   NOVI SIDEBAR — folder tab dizajn
+   Dodati na KRAJ postojećeg style.css
+════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;900&family=Barlow:wght@400;500;600&display=swap');
+
+:root {
+    /* Prepisujemo sidebar boje */
+    --sidebar-w: 260px;
+    --sb-bg: #0e0e0e;
+    --sb-border: #1e1e1e;
+    --sb-orange: #e84d0e;
+    --sb-cream: #f5f0e8;
+    --sb-muted: #9a9590;
+    --sb-hover-bg: #1a1a1a;
+    --sb-active-bg: #1f1f1f;
+}
+
+/* Ukloni stari sidebar stil */
+.sidebar {
+    width: var(--sidebar-w) !important;
+    background: var(--sb-bg) !important;
+    border-right: 1px solid var(--sb-border) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    bottom: 0 !important;
+    z-index: 100 !important;
+    /* Ukloni stari gradient */
+    background-image: none !important;
+}
+
+/* ── Logo ── */
+.sidebar-logo {
+    padding: 24px 20px 20px;
+    border-bottom: 1px solid var(--sb-border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-mark {
+    width: 32px;
+    height: 32px;
+    background: var(--sb-orange);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 16px;
+    color: #f5f0e8;
+    flex-shrink: 0;
+    clip-path: none !important;
+}
+
+.logo-text {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.15em;
+    color: #f5f0e8;
+    text-transform: uppercase;
+}
+
+/* Sakrij stare sidebar-brand elemente ako postoje */
+.sidebar-brand {
+    display: none !important;
+}
+
+/* ── Nav ── */
+.sidebar-nav {
+    flex: 1;
+    padding: 24px 0 0;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+    .sidebar-nav::-webkit-scrollbar {
+        display: none;
+    }
+
+.nav-section-label {
+    font-size: 10px !important;
+    letter-spacing: 0.12em !important;
+    text-transform: uppercase !important;
+    color: var(--sb-muted) !important;
+    padding: 0 20px 10px !important;
+    font-family: 'Barlow Condensed', sans-serif !important;
+    font-weight: 400 !important;
+}
+
+/* ── Folder tabs ── */
+.folder-tabs {
+    display: flex;
+    flex-direction: column;
+    padding: 0 16px;
+}
+
+.folder-tab {
+    position: relative;
+    padding: 13px 16px 13px 44px;
+    cursor: pointer;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--sb-muted);
+    background: transparent;
+    border: none;
+    border-left: 2px solid transparent;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: color 0.15s, border-color 0.15s;
+}
+
+    /* Arrow pseudo-element za folder izgled */
+    .folder-tab::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: transparent;
+        z-index: -1;
+        clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 50%, calc(100% - 10px) 100%, 0 100%);
+        transition: background 0.15s;
+    }
+
+    .folder-tab:hover {
+        color: #f5f0e8;
+    }
+
+        .folder-tab:hover::before {
+            background: var(--sb-hover-bg);
+        }
+
+    .folder-tab.active {
+        color: #f5f0e8;
+        border-left: 2px solid var(--sb-orange);
+    }
+
+        .folder-tab.active::before {
+            background: var(--sb-active-bg);
+        }
+
+/* Broj indikator (01, 02...) */
+.tab-num {
+    font-size: 10px;
+    color: var(--sb-orange);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    position: absolute;
+    left: 18px;
+    font-family: 'Barlow Condensed', sans-serif;
+}
+
+.tab-label {
+    display: block;
+}
+
+/* Badge za broj pozajmica itd. */
+.tab-badge {
+    margin-left: auto;
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 99px;
+    font-family: 'Barlow', sans-serif;
+    font-weight: 600;
+    background: var(--sb-orange);
+    color: #f5f0e8;
+}
+
+/* ── Footer ── */
+.sidebar-footer {
+    padding: 16px 20px !important;
+    border-top: 1px solid var(--sb-border) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+}
+
+/* Sakrij stare footer elemente */
+.sidebar-user {
+    display: none !important;
+}
+
+.btn-logout {
+    /* Reset starog stila */
+    background: none !important;
+    border: none !important;
+    color: var(--sb-muted) !important;
+    padding: 4px !important;
+    width: auto !important;
+    font-size: 14px !important;
+    cursor: pointer !important;
+    transition: color 0.15s !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0 !important;
+    letter-spacing: 0 !important;
+}
+
+    .btn-logout span {
+        display: none;
+    }
+    /* Sakrij tekst "Odjavi se", ostaviti samo ikonu */
+    .btn-logout:hover {
+        color: var(--sb-orange) !important;
+        background: none !important;
+    }
+
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    background: var(--sb-orange);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 13px;
+    color: #f5f0e8;
+    flex-shrink: 0;
+}
+
+.user-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.user-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: #f5f0e8;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: 'Barlow', sans-serif;
+}
+
+.user-role {
+    font-size: 10px;
+    color: var(--sb-muted);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-family: 'Barlow Condensed', sans-serif;
+}
+/* ══════════════════════════════════════════════
+   DODATI NA KRAJ style.css
+   Novi sidebar dizajn — folder tabs
+══════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;900&family=Barlow:wght@400;500;600&display=swap');
+
+/* Override starog sidebar-a */
+.sidebar {
+    background: #0e0e0e !important;
+    background-image: none !important;
+    border-right: 1px solid #1e1e1e !important;
+    width: 260px !important;
+}
+
+/* Logo area (zamenjuje .sidebar-brand) */
+.sidebar-logo {
+    padding: 24px 20px 20px;
+    border-bottom: 1px solid #1e1e1e;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sidebar-brand {
+    display: none !important;
+}
+
+.logo-mark {
+    width: 32px;
+    height: 32px;
+    background: #e84d0e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 16px;
+    color: #f5f0e8;
+    flex-shrink: 0;
+    clip-path: none !important;
+}
+
+.logo-text {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.15em;
+    color: #f5f0e8;
+    text-transform: uppercase;
+}
+
+/* Nav label */
+.nav-section-label {
+    font-size: 10px !important;
+    letter-spacing: 0.12em !important;
+    text-transform: uppercase !important;
+    color: #9a9590 !important;
+    padding: 0 20px 10px !important;
+    font-family: 'Barlow Condensed', sans-serif !important;
+}
+
+/* Folder tabs kontejner */
+.folder-tabs {
+    display: flex;
+    flex-direction: column;
+    padding: 0 16px;
+    margin-bottom: 8px;
+}
+
+/* Svaki folder tab */
+.folder-tab {
+    position: relative;
+    padding: 13px 16px 13px 44px !important;
+    cursor: pointer;
+    font-family: 'Barlow Condensed', sans-serif !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.08em !important;
+    text-transform: uppercase !important;
+    color: #9a9590 !important;
+    background: transparent !important;
+    border: none !important;
+    border-left: 2px solid transparent !important;
+    text-decoration: none !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    transition: all 0.15s !important;
+}
+
+    .folder-tab::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: transparent;
+        z-index: -1;
+        clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 50%, calc(100% - 10px) 100%, 0 100%);
+        transition: background 0.15s;
+    }
+
+    .folder-tab:hover {
+        color: #f5f0e8 !important;
+    }
+
+        .folder-tab:hover::before {
+            background: #1a1a1a;
+        }
+
+    .folder-tab.active {
+        color: #f5f0e8 !important;
+        border-left: 2px solid #e84d0e !important;
+    }
+
+        .folder-tab.active::before {
+            background: #1f1f1f;
+        }
+
+.tab-num {
+    font-size: 10px;
+    color: #e84d0e;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    position: absolute;
+    left: 18px;
+    font-family: 'Barlow Condensed', sans-serif;
+}
+
+/* Footer */
+.sidebar-footer {
+    padding: 16px 20px !important;
+    border-top: 1px solid #1e1e1e !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+}
+
+.sidebar-user {
+    display: none !important;
+}
+
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    background: #e84d0e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 13px;
+    color: #f5f0e8;
+    flex-shrink: 0;
+}
+
+.user-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.user-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: #f5f0e8;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.user-role {
+    font-size: 10px;
+    color: #9a9590;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-family: 'Barlow Condensed', sans-serif;
+}
+
+.btn-logout {
+    background: none !important;
+    border: none !important;
+    color: #9a9590 !important;
+    padding: 4px !important;
+    width: auto !important;
+    cursor: pointer !important;
+    transition: color 0.15s !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+    .btn-logout:hover {
+        color: #e84d0e !important;
+        background: none !important;
+    }
+
+    /* Sakrij stari tekst "Odjavi se" u btn-logout, ostavi samo ikonu */
+    .btn-logout > *:not(svg) {
+        display: none !important;
+    }

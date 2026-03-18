@@ -4,77 +4,931 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Biblioteka — Članovi</title>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+                /* ══════════════════════════════════════════
+           RESET & ROOT
+        ══════════════════════════════════════════ */
+                *, *::before, *::after {
+                    margin: 0;
+                    padding: 0;
+                    box-sizing: border-box;
+                }
+
+                :root {
+                    --black: #0e0e0e;
+                    --white: #f5f0e8;
+                    --orange: #e84d0e;
+                    --cream: #f5f0e8;
+                    --cream-dark: #ede8de;
+                    --gray-light: #d8d3c8;
+                    --gray-mid: #9a9590;
+                    --gray-dark: #4a4540;
+                    --sidebar-w: 260px;
+                }
+
+                body {
+                    font-family: 'Barlow', sans-serif;
+                    background: var(--black);
+                    color: var(--white);
+                    display: flex;
+                    height: 100vh;
+                    overflow: hidden;
+                }
+
+                /* ══════════════════════════════════════════
+           SIDEBAR (identičan na svim stranicama)
+        ══════════════════════════════════════════ */
+                .sidebar {
+                    width: var(--sidebar-w);
+                    background: var(--black);
+                    border-right: 1px solid #1e1e1e;
+                    display: flex;
+                    flex-direction: column;
+                    flex-shrink: 0;
+                    height: 100vh;
+                }
+
+                .sidebar-logo {
+                    padding: 24px 20px 20px;
+                    border-bottom: 1px solid #1e1e1e;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                }
+
+                .logo-mark {
+                    width: 32px;
+                    height: 32px;
+                    background: var(--orange);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-family: 'Barlow Condensed', sans-serif;
+                    font-weight: 900;
+                    font-size: 16px;
+                    color: var(--white);
+                    flex-shrink: 0;
+                }
+
+                .logo-text {
+                    font-family: 'Barlow Condensed', sans-serif;
+                    font-weight: 700;
+                    font-size: 13px;
+                    letter-spacing: 0.15em;
+                    color: var(--white);
+                    text-transform: uppercase;
+                }
+
+                .sidebar-nav {
+                    flex: 1;
+                    padding: 24px 0 0;
+                    overflow-y: auto;
+                    scrollbar-width: none;
+                }
+
+                    .sidebar-nav::-webkit-scrollbar {
+                        display: none;
+                    }
+
+                .nav-section-label {
+                    font-size: 10px;
+                    letter-spacing: 0.12em;
+                    text-transform: uppercase;
+                    color: var(--gray-mid);
+                    padding: 0 20px 10px;
+                }
+
+                .folder-tabs {
+                    display: flex;
+                    flex-direction: column;
+                    padding: 0 16px;
+                    margin-bottom: 8px;
+                }
+
+                .folder-tab {
+                    position: relative;
+                    padding: 13px 16px 13px 44px;
+                    cursor: pointer;
+                    font-family: 'Barlow Condensed', sans-serif;
+                    font-size: 15px;
+                    font-weight: 700;
+                    letter-spacing: 0.08em;
+                    text-transform: uppercase;
+                    color: var(--gray-mid);
+                    background: transparent;
+                    border: none;
+                    border-left: 2px solid transparent;
+                    text-decoration: none;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    transition: all 0.15s;
+                }
+
+                    .folder-tab::before {
+                        content: '';
+                        position: absolute;
+                        inset: 0;
+                        background: transparent;
+                        z-index: -1;
+                        clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 50%, calc(100% - 10px) 100%, 0 100%);
+                        transition: background 0.15s;
+                    }
+
+                    .folder-tab:hover {
+                        color: var(--white);
+                    }
+
+                        .folder-tab:hover::before {
+                            background: #1a1a1a;
+                        }
+
+                    .folder-tab.active {
+                        color: var(--white);
+                        border-left: 2px solid var(--orange);
+                    }
+
+                        .folder-tab.active::before {
+                            background: #1f1f1f;
+                        }
+
+                .tab-num {
+                    font-size: 10px;
+                    color: var(--orange);
+                    font-weight: 700;
+                    letter-spacing: 0.05em;
+                    position: absolute;
+                    left: 18px;
+                }
+
+                .sidebar-footer {
+                    padding: 16px 20px;
+                    border-top: 1px solid #1e1e1e;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                }
+
+                .user-avatar {
+                    width: 32px;
+                    height: 32px;
+                    background: var(--orange);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-family: 'Barlow Condensed', sans-serif;
+                    font-weight: 900;
+                    font-size: 13px;
+                    color: var(--white);
+                    flex-shrink: 0;
+                }
+
+                .user-info {
+                    flex: 1;
+                    min-width: 0;
+                }
+
+                .user-name {
+                    font-size: 12px;
+                    font-weight: 600;
+                    color: var(--white);
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                .user-role {
+                    font-size: 10px;
+                    color: var(--gray-mid);
+                    letter-spacing: 0.06em;
+                    text-transform: uppercase;
+                }
+
+                .logout-btn {
+                    background: none;
+                    border: none;
+                    cursor: pointer;
+                    color: var(--gray-mid);
+                    font-size: 14px;
+                    padding: 4px;
+                    transition: color 0.15s;
+                    line-height: 1;
+                }
+
+                    .logout-btn:hover {
+                        color: var(--orange);
+                    }
+
+                /* ══════════════════════════════════════════
+           MAIN
+        ══════════════════════════════════════════ */
+                .main {
+                    flex: 1;
+                    background: var(--cream);
+                    overflow: hidden;
+                    display: flex;
+                    flex-direction: column;
+                    min-width: 0;
+                }
+
+                .page-header {
+                    background: var(--cream);
+                    padding: 32px 40px 0;
+                    border-bottom: 1px solid var(--gray-light);
+                    flex-shrink: 0;
+                }
+
+                .page-breadcrumb {
+                    font-size: 11px;
+                    font-weight: 700;
+                    letter-spacing: 0.12em;
+                    text-transform: uppercase;
+                    color: var(--orange);
+                    margin-bottom: 6px;
+                }
+
+                .page-title-row {
+                    display: flex;
+                    align-items: flex-end;
+                    justify-content: space-between;
+                    padding-bottom: 24px;
+                }
+
+                .page-title {
+                    font-family: 'Barlow Condensed', sans-serif;
+                    font-size: 48px;
+                    font-weight: 900;
+                    letter-spacing: -0.01em;
+                    color: var(--black);
+                    line-height: 1;
+                    text-transform: uppercase;
+                }
+
+                .page-subtitle {
+                    font-size: 13px;
+                    color: var(--gray-dark);
+                    margin-top: 4px;
+                }
+
+                /* Buttons */
+                .btn-primary {
+                    background: var(--black);
+                    color: var(--white);
+                    border: none;
+                    padding: 12px 24px;
+                    font-family: 'Barlow Condensed', sans-serif;
+                    font-size: 13px;
+                    font-weight: 700;
+                    letter-spacing: 0.1em;
+                    text-transform: uppercase;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    transition: background 0.15s;
+                }
+
+                    .btn-primary:hover {
+                        background: var(--orange);
+                    }
+
+                .btn-secondary {
+                    background: transparent;
+                    color: var(--gray-dark);
+                    border: 1px solid var(--gray-light);
+                    padding: 10px 16px;
+                    font-family: 'Barlow Condensed', sans-serif;
+                    font-size: 12px;
+                    font-weight: 700;
+                    letter-spacing: 0.1em;
+                    text-transform: uppercase;
+                    cursor: pointer;
+                    transition: all 0.15s;
+                }
+
+                    .btn-secondary:hover {
+                        border-color: var(--black);
+                        color: var(--black);
+                    }
+
+                .btn-danger {
+                    background: #fff0ee;
+                    color: #b83320;
+                    border: 1px solid #f5c5bc;
+                    padding: 10px 16px;
+                    font-family: 'Barlow Condensed', sans-serif;
+                    font-size: 12px;
+                    font-weight: 700;
+                    letter-spacing: 0.1em;
+                    text-transform: uppercase;
+                    cursor: pointer;
+                    transition: all 0.15s;
+                }
+
+                    .btn-danger:hover {
+                        background: #fde0da;
+                        border-color: #d04424;
+                    }
+
+                /* Search */
+                .search-row {
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    padding: 16px 40px;
+                    background: var(--cream);
+                    border-bottom: 1px solid var(--gray-light);
+                    flex-shrink: 0;
+                    flex-wrap: wrap;
+                }
+
+                .search-input {
+                    border: 1px solid var(--gray-light);
+                    background: white;
+                    padding: 10px 16px;
+                    font-family: 'Barlow', sans-serif;
+                    font-size: 14px;
+                    color: var(--black);
+                    outline: none;
+                    transition: border-color 0.15s;
+                }
+
+                    .search-input::placeholder {
+                        color: var(--gray-mid);
+                    }
+
+                    .search-input:focus {
+                        border-color: var(--black);
+                    }
+
+                .form-select {
+                    border: 1px solid var(--gray-light);
+                    background: white;
+                    padding: 10px 14px;
+                    font-family: 'Barlow', sans-serif;
+                    font-size: 13px;
+                    color: var(--black);
+                    outline: none;
+                    cursor: pointer;
+                }
+
+                    .form-select:focus {
+                        border-color: var(--black);
+                    }
+
+                .search-count {
+                    margin-left: auto;
+                    font-size: 11px;
+                    font-weight: 700;
+                    letter-spacing: 0.1em;
+                    text-transform: uppercase;
+                    color: var(--gray-mid);
+                }
+
+                    .search-count span {
+                        color: var(--black);
+                        font-size: 14px;
+                    }
+
+                /* Content area */
+                .content-area {
+                    flex: 1;
+                    overflow: hidden;
+                    display: flex;
+                    min-height: 0;
+                }
+
+                .table-panel {
+                    flex: 1;
+                    overflow-y: auto;
+                    min-width: 0;
+                }
+
+                /* Table */
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                }
+
+                thead tr {
+                    border-bottom: 2px solid var(--black);
+                }
+
+                th {
+                    font-family: 'Barlow Condensed', sans-serif;
+                    font-size: 11px;
+                    font-weight: 700;
+                    letter-spacing: 0.12em;
+                    text-transform: uppercase;
+                    color: var(--gray-mid);
+                    padding: 12px 16px 12px 40px;
+                    text-align: left;
+                    position: sticky;
+                    top: 0;
+                    background: var(--cream);
+                    z-index: 1;
+                }
+
+                tbody tr {
+                    border-bottom: 1px solid var(--gray-light);
+                    transition: background 0.1s;
+                    cursor: pointer;
+                }
+
+                    tbody tr:hover {
+                        background: rgba(0,0,0,0.03);
+                    }
+
+                    tbody tr.selected {
+                        background: rgba(232,77,14,0.05);
+                        box-shadow: inset 3px 0 0 var(--orange);
+                    }
+
+                td {
+                    padding: 14px 16px 14px 40px;
+                    font-size: 14px;
+                    color: var(--black);
+                    vertical-align: middle;
+                }
+
+                .td-name {
+                    font-weight: 600;
+                }
+
+                .td-muted {
+                    color: var(--gray-dark);
+                    font-size: 13px;
+                }
+
+                .td-date {
+                    font-family: 'Barlow Condensed', sans-serif;
+                    font-size: 13px;
+                    font-weight: 700;
+                    color: var(--gray-dark);
+                    letter-spacing: 0.05em;
+                }
+
+                /* Badges */
+                .badge {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 5px;
+                    padding: 4px 10px;
+                    font-family: 'Barlow Condensed', sans-serif;
+                    font-size: 11px;
+                    font-weight: 700;
+                    letter-spacing: 0.08em;
+                    text-transform: uppercase;
+                }
+
+                    .badge::before {
+                        content: '';
+                        width: 5px;
+                        height: 5px;
+                        border-radius: 50%;
+                        display: block;
+                        flex-shrink: 0;
+                    }
+
+                .badge-success {
+                    background: #e0f0e8;
+                    color: #1a6637;
+                }
+
+                    .badge-success::before {
+                        background: #2a9450;
+                    }
+
+                .badge-danger {
+                    background: #ffe5e0;
+                    color: #b83320;
+                }
+
+                    .badge-danger::before {
+                        background: #d04424;
+                    }
+
+                /* Empty / Loading */
+                .state-cell {
+                    text-align: center;
+                    padding: 52px 24px;
+                    color: var(--gray-mid);
+                    font-family: 'Barlow Condensed', sans-serif;
+                    font-size: 13px;
+                    font-weight: 700;
+                    letter-spacing: 0.1em;
+                    text-transform: uppercase;
+                }
+
+                .spinner {
+                    width: 18px;
+                    height: 18px;
+                    border: 2px solid var(--gray-light);
+                    border-top-color: var(--orange);
+                    border-radius: 50%;
+                    animation: spin 0.6s linear infinite;
+                    display: inline-block;
+                    vertical-align: middle;
+                    margin-right: 8px;
+                }
+
+                @keyframes spin {
+                    to {
+                        transform: rotate(360deg);
+                    }
+                }
+
+                /* Detail panel */
+                .detail-panel-wrap {
+                    width: 320px;
+                    flex-shrink: 0;
+                    overflow-y: auto;
+                    background: var(--cream);
+                    border-left: 1px solid var(--gray-light);
+                }
+
+                .detail-panel {
+                    padding: 24px 24px 32px;
+                }
+
+                .detail-tag {
+                    font-size: 11px;
+                    font-weight: 700;
+                    letter-spacing: 0.12em;
+                    text-transform: uppercase;
+                    color: var(--orange);
+                    margin-bottom: 4px;
+                }
+
+                .detail-title {
+                    font-family: 'Barlow Condensed', sans-serif;
+                    font-size: 22px;
+                    font-weight: 900;
+                    color: var(--black);
+                    text-transform: uppercase;
+                    margin-bottom: 16px;
+                    line-height: 1.1;
+                }
+
+                .detail-row {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 9px 0;
+                    border-bottom: 1px solid var(--gray-light);
+                }
+
+                    .detail-row:last-of-type {
+                        border-bottom: none;
+                    }
+
+                .detail-label {
+                    font-size: 11px;
+                    font-weight: 700;
+                    text-transform: uppercase;
+                    letter-spacing: 0.1em;
+                    color: var(--gray-mid);
+                }
+
+                .detail-value {
+                    font-size: 13px;
+                    font-weight: 600;
+                    color: var(--black);
+                    text-align: right;
+                }
+
+                .detail-divider {
+                    height: 1px;
+                    background: var(--gray-light);
+                    margin: 20px 0 16px;
+                }
+
+                .detail-section-label {
+                    font-size: 10px;
+                    font-weight: 700;
+                    text-transform: uppercase;
+                    letter-spacing: 0.12em;
+                    color: var(--gray-mid);
+                    margin-bottom: 14px;
+                }
+
+                .form-group {
+                    margin-bottom: 12px;
+                }
+
+                .form-label {
+                    display: block;
+                    font-size: 10px;
+                    font-weight: 700;
+                    letter-spacing: 0.1em;
+                    text-transform: uppercase;
+                    color: var(--gray-dark);
+                    margin-bottom: 5px;
+                }
+
+                .form-control {
+                    width: 100%;
+                    border: 1px solid var(--gray-light);
+                    background: white;
+                    padding: 9px 12px;
+                    font-family: 'Barlow', sans-serif;
+                    font-size: 13px;
+                    color: var(--black);
+                    outline: none;
+                    transition: border-color 0.15s;
+                }
+
+                    .form-control:focus {
+                        border-color: var(--black);
+                    }
+
+                .form-row {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 10px;
+                }
+
+                .detail-actions {
+                    display: flex;
+                    gap: 8px;
+                    margin-top: 16px;
+                }
+
+                /* Status bar */
+                .status-bar {
+                    padding: 9px 14px;
+                    font-family: 'Barlow Condensed', sans-serif;
+                    font-size: 11px;
+                    font-weight: 700;
+                    letter-spacing: 0.1em;
+                    text-transform: uppercase;
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    border-left: 3px solid;
+                    margin-bottom: 16px;
+                }
+
+                    .status-bar::before {
+                        content: '';
+                        width: 6px;
+                        height: 6px;
+                        border-radius: 50%;
+                        display: block;
+                        flex-shrink: 0;
+                    }
+
+                    .status-bar.active {
+                        background: #e0f0e8;
+                        color: #1a6637;
+                        border-color: #2a9450;
+                    }
+
+                        .status-bar.active::before {
+                            background: #2a9450;
+                        }
+
+                    .status-bar.expired {
+                        background: #ffe5e0;
+                        color: #b83320;
+                        border-color: #d04424;
+                    }
+
+                        .status-bar.expired::before {
+                            background: #d04424;
+                        }
+
+                /* Modal */
+                .modal-overlay {
+                    display: none;
+                    position: fixed;
+                    inset: 0;
+                    background: rgba(14,14,14,0.78);
+                    z-index: 200;
+                    align-items: center;
+                    justify-content: center;
+                }
+
+                    .modal-overlay.open {
+                        display: flex;
+                    }
+
+                .modal {
+                    background: var(--cream);
+                    width: 520px;
+                    max-width: 95vw;
+                    padding: 40px;
+                    position: relative;
+                    max-height: 90vh;
+                    overflow-y: auto;
+                }
+
+                .modal-tag {
+                    font-size: 11px;
+                    font-weight: 700;
+                    letter-spacing: 0.12em;
+                    text-transform: uppercase;
+                    color: var(--orange);
+                    margin-bottom: 6px;
+                }
+
+                .modal-title {
+                    font-family: 'Barlow Condensed', sans-serif;
+                    font-size: 32px;
+                    font-weight: 900;
+                    color: var(--black);
+                    text-transform: uppercase;
+                    margin-bottom: 24px;
+                    line-height: 1;
+                }
+
+                .modal-close {
+                    position: absolute;
+                    top: 16px;
+                    right: 20px;
+                    background: none;
+                    border: none;
+                    font-size: 22px;
+                    color: var(--gray-mid);
+                    cursor: pointer;
+                    line-height: 1;
+                    transition: color 0.15s;
+                }
+
+                    .modal-close:hover {
+                        color: var(--black);
+                    }
+
+                .modal-actions {
+                    display: flex;
+                    gap: 8px;
+                    margin-top: 24px;
+                }
+
+                /* Toast */
+                .toast {
+                    position: fixed;
+                    bottom: 24px;
+                    right: 24px;
+                    padding: 13px 20px;
+                    font-family: 'Barlow Condensed', sans-serif;
+                    font-size: 13px;
+                    font-weight: 700;
+                    letter-spacing: 0.06em;
+                    text-transform: uppercase;
+                    z-index: 9999;
+                    opacity: 0;
+                    transform: translateY(8px);
+                    transition: all 0.2s ease;
+                    border-left: 4px solid var(--orange);
+                    background: var(--cream);
+                    color: var(--black);
+                    max-width: 340px;
+                }
+
+                    .toast.show {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+
+                    .toast.error {
+                        border-left-color: #d04424;
+                    }
+    </style>
 </head>
 <body>
-    <div class="app-shell">
-        <div class="main-content">
-            <div class="page-header">
+
+    <!-- ══ SIDEBAR ══ -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <div class="logo-mark">B</div>
+            <span class="logo-text">Biblioteka</span>
+        </div>
+        <nav class="sidebar-nav">
+            <p class="nav-section-label">Navigacija</p>
+            <div class="folder-tabs">
+                <a href="/index.html" class="folder-tab" style="margin-left:0px">
+                    <span class="tab-num">01</span>Pregled
+                </a>
+                <a href="/knjige.html" class="folder-tab" style="margin-left:10px">
+                    <span class="tab-num">02</span>Knjige
+                </a>
+                <a href="/clanovi.html" class="folder-tab active" style="margin-left:20px">
+                    <span class="tab-num">03</span>Članovi
+                </a>
+                <a href="/pozajmice.html" class="folder-tab" style="margin-left:30px">
+                    <span class="tab-num">04</span>Pozajmice
+                </a>
+            </div>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="user-avatar" id="userInitials">—</div>
+            <div class="user-info">
+                <div class="user-name" id="userName">—</div>
+                <div class="user-role">Bibliotekar</div>
+            </div>
+            <button class="logout-btn" onclick="doLogout()" title="Odjavi se">↩</button>
+        </div>
+    </aside>
+
+    <!-- ══ MAIN ══ -->
+    <main class="main">
+
+        <div class="page-header">
+            <div class="page-breadcrumb">Biblioteka / Članovi</div>
+            <div class="page-title-row">
                 <div>
-                    <div class="page-title">Članovi</div>
-                    <div class="page-subtitle">Registrovani članovi biblioteke</div>
+                    <h1 class="page-title">Članovi</h1>
+                    <p class="page-subtitle">Registrovani članovi biblioteke</p>
                 </div>
-                <button class="btn btn-primary" onclick="openAddModal()">+ Dodaj člana</button>
+                <button class="btn-primary" onclick="openModal()">+ Dodaj člana</button>
+            </div>
+        </div>
+
+        <div class="search-row">
+            <input class="search-input" id="txtSearch" type="text"
+                   placeholder="Pretraži po imenu ili telefonu..."
+                   style="width:260px"
+                   oninput="pretrazi()"
+                   onkeydown="if(event.key==='Enter') pretrazi()">
+            <select class="form-select" id="cmbClanstvo" onchange="pretrazi()">
+                <option value="">Sva članstva</option>
+            </select>
+            <button class="btn-primary" style="padding:10px 20px" onclick="pretrazi()">Pretraži</button>
+            <button class="btn-secondary" onclick="resetSearch()">Reset</button>
+            <div class="search-count">Ukupno: <span id="countDisplay">—</span></div>
+        </div>
+
+        <div class="content-area">
+            <!-- Table -->
+            <div class="table-panel">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Ime i prezime</th>
+                            <th>Telefon</th>
+                            <th>Članstvo</th>
+                            <th>Važi do</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyClanovi">
+                        <tr>
+                            <td colspan="5" class="state-cell">
+                                <span class="spinner"></span>Učitavanje...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
 
-            <div class="card" style="margin-bottom:20px">
-                <div class="card-body" style="padding:14px 22px">
-                    <div class="search-bar" style="flex-wrap:wrap;gap:8px">
-                        <input class="search-input" id="txtSearch" type="text" placeholder="Pretraži po imenu ili telefonu...">
-                        <select class="form-control" id="cmbClanstvo" style="width:200px;padding:9px 13px">
-                            <option value="">Sva članstva</option>
-                        </select>
-                        <button class="btn btn-secondary" onclick="pretrazi()">Pretraži</button>
-                        <button class="btn btn-secondary" onclick="reset()">Reset</button>
-                        <span style="margin-left:auto;font-family:Syne,sans-serif;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)" id="lblBroj"></span>
-                    </div>
-                </div>
-            </div>
+            <!-- Detail panel -->
+            <div class="detail-panel-wrap" id="detailWrap" style="display:none">
+                <div class="detail-panel">
+                    <div class="detail-tag">Detalji člana</div>
+                    <div class="detail-title" id="dImeTitle">—</div>
 
-            <div class="split-layout">
-                <div class="card">
-                    <div class="table-wrap">
-                        <table>
-                            <thead><tr><th>Ime i prezime</th><th>Telefon</th><th>Članstvo</th><th>Važi do</th><th>Status</th></tr></thead>
-                            <tbody id="tbodyClanovi">
-                                <tr><td colspan="5"><div class="loading-state"><div class="spinner"></div>Učitavanje...</div></td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                    <div id="statusBar" class="status-bar active">—</div>
 
-                <div id="detailPanel" style="display:none">
-                    <div class="detail-panel">
-                        <div id="statusBar" class="status-bar"></div>
-                        <div class="detail-row"><span class="detail-label">Vrsta članstva</span><span class="detail-value" id="dClanstvo"></span></div>
-                        <div class="detail-row"><span class="detail-label">Član od</span><span class="detail-value" id="dDatumOd"></span></div>
-                        <div class="detail-row"><span class="detail-label">Član do</span><span class="detail-value" id="dDatumDo"></span></div>
-                        <hr style="margin:16px 0;border:none;border-top:1px solid var(--border-lt)">
-                        <div style="font-family:Syne,sans-serif;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:14px">Izmena podataka</div>
-                        <div class="form-row">
-                            <div class="form-group"><label class="form-label">Ime</label><input class="form-control" id="eIme" type="text"></div>
-                            <div class="form-group"><label class="form-label">Prezime</label><input class="form-control" id="ePrezime" type="text"></div>
-                        </div>
-                        <div class="form-group"><label class="form-label">Telefon</label><input class="form-control" id="eTelefon" type="number"></div>
-                        <div class="form-row">
-                            <div class="form-group"><label class="form-label">Datum od</label><input class="form-control" id="eDatumOd" type="date"></div>
-                            <div class="form-group"><label class="form-label">Datum do</label><input class="form-control" id="eDatumDo" type="date"></div>
-                        </div>
-                        <div class="form-group"><label class="form-label">Vrsta članarine</label><select class="form-control" id="eClanstvo"></select></div>
-                        <div style="display:flex;gap:8px;margin-top:6px">
-                            <button class="btn btn-primary" style="flex:1" onclick="sacuvajIzmene()">Sačuvaj</button>
-                            <button class="btn btn-danger btn-sm" onclick="obrisiClana()">Obriši</button>
-                        </div>
+                    <div class="detail-row"><span class="detail-label">Vrsta članstva</span><span class="detail-value" id="dClanstvo">—</span></div>
+                    <div class="detail-row"><span class="detail-label">Član od</span><span class="detail-value" id="dDatumOd">—</span></div>
+                    <div class="detail-row"><span class="detail-label">Važi do</span><span class="detail-value" id="dDatumDo">—</span></div>
+
+                    <div class="detail-divider"></div>
+                    <div class="detail-section-label">Izmena podataka</div>
+
+                    <div class="form-row">
+                        <div class="form-group"><label class="form-label">Ime</label><input class="form-control" id="eIme" type="text"></div>
+                        <div class="form-group"><label class="form-label">Prezime</label><input class="form-control" id="ePrezime" type="text"></div>
+                    </div>
+                    <div class="form-group"><label class="form-label">Telefon</label><input class="form-control" id="eTelefon" type="number"></div>
+                    <div class="form-row">
+                        <div class="form-group"><label class="form-label">Datum od</label><input class="form-control" id="eDatumOd" type="date"></div>
+                        <div class="form-group"><label class="form-label">Datum do</label><input class="form-control" id="eDatumDo" type="date"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Vrsta članarine</label>
+                        <select class="form-control" id="eClanstvo"></select>
+                    </div>
+
+                    <div class="detail-actions">
+                        <button class="btn-primary" style="flex:1" onclick="sacuvajIzmene()">Sačuvaj →</button>
+                        <button class="btn-danger" onclick="obrisiClana()">Obriši</button>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="modal-overlay" id="addModal" style="display:none" onclick="if(event.target===this)closeAddModal()">
+    </main>
+
+    <!-- ══ MODAL ══ -->
+    <div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this) closeModal()">
         <div class="modal">
-            <div class="modal-title">Dodaj novog člana</div>
+            <button class="modal-close" onclick="closeModal()">×</button>
+            <div class="modal-tag">Biblioteka / Članovi</div>
+            <h2 class="modal-title">Dodaj<br>Člana</h2>
+
             <div class="form-row">
                 <div class="form-group"><label class="form-label">Ime</label><input class="form-control" id="mIme" type="text"></div>
                 <div class="form-group"><label class="form-label">Prezime</label><input class="form-control" id="mPrezime" type="text"></div>
@@ -84,39 +938,52 @@
                 <div class="form-group"><label class="form-label">Datum od</label><input class="form-control" id="mDatumOd" type="date"></div>
                 <div class="form-group"><label class="form-label">Datum do</label><input class="form-control" id="mDatumDo" type="date"></div>
             </div>
-            <div class="form-group"><label class="form-label">Vrsta članarine</label><select class="form-control" id="mClanstvo"></select></div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeAddModal()">Odustani</button>
-                <button class="btn btn-primary" onclick="dodajClana()">Sačuvaj</button>
+            <div class="form-group">
+                <label class="form-label">Vrsta članarine</label>
+                <select class="form-control" id="mClanstvo"></select>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn-primary" style="flex:1" onclick="dodajClana()">Sačuvaj člana →</button>
+                <button class="btn-secondary" onclick="closeModal()">Otkaži</button>
             </div>
         </div>
     </div>
 
+    <div class="toast" id="toast"></div>
+
     <script src="/api.js"></script>
-    <script src="/sidebar.js"></script>
     <script>
         let clanovi = [], clanstva = [], selektovaniClan = null;
 
         (async () => {
-            const status = await requireAuth();
+            const status = await requireAuth().catch(() => null);
             if (!status) return;
-            initPage('clanovi', status);
+
+            if (status.ime) {
+                document.getElementById('userName').textContent = status.ime;
+                const p = status.ime.trim().split(' ');
+                document.getElementById('userInitials').textContent = p.length >= 2 ? p[0][0] + p[1][0] : p[0].substring(0, 2);
+            }
+
             clanstva = await API.getClanstva().catch(() => []);
-            const opts = clanstva.map(c => `<option value="${c.id}">${c.vrsta} (${c.cena} RSD)</option>`).join('');
-            ['cmbClanstvo', 'eClanstvo', 'mClanstvo'].forEach(id => {
-                const el = document.getElementById(id);
-                if (id === 'cmbClanstvo') el.innerHTML = '<option value="">Sva članstva</option>' + opts;
-                else el.innerHTML = opts;
-            });
+            const opts = clanstva.map(c => `<option value="${c.id}">${esc(c.vrsta)} (${c.cena} RSD)</option>`).join('');
+            document.getElementById('cmbClanstvo').innerHTML = '<option value="">Sva članstva</option>' + opts;
+            document.getElementById('eClanstvo').innerHTML = opts;
+            document.getElementById('mClanstvo').innerHTML = opts;
+
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('mDatumOd').value = today;
             document.getElementById('mDatumDo').value = new Date(Date.now() + 365 * 86400000).toISOString().split('T')[0];
+
             await ucitaj();
         })();
 
         async function ucitaj() {
-            try { clanovi = await API.getClanovi(); renderTabela(getFiltered()); document.getElementById('lblBroj').textContent = `Ukupno: ${getFiltered().length}`; }
-            catch (ex) { toast('Greška: ' + ex.message, 'error'); }
+            try {
+                clanovi = await API.getClanovi();
+                renderTabela(getFiltered());
+            } catch (ex) { showToast('Greška: ' + ex.message, true); }
         }
 
         function getFiltered() {
@@ -131,17 +998,21 @@
 
         function renderTabela(lista) {
             const tb = document.getElementById('tbodyClanovi');
-            if (!lista?.length) {
-                tb.innerHTML = '<tr><td colspan="5"><div class="empty-state"><div class="empty-state-icon">◎</div><div class="empty-state-text">Nema rezultata</div></div></td></tr>'; return;
+            document.getElementById('countDisplay').textContent = lista.length;
+
+            if (!lista.length) {
+                tb.innerHTML = `<tr><td colspan="5" class="state-cell">Nema rezultata</td></tr>`;
+                return;
             }
+
             tb.innerHTML = lista.map(c => {
                 const aktivan = new Date(c.datumDo) >= new Date();
                 const cs = clanstva.find(x => x.id === c.idClanstva);
                 return `<tr onclick="selektuj(${c.id})" class="${selektovaniClan?.id === c.id ? 'selected' : ''}">
-          <td style="font-weight:600">${c.ime} ${c.prezime}</td>
-          <td style="color:var(--muted);font-family:Syne,sans-serif;font-size:12px">${c.telefon}</td>
-          <td>${cs ? cs.vrsta : '—'}</td>
-          <td style="color:var(--muted)">${fmtDatum(c.datumDo)}</td>
+          <td class="td-name">${esc(c.ime)} ${esc(c.prezime)}</td>
+          <td class="td-muted">${esc(String(c.telefon))}</td>
+          <td>${cs ? esc(cs.vrsta) : '—'}</td>
+          <td class="td-date">${fmtDatum(c.datumDo)}</td>
           <td><span class="badge ${aktivan ? 'badge-success' : 'badge-danger'}">${aktivan ? 'Aktivna' : 'Istekla'}</span></td>
         </tr>`;
             }).join('');
@@ -150,30 +1021,37 @@
         function selektuj(id) {
             selektovaniClan = clanovi.find(c => c.id === id);
             if (!selektovaniClan) return;
-            renderTabela(getFiltered()); prikaziDetalje(selektovaniClan);
-            document.getElementById('detailPanel').style.display = '';
-        }
+            renderTabela(getFiltered());
 
-        function prikaziDetalje(c) {
+            const c = selektovaniClan;
             const aktivan = new Date(c.datumDo) >= new Date();
-            const sb = document.getElementById('statusBar');
-            sb.className = aktivan ? 'status-bar active' : 'status-bar expired';
-            sb.textContent = aktivan ? '✓ Aktivna članarina' : '✗ Članarina istekla';
             const cs = clanstva.find(x => x.id === c.idClanstva);
+
+            document.getElementById('dImeTitle').textContent = `${c.ime} ${c.prezime}`;
+            const sb = document.getElementById('statusBar');
+            sb.className = `status-bar ${aktivan ? 'active' : 'expired'}`;
+            sb.textContent = aktivan ? 'Aktivna članarina' : 'Članarina istekla';
+
             document.getElementById('dClanstvo').textContent = cs ? `${cs.vrsta} — ${cs.cena} RSD` : '—';
             document.getElementById('dDatumOd').textContent = fmtDatum(c.datumOd);
             document.getElementById('dDatumDo').textContent = fmtDatum(c.datumDo);
+
             document.getElementById('eIme').value = c.ime;
             document.getElementById('ePrezime').value = c.prezime;
             document.getElementById('eTelefon').value = c.telefon;
             document.getElementById('eDatumOd').value = c.datumOd?.split('T')[0] || '';
             document.getElementById('eDatumDo').value = c.datumDo?.split('T')[0] || '';
             document.getElementById('eClanstvo').value = c.idClanstva;
+
+            document.getElementById('detailWrap').style.display = '';
         }
 
-        function pretrazi() { const f = getFiltered(); renderTabela(f); document.getElementById('lblBroj').textContent = `Ukupno: ${f.length}`; }
-        function reset() { document.getElementById('txtSearch').value = ''; document.getElementById('cmbClanstvo').value = ''; renderTabela(clanovi); document.getElementById('lblBroj').textContent = `Ukupno: ${clanovi.length}`; }
-        document.getElementById('txtSearch').addEventListener('keydown', e => { if (e.key === 'Enter') pretrazi(); });
+        function pretrazi() { renderTabela(getFiltered()); }
+        function resetSearch() {
+            document.getElementById('txtSearch').value = '';
+            document.getElementById('cmbClanstvo').value = '';
+            renderTabela(clanovi);
+        }
 
         async function sacuvajIzmene() {
             if (!selektovaniClan) return;
@@ -183,30 +1061,32 @@
             const datumOd = document.getElementById('eDatumOd').value;
             const datumDo = document.getElementById('eDatumDo').value;
             const idClanstva = parseInt(document.getElementById('eClanstvo').value);
-            if (!ime || !prezime || !telefon || !datumOd || !datumDo || !idClanstva) { toast('Popunite sva polja.', 'error'); return; }
+            if (!ime || !prezime || !telefon || !datumOd || !datumDo || !idClanstva) { showToast('Popunite sva polja.', true); return; }
             try {
                 await API.updateClan(selektovaniClan.id, { ime, prezime, telefon, datumOd, datumDo, idClanstva });
-                toast('Član izmenjen.'); await ucitaj();
+                showToast('Član izmenjen.'); await ucitaj();
                 const u = clanovi.find(c => c.id === selektovaniClan.id);
-                if (u) { selektovaniClan = u; prikaziDetalje(u); }
-            } catch (ex) { toast(ex.message, 'error'); }
+                if (u) { selektovaniClan = u; selektuj(u.id); }
+            } catch (ex) { showToast(ex.message, true); }
         }
 
         async function obrisiClana() {
             if (!selektovaniClan) return;
             if (!confirm(`Obrisati člana ${selektovaniClan.ime} ${selektovaniClan.prezime}?`)) return;
             try {
-                await API.deleteClan(selektovaniClan.id); toast('Član obrisan.');
-                selektovaniClan = null; document.getElementById('detailPanel').style.display = 'none'; await ucitaj();
-            } catch (ex) { toast(ex.message, 'error'); }
+                await API.deleteClan(selektovaniClan.id);
+                showToast('Član obrisan.'); selektovaniClan = null;
+                document.getElementById('detailWrap').style.display = 'none';
+                await ucitaj();
+            } catch (ex) { showToast(ex.message, true); }
         }
 
-        function openAddModal() {
+        function openModal() {
             ['mIme', 'mPrezime', 'mTelefon'].forEach(id => document.getElementById(id).value = '');
-            document.getElementById('addModal').style.display = 'flex';
+            document.getElementById('modalOverlay').classList.add('open');
             setTimeout(() => document.getElementById('mIme').focus(), 50);
         }
-        function closeAddModal() { document.getElementById('addModal').style.display = 'none'; }
+        function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
 
         async function dodajClana() {
             const ime = document.getElementById('mIme').value.trim();
@@ -215,12 +1095,37 @@
             const datumOd = document.getElementById('mDatumOd').value;
             const datumDo = document.getElementById('mDatumDo').value;
             const idClanstva = parseInt(document.getElementById('mClanstvo').value);
-            if (!ime || !prezime || !telefon || !datumOd || !datumDo || !idClanstva) { toast('Popunite sva polja.', 'error'); return; }
+            if (!ime || !prezime || !telefon || !datumOd || !datumDo || !idClanstva) { showToast('Popunite sva polja.', true); return; }
             try {
                 await API.addClan({ ime, prezime, telefon, datumOd, datumDo, idClanstva });
-                toast('Član dodat.'); closeAddModal(); await ucitaj();
-            } catch (ex) { toast(ex.message, 'error'); }
+                showToast('Član dodat.'); closeModal(); await ucitaj();
+            } catch (ex) { showToast(ex.message, true); }
         }
+
+        async function doLogout() {
+            try { await API.logout(); } catch { }
+            window.location.replace('/login.html');
+        }
+
+        function fmtDatum(d) {
+            if (!d) return '—';
+            return new Date(d).toLocaleDateString('sr-Latn', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        }
+
+        function esc(s) {
+            return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
+        let toastTimer;
+        function showToast(msg, isError) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.className = 'toast show' + (isError ? ' error' : '');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+        }
+
+        function toast(msg, type) { showToast(msg, type === 'error'); }
     </script>
 </body>
 </html>
