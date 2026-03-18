@@ -4,998 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Biblioteka — Pozajmice</title>
-    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
-    <style>
-                /* ══════════════════════════════════════════
-           RESET & ROOT
-        ══════════════════════════════════════════ */
-                *, *::before, *::after {
-                    margin: 0;
-                    padding: 0;
-                    box-sizing: border-box;
-                }
-
-                :root {
-                    --black: #0e0e0e;
-                    --white: #f5f0e8;
-                    --orange: #e84d0e;
-                    --cream: #f5f0e8;
-                    --cream-dark: #ede8de;
-                    --gray-light: #d8d3c8;
-                    --gray-mid: #9a9590;
-                    --gray-dark: #4a4540;
-                    --sidebar-w: 260px;
-                }
-
-                body {
-                    font-family: 'Barlow', sans-serif;
-                    background: var(--black);
-                    color: var(--white);
-                    display: flex;
-                    height: 100vh;
-                    overflow: hidden;
-                }
-
-                /* ══════════════════════════════════════════
-           SIDEBAR
-        ══════════════════════════════════════════ */
-                .sidebar {
-                    width: var(--sidebar-w);
-                    background: var(--black);
-                    border-right: 1px solid #1e1e1e;
-                    display: flex;
-                    flex-direction: column;
-                    flex-shrink: 0;
-                    height: 100vh;
-                }
-
-                .sidebar-logo {
-                    padding: 24px 20px 20px;
-                    border-bottom: 1px solid #1e1e1e;
-                    display: flex;
-                    align-items: center;
-                    gap: 10px;
-                }
-
-                .logo-mark {
-                    width: 32px;
-                    height: 32px;
-                    background: var(--orange);
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    font-family: 'Barlow Condensed', sans-serif;
-                    font-weight: 900;
-                    font-size: 16px;
-                    color: var(--white);
-                    flex-shrink: 0;
-                }
-
-                .logo-text {
-                    font-family: 'Barlow Condensed', sans-serif;
-                    font-weight: 700;
-                    font-size: 13px;
-                    letter-spacing: 0.15em;
-                    color: var(--white);
-                    text-transform: uppercase;
-                }
-
-                .sidebar-nav {
-                    flex: 1;
-                    padding: 24px 0 0;
-                    overflow-y: auto;
-                    scrollbar-width: none;
-                }
-
-                    .sidebar-nav::-webkit-scrollbar {
-                        display: none;
-                    }
-
-                .nav-section-label {
-                    font-size: 10px;
-                    letter-spacing: 0.12em;
-                    text-transform: uppercase;
-                    color: var(--gray-mid);
-                    padding: 0 20px 10px;
-                }
-
-                .folder-tabs {
-                    display: flex;
-                    flex-direction: column;
-                    padding: 0 16px;
-                    margin-bottom: 8px;
-                }
-
-                .folder-tab {
-                    position: relative;
-                    padding: 13px 16px 13px 44px;
-                    cursor: pointer;
-                    font-family: 'Barlow Condensed', sans-serif;
-                    font-size: 15px;
-                    font-weight: 700;
-                    letter-spacing: 0.08em;
-                    text-transform: uppercase;
-                    color: var(--gray-mid);
-                    background: transparent;
-                    border: none;
-                    border-left: 2px solid transparent;
-                    text-decoration: none;
-                    display: flex;
-                    align-items: center;
-                    gap: 10px;
-                    transition: all 0.15s;
-                }
-
-                    .folder-tab:nth-child(1) {
-                        margin-left: 0px;
-                    }
-
-                    .folder-tab:nth-child(2) {
-                        margin-left: 10px;
-                    }
-
-                    .folder-tab:nth-child(3) {
-                        margin-left: 20px;
-                    }
-
-                    .folder-tab:nth-child(4) {
-                        margin-left: 30px;
-                    }
-
-                    .folder-tab::before {
-                        content: '';
-                        position: absolute;
-                        inset: 0;
-                        background: transparent;
-                        z-index: -1;
-                        clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 50%, calc(100% - 10px) 100%, 0 100%);
-                        transition: background 0.15s;
-                    }
-
-                    .folder-tab:hover {
-                        color: var(--white);
-                    }
-
-                        .folder-tab:hover::before {
-                            background: #1a1a1a;
-                        }
-
-                    .folder-tab.active {
-                        color: var(--white);
-                        border-left: 2px solid var(--orange);
-                    }
-
-                        .folder-tab.active::before {
-                            background: #1f1f1f;
-                        }
-
-                .tab-num {
-                    font-size: 10px;
-                    color: var(--orange);
-                    font-weight: 700;
-                    letter-spacing: 0.05em;
-                    position: absolute;
-                    left: 18px;
-                }
-
-                .tab-badge {
-                    margin-left: auto;
-                    font-size: 10px;
-                    padding: 2px 7px;
-                    border-radius: 99px;
-                    font-family: 'Barlow', sans-serif;
-                    font-weight: 600;
-                    background: var(--orange);
-                    color: var(--white);
-                    text-transform: none;
-                }
-
-                .sidebar-footer {
-                    padding: 16px 20px;
-                    border-top: 1px solid #1e1e1e;
-                    display: flex;
-                    align-items: center;
-                    gap: 10px;
-                }
-
-                .user-avatar {
-                    width: 32px;
-                    height: 32px;
-                    background: var(--orange);
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    font-family: 'Barlow Condensed', sans-serif;
-                    font-weight: 900;
-                    font-size: 13px;
-                    color: var(--white);
-                    flex-shrink: 0;
-                }
-
-                .user-info {
-                    flex: 1;
-                    min-width: 0;
-                }
-
-                .user-name {
-                    font-size: 12px;
-                    font-weight: 600;
-                    color: var(--white);
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                }
-
-                .user-role {
-                    font-size: 10px;
-                    color: var(--gray-mid);
-                    letter-spacing: 0.06em;
-                    text-transform: uppercase;
-                }
-
-                .logout-btn {
-                    background: none;
-                    border: none;
-                    cursor: pointer;
-                    color: var(--gray-mid);
-                    font-size: 14px;
-                    padding: 4px;
-                    transition: color 0.15s;
-                    line-height: 1;
-                }
-
-                    .logout-btn:hover {
-                        color: var(--orange);
-                    }
-
-                /* ══════════════════════════════════════════
-           MAIN LAYOUT
-        ══════════════════════════════════════════ */
-                .main {
-                    flex: 1;
-                    background: var(--cream);
-                    overflow-y: auto;
-                    display: flex;
-                    flex-direction: column;
-                    min-width: 0;
-                }
-
-                /* ── Page Header ── */
-                .page-header {
-                    background: var(--cream);
-                    padding: 32px 40px 0;
-                    border-bottom: 1px solid var(--gray-light);
-                    flex-shrink: 0;
-                }
-
-                .page-breadcrumb {
-                    font-size: 11px;
-                    font-weight: 700;
-                    letter-spacing: 0.12em;
-                    text-transform: uppercase;
-                    color: var(--orange);
-                    margin-bottom: 6px;
-                }
-
-                .page-title-row {
-                    display: flex;
-                    align-items: flex-end;
-                    justify-content: space-between;
-                    padding-bottom: 24px;
-                }
-
-                .page-title {
-                    font-family: 'Barlow Condensed', sans-serif;
-                    font-size: 48px;
-                    font-weight: 900;
-                    letter-spacing: -0.01em;
-                    color: var(--black);
-                    line-height: 1;
-                    text-transform: uppercase;
-                }
-
-                .page-subtitle {
-                    font-size: 13px;
-                    color: var(--gray-dark);
-                    margin-top: 4px;
-                    letter-spacing: 0.02em;
-                }
-
-                /* ── Buttons ── */
-                .btn-primary {
-                    background: var(--black);
-                    color: var(--white);
-                    border: none;
-                    padding: 12px 24px;
-                    font-family: 'Barlow Condensed', sans-serif;
-                    font-size: 13px;
-                    font-weight: 700;
-                    letter-spacing: 0.1em;
-                    text-transform: uppercase;
-                    cursor: pointer;
-                    display: flex;
-                    align-items: center;
-                    gap: 8px;
-                    transition: background 0.15s;
-                }
-
-                    .btn-primary:hover {
-                        background: var(--orange);
-                    }
-
-                .btn-search {
-                    background: var(--black);
-                    color: var(--white);
-                    border: none;
-                    padding: 10px 20px;
-                    font-family: 'Barlow Condensed', sans-serif;
-                    font-size: 13px;
-                    font-weight: 700;
-                    letter-spacing: 0.1em;
-                    text-transform: uppercase;
-                    cursor: pointer;
-                    transition: background 0.15s;
-                }
-
-                    .btn-search:hover {
-                        background: var(--orange);
-                    }
-
-                .btn-reset {
-                    background: transparent;
-                    color: var(--gray-dark);
-                    border: 1px solid var(--gray-light);
-                    padding: 10px 16px;
-                    font-family: 'Barlow Condensed', sans-serif;
-                    font-size: 12px;
-                    font-weight: 700;
-                    letter-spacing: 0.1em;
-                    text-transform: uppercase;
-                    cursor: pointer;
-                    transition: all 0.15s;
-                }
-
-                    .btn-reset:hover {
-                        border-color: var(--black);
-                        color: var(--black);
-                    }
-
-                /* ── Filter tabs ── */
-                .filter-row {
-                    display: flex;
-                    align-items: stretch;
-                    gap: 0;
-                    padding: 20px 40px 0;
-                    background: var(--cream);
-                    flex-shrink: 0;
-                }
-
-                .filter-tab {
-                    padding: 10px 22px;
-                    font-family: 'Barlow Condensed', sans-serif;
-                    font-size: 13px;
-                    font-weight: 700;
-                    letter-spacing: 0.1em;
-                    text-transform: uppercase;
-                    color: var(--gray-dark);
-                    cursor: pointer;
-                    border: 1px solid var(--gray-light);
-                    border-right: none;
-                    background: var(--cream-dark);
-                    transition: all 0.15s;
-                    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 50%, calc(100% - 8px) 100%, 0 100%);
-                    margin-right: -4px;
-                    position: relative;
-                    z-index: 1;
-                }
-
-                    .filter-tab:last-child {
-                        border-right: 1px solid var(--gray-light);
-                        clip-path: none;
-                        margin-right: 0;
-                    }
-
-                    .filter-tab.active {
-                        background: var(--black);
-                        color: var(--white);
-                        border-color: var(--black);
-                        z-index: 2;
-                    }
-
-                    .filter-tab:hover:not(.active) {
-                        background: var(--gray-light);
-                        color: var(--black);
-                    }
-
-                /* ── Search bar ── */
-                .search-row {
-                    display: flex;
-                    align-items: center;
-                    gap: 8px;
-                    padding: 16px 40px;
-                    background: var(--cream);
-                    border-bottom: 1px solid var(--gray-light);
-                    flex-shrink: 0;
-                }
-
-                .search-input {
-                    flex: 1;
-                    border: 1px solid var(--gray-light);
-                    background: white;
-                    padding: 10px 16px;
-                    font-family: 'Barlow', sans-serif;
-                    font-size: 14px;
-                    color: var(--black);
-                    outline: none;
-                    transition: border-color 0.15s;
-                }
-
-                    .search-input::placeholder {
-                        color: var(--gray-mid);
-                    }
-
-                    .search-input:focus {
-                        border-color: var(--black);
-                    }
-
-                .search-count {
-                    margin-left: auto;
-                    font-size: 11px;
-                    font-weight: 700;
-                    letter-spacing: 0.1em;
-                    text-transform: uppercase;
-                    color: var(--gray-mid);
-                    white-space: nowrap;
-                }
-
-                    .search-count span {
-                        color: var(--black);
-                        font-size: 14px;
-                    }
-
-                /* ── Table ── */
-                .table-wrap {
-                    flex: 1;
-                    overflow-y: auto;
-                    padding: 0 40px;
-                    background: var(--cream);
-                }
-
-                table {
-                    width: 100%;
-                    border-collapse: collapse;
-                }
-
-                thead tr {
-                    border-bottom: 2px solid var(--black);
-                }
-
-                th {
-                    font-family: 'Barlow Condensed', sans-serif;
-                    font-size: 11px;
-                    font-weight: 700;
-                    letter-spacing: 0.12em;
-                    text-transform: uppercase;
-                    color: var(--gray-mid);
-                    padding: 12px 16px;
-                    text-align: left;
-                    position: sticky;
-                    top: 0;
-                    background: var(--cream);
-                    z-index: 1;
-                }
-
-                tbody tr {
-                    border-bottom: 1px solid var(--gray-light);
-                    transition: background 0.1s;
-                    cursor: pointer;
-                }
-
-                    tbody tr:hover {
-                        background: rgba(0,0,0,0.03);
-                    }
-
-                    tbody tr.selected {
-                        background: rgba(232,77,14,0.05);
-                        box-shadow: inset 3px 0 0 var(--orange);
-                    }
-
-                td {
-                    padding: 14px 16px;
-                    font-size: 14px;
-                    color: var(--black);
-                    vertical-align: middle;
-                }
-
-                .td-member {
-                    font-weight: 600;
-                }
-
-                .td-librarian {
-                    color: var(--gray-dark);
-                    font-size: 13px;
-                }
-
-                .td-date {
-                    font-family: 'Barlow Condensed', sans-serif;
-                    font-size: 13px;
-                    font-weight: 700;
-                    color: var(--gray-dark);
-                    letter-spacing: 0.05em;
-                }
-
-                .td-books {
-                    font-size: 13px;
-                    color: var(--gray-dark);
-                    max-width: 180px;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
-                }
-
-                .td-returned {
-                    color: var(--gray-mid);
-                    font-size: 13px;
-                    font-family: 'Barlow Condensed', sans-serif;
-                    letter-spacing: 0.05em;
-                }
-
-                .row-action {
-                    opacity: 0;
-                    transition: opacity 0.15s;
-                    color: var(--gray-mid);
-                    font-size: 18px;
-                }
-
-                tbody tr:hover .row-action {
-                    opacity: 1;
-                }
-
-                /* ── Badges ── */
-                .badge {
-                    display: inline-flex;
-                    align-items: center;
-                    gap: 5px;
-                    padding: 4px 10px;
-                    font-family: 'Barlow Condensed', sans-serif;
-                    font-size: 11px;
-                    font-weight: 700;
-                    letter-spacing: 0.08em;
-                    text-transform: uppercase;
-                }
-
-                    .badge::before {
-                        content: '';
-                        width: 5px;
-                        height: 5px;
-                        border-radius: 50%;
-                        display: block;
-                        flex-shrink: 0;
-                    }
-
-                .badge-danger {
-                    background: #ffe5e0;
-                    color: #b83320;
-                }
-
-                    .badge-danger::before {
-                        background: #d04424;
-                    }
-
-                .badge-info {
-                    background: #e0ecff;
-                    color: #1a4a8a;
-                }
-
-                    .badge-info::before {
-                        background: #2a6ac8;
-                    }
-
-                .badge-success {
-                    background: #e0f0e8;
-                    color: #1a6637;
-                }
-
-                    .badge-success::before {
-                        background: #2a9450;
-                    }
-
-                .badge-muted {
-                    background: #e8e8e8;
-                    color: #555;
-                }
-
-                    .badge-muted::before {
-                        background: #999;
-                    }
-
-                /* ── Empty / Loading states ── */
-                .state-cell {
-                    text-align: center;
-                    padding: 52px 24px;
-                    color: var(--gray-mid);
-                    font-family: 'Barlow Condensed', sans-serif;
-                    font-size: 13px;
-                    font-weight: 700;
-                    letter-spacing: 0.1em;
-                    text-transform: uppercase;
-                }
-
-                .spinner {
-                    width: 18px;
-                    height: 18px;
-                    border: 2px solid var(--gray-light);
-                    border-top-color: var(--orange);
-                    border-radius: 50%;
-                    animation: spin 0.6s linear infinite;
-                    display: inline-block;
-                    vertical-align: middle;
-                    margin-right: 8px;
-                }
-
-                @keyframes spin {
-                    to {
-                        transform: rotate(360deg);
-                    }
-                }
-
-                /* ── Pagination ── */
-                .pagination {
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-between;
-                    padding: 16px 40px;
-                    background: var(--cream);
-                    border-top: 2px solid var(--black);
-                    flex-shrink: 0;
-                }
-
-                .pagination-info {
-                    font-family: 'Barlow Condensed', sans-serif;
-                    font-size: 13px;
-                    font-weight: 700;
-                    letter-spacing: 0.06em;
-                    text-transform: uppercase;
-                    color: var(--gray-dark);
-                }
-
-                    .pagination-info strong {
-                        color: var(--black);
-                    }
-
-                .pagination-controls {
-                    display: flex;
-                }
-
-                .page-btn {
-                    background: transparent;
-                    border: 1px solid var(--gray-light);
-                    color: var(--gray-dark);
-                    padding: 8px 16px;
-                    font-family: 'Barlow Condensed', sans-serif;
-                    font-size: 12px;
-                    font-weight: 700;
-                    letter-spacing: 0.1em;
-                    text-transform: uppercase;
-                    cursor: pointer;
-                    border-right: none;
-                    transition: all 0.15s;
-                }
-
-                    .page-btn:last-child {
-                        border-right: 1px solid var(--gray-light);
-                    }
-
-                    .page-btn.active {
-                        background: var(--black);
-                        color: var(--white);
-                        border-color: var(--black);
-                    }
-
-                    .page-btn:hover:not(.active):not(:disabled) {
-                        background: var(--gray-light);
-                        color: var(--black);
-                    }
-
-                    .page-btn:disabled {
-                        opacity: 0.35;
-                        cursor: not-allowed;
-                    }
-
-                /* ══════════════════════════════════════════
-           MODAL
-        ══════════════════════════════════════════ */
-                .modal-overlay {
-                    display: none;
-                    position: fixed;
-                    inset: 0;
-                    background: rgba(14,14,14,0.78);
-                    z-index: 200;
-                    align-items: center;
-                    justify-content: center;
-                }
-
-                    .modal-overlay.open {
-                        display: flex;
-                    }
-
-                .modal {
-                    background: var(--cream);
-                    width: 560px;
-                    max-width: 95vw;
-                    padding: 40px;
-                    position: relative;
-                    max-height: 90vh;
-                    overflow-y: auto;
-                }
-
-                .modal-tag {
-                    font-size: 11px;
-                    font-weight: 700;
-                    letter-spacing: 0.12em;
-                    text-transform: uppercase;
-                    color: var(--orange);
-                    margin-bottom: 6px;
-                }
-
-                .modal-title {
-                    font-family: 'Barlow Condensed', sans-serif;
-                    font-size: 32px;
-                    font-weight: 900;
-                    color: var(--black);
-                    text-transform: uppercase;
-                    margin-bottom: 24px;
-                    line-height: 1;
-                }
-
-                .modal-close {
-                    position: absolute;
-                    top: 16px;
-                    right: 20px;
-                    background: none;
-                    border: none;
-                    font-size: 22px;
-                    color: var(--gray-mid);
-                    cursor: pointer;
-                    line-height: 1;
-                    transition: color 0.15s;
-                }
-
-                    .modal-close:hover {
-                        color: var(--black);
-                    }
-
-                .form-group {
-                    margin-bottom: 16px;
-                }
-
-                .form-label {
-                    display: block;
-                    font-size: 11px;
-                    font-weight: 700;
-                    letter-spacing: 0.1em;
-                    text-transform: uppercase;
-                    color: var(--gray-dark);
-                    margin-bottom: 6px;
-                }
-
-                .form-control {
-                    width: 100%;
-                    border: 1px solid var(--gray-light);
-                    background: white;
-                    padding: 10px 14px;
-                    font-family: 'Barlow', sans-serif;
-                    font-size: 14px;
-                    color: var(--black);
-                    outline: none;
-                    transition: border-color 0.15s;
-                }
-
-                    .form-control:focus {
-                        border-color: var(--black);
-                    }
-
-                    .form-control option {
-                        background: white;
-                    }
-
-                .section-label {
-                    font-size: 10px;
-                    font-weight: 700;
-                    text-transform: uppercase;
-                    letter-spacing: 0.12em;
-                    color: var(--gray-mid);
-                    margin-bottom: 10px;
-                }
-
-                .knjiga-lista-wrap {
-                    border: 1px solid var(--gray-light);
-                    margin-bottom: 12px;
-                }
-
-                .knjiga-search-wrap {
-                    padding: 8px 12px;
-                    background: var(--cream-dark);
-                    border-bottom: 1px solid var(--gray-light);
-                }
-
-                .knjiga-lista {
-                    max-height: 180px;
-                    overflow-y: auto;
-                }
-
-                .knjiga-item {
-                    padding: 9px 14px;
-                    cursor: pointer;
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    border-bottom: 1px solid var(--gray-light);
-                    transition: background 0.1s;
-                }
-
-                    .knjiga-item:last-child {
-                        border-bottom: none;
-                    }
-
-                    .knjiga-item:hover {
-                        background: var(--cream-dark);
-                    }
-
-                .knjiga-item-name {
-                    font-size: 13px;
-                    font-weight: 600;
-                    color: var(--black);
-                }
-
-                .knjiga-item-author {
-                    font-size: 11px;
-                    color: var(--gray-mid);
-                }
-
-                .odabrana-knjiga {
-                    display: flex;
-                    align-items: center;
-                    gap: 8px;
-                    padding: 8px 12px;
-                    background: var(--cream-dark);
-                    border: 1px solid var(--gray-light);
-                    margin-bottom: 5px;
-                }
-
-                    .odabrana-knjiga span {
-                        flex: 1;
-                        font-size: 13px;
-                        font-weight: 600;
-                        color: var(--black);
-                    }
-
-                    .odabrana-knjiga button {
-                        background: none;
-                        border: none;
-                        cursor: pointer;
-                        color: var(--orange);
-                        font-size: 18px;
-                        font-weight: 700;
-                        line-height: 1;
-                        padding: 0;
-                        transition: color 0.15s;
-                    }
-
-                        .odabrana-knjiga button:hover {
-                            color: var(--black);
-                        }
-
-                .modal-actions {
-                    display: flex;
-                    gap: 8px;
-                    margin-top: 24px;
-                }
-
-                .btn-secondary {
-                    background: transparent;
-                    color: var(--gray-dark);
-                    border: 1px solid var(--gray-light);
-                    padding: 12px 20px;
-                    font-family: 'Barlow Condensed', sans-serif;
-                    font-size: 13px;
-                    font-weight: 700;
-                    letter-spacing: 0.1em;
-                    text-transform: uppercase;
-                    cursor: pointer;
-                    transition: all 0.15s;
-                }
-
-                    .btn-secondary:hover {
-                        border-color: var(--black);
-                        color: var(--black);
-                    }
-
-                /* ── Toast ── */
-                .toast {
-                    position: fixed;
-                    bottom: 24px;
-                    right: 24px;
-                    padding: 13px 20px;
-                    font-family: 'Barlow Condensed', sans-serif;
-                    font-size: 13px;
-                    font-weight: 700;
-                    letter-spacing: 0.06em;
-                    text-transform: uppercase;
-                    z-index: 9999;
-                    opacity: 0;
-                    transform: translateY(8px);
-                    transition: all 0.2s ease;
-                    border-left: 4px solid var(--orange);
-                    background: var(--cream);
-                    color: var(--black);
-                    max-width: 340px;
-                }
-
-                    .toast.show {
-                        opacity: 1;
-                        transform: translateY(0);
-                    }
-
-                    .toast.error {
-                        border-left-color: #d04424;
-                    }
-    </style>
+    <link rel="stylesheet" href="/shared.css">
 </head>
 <body>
-
-    <!-- ══ SIDEBAR ══ -->
     <aside class="sidebar">
-        <div class="sidebar-logo">
-            <div class="logo-mark">B</div>
-            <span class="logo-text">Biblioteka</span>
-        </div>
-
+        <div class="sidebar-logo"><div class="logo-mark">B</div><span class="logo-text">Biblioteka</span></div>
         <nav class="sidebar-nav">
             <p class="nav-section-label">Navigacija</p>
             <div class="folder-tabs">
-                <a href="/index.html" class="folder-tab" style="margin-left:0px">
-                    <span class="tab-num">01</span>Pregled
-                </a>
-                <a href="/knjige.html" class="folder-tab" style="margin-left:10px">
-                    <span class="tab-num">02</span>Knjige
-                </a>
-                <a href="/clanovi.html" class="folder-tab" style="margin-left:20px">
-                    <span class="tab-num">03</span>Članovi
-                </a>
-                <a href="/pozajmice.html" class="folder-tab active" style="margin-left:30px">
-                    <span class="tab-num">04</span>Pozajmice
-                    <span class="tab-badge" id="badgePoz"></span>
-                </a>
+                <a href="/index.html" class="folder-tab" style="margin-left:0px"><span class="tab-num">01</span>Pregled</a>
+                <a href="/knjige.html" class="folder-tab" style="margin-left:10px"><span class="tab-num">02</span>Knjige</a>
+                <a href="/clanovi.html" class="folder-tab" style="margin-left:20px"><span class="tab-num">03</span>Članovi</a>
+                <a href="/pozajmice.html" class="folder-tab active" style="margin-left:30px"><span class="tab-num">04</span>Pozajmice<span class="tab-badge" id="badgePoz" style="display:none"></span></a>
             </div>
         </nav>
-
         <div class="sidebar-footer">
             <div class="user-avatar" id="userInitials">—</div>
-            <div class="user-info">
-                <div class="user-name" id="userName">—</div>
-                <div class="user-role">Bibliotekar</div>
-            </div>
+            <div class="user-info"><div class="user-name" id="userName">—</div><div class="user-role">Bibliotekar</div></div>
             <button class="logout-btn" onclick="doLogout()" title="Odjavi se">↩</button>
         </div>
     </aside>
 
-    <!-- ══ MAIN ══ -->
     <main class="main">
-
-        <!-- Header -->
         <div class="page-header">
             <div class="page-breadcrumb">Biblioteka / Pozajmice</div>
             <div class="page-title-row">
-                <div>
-                    <h1 class="page-title">Pozajmice</h1>
-                    <p class="page-subtitle">Evidencija pozajmljenih knjiga</p>
-                </div>
+                <div><h1 class="page-title">Pozajmice</h1><p class="page-subtitle">Evidencija pozajmljenih knjiga</p></div>
                 <button class="btn-primary" onclick="openModal()">+ Nova pozajmica</button>
             </div>
         </div>
 
-        <!-- Filter tabs -->
         <div class="filter-row">
             <button class="filter-tab active" data-filter="all" onclick="setFilter('all',this)">Sve</button>
             <button class="filter-tab" data-filter="Zakasnelo" onclick="setFilter('Zakasnelo',this)">Zakasnele</button>
@@ -1003,278 +41,332 @@
             <button class="filter-tab" data-filter="Vraceno" onclick="setFilter('Vraceno',this)">Vraćene</button>
         </div>
 
-        <!-- Search -->
         <div class="search-row">
-            <input class="search-input" id="txtSearch" type="text"
-                   placeholder="Pretraži po članu, knjizi..."
-                   oninput="applyFilter()"
-                   onkeydown="if(event.key==='Enter') applyFilter()">
-            <button class="btn-search" onclick="applyFilter()">Pretraži</button>
-            <button class="btn-reset" onclick="resetFilter()">Reset</button>
+            <input class="search-input" id="txtSearch" type="text" placeholder="Pretraži po članu, knjizi..." style="flex:1;max-width:360px" oninput="applyFilter()" onkeydown="if(event.key==='Enter')applyFilter()">
+            <button class="btn-primary" style="padding:10px 20px" onclick="applyFilter()">Pretraži</button>
+            <button class="btn-secondary" onclick="resetFilter()">Reset</button>
             <div class="search-count">Ukupno: <span id="countDisplay">—</span></div>
         </div>
 
-        <!-- Table -->
-        <div class="table-wrap">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Član</th>
-                        <th>Bibliotekar</th>
-                        <th>Datum</th>
-                        <th>Knjige</th>
-                        <th>Status</th>
-                        <th>Vraćeno</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody id="tbodyPoz">
-                    <tr>
-                        <td colspan="7" class="state-cell">
-                            <span class="spinner"></span>Učitavanje...
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="content-area">
+            <div class="table-panel">
+                <table>
+                    <thead><tr><th>Član</th><th>Bibliotekar</th><th>Datum</th><th>Knjige</th><th>Status</th><th>Vraćeno</th></tr></thead>
+                    <tbody id="tbodyPoz"><tr><td colspan="6" class="state-cell"><span class="spinner"></span>Učitavanje...</td></tr></tbody>
+                </table>
+            </div>
+
+            <div class="detail-panel-wrap" id="detailWrap" style="display:none">
+                <div class="detail-panel">
+                    <div class="detail-tag">Detalji pozajmice</div>
+                    <div class="detail-title" id="dClanTitle">—</div>
+                    <div id="dStatusBar" class="status-bar active">—</div>
+                    <div class="detail-row"><span class="detail-label">Bibliotekar</span><span class="detail-value" id="dBib">—</span></div>
+                    <div class="detail-row"><span class="detail-label">Datum</span><span class="detail-value" id="dDatum">—</span></div>
+                    <div class="detail-row"><span class="detail-label">Br. knjiga</span><span class="detail-value" id="dBrojK">—</span></div>
+                    <div class="detail-divider"></div>
+                    <div class="detail-section-label">Pozajmljene knjige</div>
+                    <div id="stavkeContainer"></div>
+                    <div id="akcijePanel" style="display:none">
+                        <div class="detail-divider"></div>
+                        <div class="detail-section-label">Izmena roka</div>
+                        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+                            <input type="checkbox" id="chkIzmeniRok" onchange="document.getElementById('dtpRok').disabled=!this.checked" style="accent-color:var(--orange);width:15px;height:15px;cursor:pointer">
+                            <label for="chkIzmeniRok" style="font-size:13px;cursor:pointer;font-weight:500;color:var(--black)">Izmeni rok za sve aktivne</label>
+                        </div>
+                        <input class="form-control" type="date" id="dtpRok" disabled style="margin-bottom:12px">
+                        <button class="btn-primary" style="width:100%" onclick="sacuvajIzmene()">Sačuvaj izmene →</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <!-- Pagination -->
         <div class="pagination" id="paginacija" style="display:none">
-            <div class="pagination-info">
-                <strong id="pageRange">—</strong> od <strong id="pageTotal">—</strong>
-            </div>
+            <div class="pagination-info"><strong id="pageRange">—</strong> od <strong id="pageTotal">—</strong></div>
             <div class="pagination-controls">
-                <button class="page-btn" id="btnPrev" onclick="promeniStranu(-1)" disabled>←</button>
-                <button class="page-btn" id="btnNext" onclick="promeniStranu(1)">→</button>
+                <button class="page-btn page-btn-arrow" id="btnPrev" onclick="promeniStranu(-1)" disabled>←</button>
+                <button class="page-btn active" id="pageBtn1" onclick="goToPage(1)">01</button>
+                <button class="page-btn" id="pageBtn2" onclick="goToPage(2)" style="display:none">02</button>
+                <button class="page-btn" id="pageBtn3" onclick="goToPage(3)" style="display:none">03</button>
+                <button class="page-btn" id="pageBtn4" onclick="goToPage(4)" style="display:none">04</button>
+                <button class="page-btn" id="pageBtn5" onclick="goToPage(5)" style="display:none">05</button>
+                <button class="page-btn page-btn-arrow" id="btnNext" onclick="promeniStranu(1)">→</button>
             </div>
         </div>
-
     </main>
 
-    <!-- ══ MODAL: Nova pozajmica ══ -->
-    <div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this) closeModal()">
-        <div class="modal">
+    <div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+        <div class="modal" style="width:960px;max-width:97vw;padding:0;overflow:hidden;display:flex;flex-direction:column">
             <button class="modal-close" onclick="closeModal()">×</button>
-            <div class="modal-tag">Biblioteka / Nova pozajmica</div>
-            <h2 class="modal-title">Nova<br>Pozajmica</h2>
 
-            <div class="form-group">
-                <label class="form-label">Član</label>
-                <select class="form-control" id="mClan">
-                    <option value="">Izaberite člana...</option>
-                </select>
+            <!-- Header -->
+            <div style="padding:32px 40px 24px;border-bottom:1px solid var(--gray-light);flex-shrink:0">
+                <div class="modal-tag">Biblioteka / Pozajmice</div>
+                <h2 class="modal-title" style="margin-bottom:0">Nova Pozajmica</h2>
             </div>
 
-            <div class="section-label" style="margin-bottom:8px">Knjige za pozajmicu</div>
-            <div class="knjiga-lista-wrap">
-                <div class="knjiga-search-wrap">
-                    <input type="text" class="search-input" id="mKnjigaSearch"
-                           placeholder="Pretraži dostupne knjige..."
-                           style="width:100%;border:none;background:transparent;padding:4px 0"
-                           oninput="filterKnjige()">
+            <!-- Two-column body -->
+            <div style="display:grid;grid-template-columns:1fr 300px;flex:1;min-height:0;overflow:hidden">
+
+                <!-- LEFT: Izbor člana + knjiga -->
+                <div style="padding:24px 32px;overflow-y:auto;border-right:1px solid var(--gray-light)">
+
+                    <!-- Clan search -->
+                    <div style="margin-bottom:20px">
+                        <div class="detail-section-label" style="margin-bottom:8px">01 — Odaberi člana</div>
+                        <input type="text" class="search-input" id="mClanSearch"
+                               placeholder="Pretraži po imenu..."
+                               style="width:100%;margin-bottom:8px"
+                               oninput="filterClanovi()">
+                        <div id="clanLista" style="border:1px solid var(--gray-light);max-height:160px;overflow-y:auto">
+                            <div class="state-cell" style="padding:14px">Učitavanje...</div>
+                        </div>
+                    </div>
+
+                    <!-- Knjige search -->
+                    <div>
+                        <div class="detail-section-label" style="margin-bottom:8px">02 — Odaberi knjige</div>
+                        <input type="text" class="search-input" id="mKnjigaSearch"
+                               placeholder="Pretraži dostupne knjige..."
+                               style="width:100%;margin-bottom:8px"
+                               oninput="filterKnjige()">
+                        <div id="knjigaLista" style="border:1px solid var(--gray-light);max-height:220px;overflow-y:auto">
+                            <div class="state-cell" style="padding:14px">Učitavanje...</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="knjiga-lista" id="knjigaLista">
-                    <div class="state-cell" style="padding:16px">Učitavanje...</div>
+
+                <!-- RIGHT: Rezime box -->
+                <div style="padding:24px;background:var(--cream-dark);display:flex;flex-direction:column;gap:16px;overflow-y:auto">
+                    <div class="detail-section-label">Pregled pozajmice</div>
+
+                    <!-- Odabrani clan -->
+                    <div>
+                        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--gray-mid);margin-bottom:6px">Član</div>
+                        <div id="rezimeClan" style="font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;color:var(--gray-mid);padding:10px 12px;background:var(--cream);border:1px solid var(--gray-light)">
+                            Nije odabran
+                        </div>
+                    </div>
+
+                    <!-- Odabrane knjige -->
+                    <div style="flex:1">
+                        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--gray-mid);margin-bottom:6px">
+                            Knjige <span id="rezimeBrojKnjiga" style="color:var(--orange)"></span>
+                        </div>
+                        <div id="rezimeKnjige" style="font-size:13px;color:var(--gray-mid);font-family:'Barlow Condensed',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.05em">
+                            Nisu odabrane
+                        </div>
+                    </div>
+
+                    <!-- Datum -->
+                    <div>
+                        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--gray-mid);margin-bottom:6px">Rok vraćanja</div>
+                        <input class="form-control" type="date" id="mRok" style="background:white">
+                    </div>
+
+                    <!-- Akcije -->
+                    <div style="display:flex;flex-direction:column;gap:8px;margin-top:auto">
+                        <button class="btn-primary" style="width:100%;justify-content:center" onclick="kreirajPozajmicu()">
+                            Sačuvaj pozajmicu →
+                        </button>
+                        <button class="btn-secondary" style="width:100%;justify-content:center" onclick="closeModal()">
+                            Otkaži
+                        </button>
+                    </div>
                 </div>
-            </div>
-
-            <div id="odabraneKnjige"></div>
-
-            <div class="form-group" style="margin-top:8px">
-                <label class="form-label">Rok vraćanja</label>
-                <input class="form-control" type="date" id="mRok">
-            </div>
-
-            <div class="modal-actions">
-                <button class="btn-primary" style="flex:1" onclick="kreirajPozajmicu()">
-                    Sačuvaj pozajmicu →
-                </button>
-                <button class="btn-secondary" onclick="closeModal()">Otkaži</button>
             </div>
         </div>
     </div>
-
-    <!-- Toast -->
     <div class="toast" id="toast"></div>
 
-    <!-- ══ SCRIPTS ══ -->
     <script src="/api.js"></script>
     <script>
-        /* ─── State ─── */
-        let pozajmice = [];
-        let filtrirane = [];
-        let activeFilter = 'all';
-        let trenutnaStr = 0;
+        let pozajmice = [], filtrirane = [], selektovana = null;
+        let activeFilter = 'all', trenutnaStr = 0;
+        let selektovaniClanModal = null;
         const PAGE_SIZE = 10;
+        let sveKnjige = [], sveClanovi = [], odabraneK = [];
 
-        let sveKnjige = [];
-        let sveClanovi = [];
-        let odabraneK = [];
-
-        /* ─── Init ─── */
         (async () => {
             const status = await requireAuth().catch(() => null);
             if (!status) return;
-
-            /* Popuni ime u sidebaru */
             if (status.ime) {
                 document.getElementById('userName').textContent = status.ime;
-                const parts = status.ime.trim().split(' ');
-                document.getElementById('userInitials').textContent =
-                    parts.length >= 2 ? parts[0][0] + parts[1][0] : parts[0].substring(0, 2);
+                const p = status.ime.trim().split(' ');
+                document.getElementById('userInitials').textContent = p.length >= 2 ? p[0][0] + p[1][0] : p[0].substring(0, 2);
             }
-
+            const urlFilter = new URLSearchParams(window.location.search).get('filter');
+            if (urlFilter) {
+                activeFilter = urlFilter;
+                document.querySelectorAll('.filter-tab').forEach(t => t.classList.toggle('active', t.dataset.filter === urlFilter));
+            }
             await ucitaj();
         })();
 
         async function ucitaj() {
             try {
                 pozajmice = await API.getPozajmice();
-                pozajmice.sort((a, b) => {
-                    const o = { Zakasnelo: 0, Aktivna: 1, Vraceno: 2 };
-                    return (o[a.status] ?? 3) - (o[b.status] ?? 3)
-                        || new Date(b.datumOd) - new Date(a.datumOd);
-                });
-
-                /* Badge broj zakasnelih */
-                const zakasnele = pozajmice.filter(p => p.status === 'Zakasnelo').length;
+                pozajmice.sort((a, b) => { const o = { Zakasnelo: 0, Aktivna: 1, Vraceno: 2 }; return (o[a.status] ?? 3) - (o[b.status] ?? 3) || new Date(b.datumOd) - new Date(a.datumOd); });
+                const zak = pozajmice.filter(p => p.status === 'Zakasnelo').length;
                 const badge = document.getElementById('badgePoz');
-                badge.textContent = zakasnele || '';
-                badge.style.display = zakasnele ? '' : 'none';
-
+                badge.textContent = zak || ''; badge.style.display = zak ? '' : 'none';
                 applyFilter();
-            } catch (ex) {
-                showToast('Greška pri učitavanju: ' + ex.message, true);
-            }
+            } catch (ex) { showToast('Greška: ' + ex.message, true); }
         }
 
-        /* ─── Filter & render ─── */
         function applyFilter() {
             const q = document.getElementById('txtSearch').value.trim().toLowerCase();
             filtrirane = pozajmice.filter(p => {
                 const mF = activeFilter === 'all' || p.status === activeFilter;
-                const mQ = !q
-                    || (p.imePrezimeClana || '').toLowerCase().includes(q)
-                    || (p.imePrezimeBibliotekar || '').toLowerCase().includes(q)
-                    || (p.stavke || []).some(s => (s.nazivKnjige || '').toLowerCase().includes(q));
+                const mQ = !q || (p.imePrezimeClana || '').toLowerCase().includes(q) || (p.imePrezimeBibliotekar || '').toLowerCase().includes(q) || (p.stavke || []).some(s => (s.nazivKnjige || '').toLowerCase().includes(q));
                 return mF && mQ;
             });
-            trenutnaStr = 0;
-            renderTabela();
+            trenutnaStr = 0; renderTabela();
         }
 
         function renderTabela() {
             const od = trenutnaStr * PAGE_SIZE;
             const do_ = Math.min(od + PAGE_SIZE, filtrirane.length);
-            const str = filtrirane.slice(od, do_);
-
             document.getElementById('countDisplay').textContent = filtrirane.length;
-
             const tb = document.getElementById('tbodyPoz');
-
-            if (!filtrirane.length) {
-                tb.innerHTML = `<tr><td colspan="7" class="state-cell">Nema pozajmica</td></tr>`;
-                document.getElementById('paginacija').style.display = 'none';
-                return;
-            }
-
-            tb.innerHTML = str.map(p => {
+            if (!filtrirane.length) { tb.innerHTML = `<tr><td colspan="6" class="state-cell">Nema pozajmica</td></tr>`; document.getElementById('paginacija').style.display = 'none'; return; }
+            tb.innerHTML = filtrirane.slice(od, do_).map(p => {
                 const naslovi = (p.stavke || []).map(s => s.nazivKnjige).filter(Boolean).join(', ');
-                return `<tr onclick="selektuj(${p.id})">
-          <td class="td-member">${esc(p.imePrezimeClana || '—')}</td>
-          <td class="td-librarian">${esc(p.imePrezimeBibliotekar || '—')}</td>
-          <td class="td-date">${fmtDatum(p.datumOd)}</td>
-          <td class="td-books">${esc(naslovi || '—')}</td>
-          <td><span class="badge ${badgeCls(p.status)}">${esc(p.status || '—')}</span></td>
-          <td class="td-returned">${p.datumVracanja ? fmtDatum(p.datumVracanja) : '—'}</td>
-          <td class="row-action">›</td>
-        </tr>`;
+                return `<tr onclick="selektuj(${p.id})" class="${selektovana?.id === p.id ? 'selected' : ''}">
+              <td style="font-weight:600">${esc(p.imePrezimeClana || '—')}</td>
+              <td style="color:var(--gray-dark);font-size:13px">${esc(p.imePrezimeBibliotekar || '—')}</td>
+              <td style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;color:var(--gray-dark)">${fmtDatum(p.datumOd)}</td>
+              <td style="font-size:13px;color:var(--gray-dark);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(naslovi || '—')}</td>
+              <td><span class="badge ${badgeCls(p.status)}">${esc(p.status || '—')}</span></td>
+              <td style="color:var(--gray-mid);font-size:13px;font-family:'Barlow Condensed',sans-serif">${p.datumVracanja ? fmtDatum(p.datumVracanja) : '—'}</td>
+            </tr>`;
             }).join('');
-
             const pag = document.getElementById('paginacija');
             pag.style.display = filtrirane.length > PAGE_SIZE ? '' : 'none';
             document.getElementById('pageRange').textContent = `${od + 1}–${do_}`;
             document.getElementById('pageTotal').textContent = filtrirane.length;
             document.getElementById('btnPrev').disabled = trenutnaStr === 0;
             document.getElementById('btnNext').disabled = do_ >= filtrirane.length;
+
+            const ukupnoStrana = Math.ceil(filtrirane.length / PAGE_SIZE);
+            for (let i = 1; i <= 5; i++) {
+                const btn = document.getElementById('pageBtn' + i);
+                if (i <= ukupnoStrana) {
+                    btn.style.display = '';
+                    btn.textContent = String(i).padStart(2, '0');
+                    btn.classList.toggle('active', i === trenutnaStr + 1);
+                } else {
+                    btn.style.display = 'none';
+                }
+            }
         }
 
-        function setFilter(f, el) {
-            activeFilter = f;
-            document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
-            el.classList.add('active');
-            applyFilter();
-        }
-
-        function resetFilter() {
-            document.getElementById('txtSearch').value = '';
-            activeFilter = 'all';
-            document.querySelectorAll('.filter-tab').forEach((t, i) => t.classList.toggle('active', i === 0));
-            applyFilter();
-        }
-
-        function promeniStranu(d) {
-            trenutnaStr += d;
-            renderTabela();
-            document.querySelector('.table-wrap').scrollTop = 0;
-        }
+        function setFilter(f, el) { activeFilter = f; document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active')); el.classList.add('active'); applyFilter(); }
+        function resetFilter() { document.getElementById('txtSearch').value = ''; activeFilter = 'all'; document.querySelectorAll('.filter-tab').forEach((t, i) => t.classList.toggle('active', i === 0)); applyFilter(); }
+        function promeniStranu(d) { trenutnaStr += d; selektovana = null; document.getElementById('detailWrap').style.display = 'none'; renderTabela(); document.querySelector('.table-panel').scrollTop = 0; }
+        function goToPage(n) { trenutnaStr = n - 1; selektovana = null; document.getElementById('detailWrap').style.display = 'none'; renderTabela(); document.querySelector('.table-panel').scrollTop = 0; }
 
         function selektuj(id) {
-            /* Otvori detail panel ili redirect — po potrebi prosiri */
-            const p = pozajmice.find(x => x.id === id);
-            if (!p) return;
-            /* Oznaci red */
-            document.querySelectorAll('#tbodyPoz tr').forEach(r => r.classList.remove('selected'));
-            event.currentTarget.classList.add('selected');
+            selektovana = pozajmice.find(p => p.id === id);
+            if (!selektovana) return;
+            renderTabela();
+            const p = selektovana;
+            const sb = document.getElementById('dStatusBar');
+            if (p.status === 'Zakasnelo') { sb.className = 'status-bar expired'; sb.textContent = 'Zakasnela pozajmica'; }
+            else if (p.status === 'Aktivna') { sb.className = 'status-bar active'; sb.textContent = 'Aktivna pozajmica'; }
+            else { sb.className = 'status-bar warning'; sb.textContent = 'Vraćena'; }
+            document.getElementById('dClanTitle').textContent = p.imePrezimeClana || '—';
+            document.getElementById('dBib').textContent = p.imePrezimeBibliotekar || '—';
+            document.getElementById('dDatum').textContent = fmtDatum(p.datumOd);
+            document.getElementById('dBrojK').textContent = (p.stavke || []).length;
+            const cont = document.getElementById('stavkeContainer');
+            cont.innerHTML = (p.stavke || []).map(s => {
+                const vracena = !!s.datumVracanja;
+                const zak = !vracena && new Date(s.rokPozajmice) < new Date();
+                return `<div class="stavka-row${zak ? ' stavka-zakasnela' : vracena ? ' stavka-vracena' : ''}">
+              ${(!vracena && (p.status === 'Aktivna' || p.status === 'Zakasnelo')) ? `<input type="checkbox" class="stavka-chk" data-id="${s.idKnjige}" style="accent-color:var(--orange);width:15px;height:15px;cursor:pointer">` : `<span style="width:15px;display:inline-block"></span>`}
+              <span class="stavka-title">${esc(s.nazivKnjige || '—')}</span>
+              <span class="stavka-rok" style="color:${zak ? '#b83320' : vracena ? '#1a6637' : 'var(--gray-mid)'}">${vracena ? fmtDatum(s.datumVracanja) : fmtDatum(s.rokPozajmice)}</span>
+            </div>`;
+            }).join('') || `<div class="state-cell" style="padding:16px">Nema knjiga</div>`;
+            const aktivan = p.status === 'Aktivna' || p.status === 'Zakasnelo';
+            document.getElementById('akcijePanel').style.display = aktivan ? '' : 'none';
+            if (aktivan) {
+                document.getElementById('chkIzmeniRok').checked = false;
+                document.getElementById('dtpRok').disabled = true;
+                const aktS = (p.stavke || []).filter(s => !s.datumVracanja);
+                if (aktS.length) { const maxRok = aktS.reduce((m, s) => new Date(s.rokPozajmice) > new Date(m.rokPozajmice) ? s : m); document.getElementById('dtpRok').value = maxRok.rokPozajmice.split('T')[0]; }
+            }
+            document.getElementById('detailWrap').style.display = '';
         }
 
-        /* ─── Modal ─── */
+        async function sacuvajIzmene() {
+            if (!selektovana) return;
+            const vratiIds = Array.from(document.querySelectorAll('.stavka-chk:checked')).map(c => parseInt(c.dataset.id));
+            const izmeniRok = document.getElementById('chkIzmeniRok').checked;
+            const noviRok = document.getElementById('dtpRok').value;
+            if (!vratiIds.length && !izmeniRok) { showToast('Označite knjige ili izmenu roka.', true); return; }
+            if (izmeniRok && (!noviRok || new Date(noviRok) <= new Date())) { showToast('Rok mora biti u budućnosti.', true); return; }
+            try {
+                for (const id of vratiIds) await API.vratiKnjigu(selektovana.id, id).catch(() => { });
+                if (izmeniRok) await API.izmeniRok(selektovana.id, noviRok).catch(() => { });
+                showToast('Izmene sačuvane.'); await ucitaj();
+                const u = pozajmice.find(p => p.id === selektovana.id);
+                if (u) { selektovana = u; selektuj(u.id); }
+            } catch (ex) { showToast(ex.message, true); }
+        }
+
         async function openModal() {
             odabraneK = [];
-            document.getElementById('odabraneKnjige').innerHTML = '';
+            selektovaniClanModal = null;
             document.getElementById('mKnjigaSearch').value = '';
-            document.getElementById('mRok').value =
-                new Date(Date.now() + 14 * 86400000).toISOString().split('T')[0];
-
+            document.getElementById('mClanSearch').value = '';
+            document.getElementById('mRok').value = new Date(Date.now() + 14 * 86400000).toISOString().split('T')[0];
+            updateRezime();
             document.getElementById('modalOverlay').classList.add('open');
-
             try {
-                [sveKnjige, sveClanovi] = await Promise.all([
-                    API.getKnjige().catch(() => []),
-                    API.getClanovi().catch(() => [])
-                ]);
-                document.getElementById('mClan').innerHTML =
-                    '<option value="">Izaberite člana...</option>' +
-                    sveClanovi.map(c =>
-                        `<option value="${c.id}">${esc(c.ime + ' ' + c.prezime)} (${esc(c.telefon || '')})</option>`
-                    ).join('');
+                [sveKnjige, sveClanovi] = await Promise.all([API.getKnjige().catch(() => []), API.getClanovi().catch(() => [])]);
+                filterClanovi();
                 filterKnjige();
-            } catch (ex) {
-                showToast('Greška: ' + ex.message, true);
-            }
+            } catch (ex) { showToast('Greška: ' + ex.message, true); }
+        }
+
+        function filterClanovi() {
+            const q = document.getElementById('mClanSearch').value.toLowerCase();
+            const f = q ? sveClanovi.filter(c => (c.ime + ' ' + c.prezime).toLowerCase().includes(q)) : sveClanovi;
+            const cont = document.getElementById('clanLista');
+            if (!f.length) { cont.innerHTML = `<div class="knjiga-item" style="color:var(--gray-mid);cursor:default">Nema rezultata</div>`; return; }
+            cont.innerHTML = f.slice(0, 30).map(c => {
+                const active = selektovaniClanModal?.id === c.id;
+                return `<div class="knjiga-item${active ? ' clan-selected' : ''}" onclick="odaberiClana(${c.id})">
+                        <div>
+                            <div class="knjiga-item-name">${esc(c.ime + ' ' + c.prezime)}</div>
+                        </div>
+                        ${active ? '<span style="color:var(--orange);font-weight:700;font-size:18px">✓</span>' : ''}
+                    </div>`;
+            }).join('');
+        }
+
+        function odaberiClana(id) {
+            selektovaniClanModal = sveClanovi.find(c => c.id === id);
+            filterClanovi();
+            updateRezime();
         }
 
         function filterKnjige() {
             const q = document.getElementById('mKnjigaSearch').value.toLowerCase();
             const dos = sveKnjige.filter(k => k.dostupna && !odabraneK.find(o => o.id === k.id));
-            const f = q ? dos.filter(k =>
-                k.naziv.toLowerCase().includes(q) ||
-                (k.imePisca + ' ' + k.prezimePisca).toLowerCase().includes(q)
-            ) : dos;
-
+            const f = q ? dos.filter(k => (k.naziv + ' ' + k.imePisca + ' ' + (k.prezimePisca || '')).toLowerCase().includes(q)) : dos;
             const cont = document.getElementById('knjigaLista');
-            if (!f.length) {
-                cont.innerHTML = `<div class="state-cell" style="padding:16px">Nema dostupnih knjiga</div>`;
-                return;
-            }
-            cont.innerHTML = f.slice(0, 20).map(k => `
-        <div class="knjiga-item" onclick="odaberiKnjigu(${k.id})">
-          <div>
-            <div class="knjiga-item-name">${esc(k.naziv)}</div>
-            <div class="knjiga-item-author">${esc(k.imePisca)} ${esc(k.prezimePisca || '')}</div>
-          </div>
-          <span class="badge badge-success">${k.brojSlobodnih} sl.</span>
-        </div>`).join('');
+            if (!f.length) { cont.innerHTML = `<div class="knjiga-item" style="color:var(--gray-mid);cursor:default">Nema dostupnih knjiga</div>`; return; }
+            cont.innerHTML = f.slice(0, 30).map(k => `
+                    <div class="knjiga-item" onclick="odaberiKnjigu(${k.id})">
+                        <div>
+                            <div class="knjiga-item-name">${esc(k.naziv)}</div>
+                            <div class="knjiga-item-author">${esc(k.imePisca)} ${esc(k.prezimePisca || '')}</div>
+                        </div>
+                        <span class="badge badge-success">${k.brojSlobodnih} sl.</span>
+                    </div>`).join('');
         }
 
         function odaberiKnjigu(id) {
@@ -1282,85 +374,104 @@
             if (!k || odabraneK.find(o => o.id === id)) return;
             odabraneK.push(k);
             filterKnjige();
-            renderOdabrane();
+            updateRezime();
         }
 
         function ukloniKnjigu(id) {
             odabraneK = odabraneK.filter(k => k.id !== id);
             filterKnjige();
-            renderOdabrane();
+            updateRezime();
         }
 
-        function renderOdabrane() {
-            const cont = document.getElementById('odabraneKnjige');
-            if (!odabraneK.length) { cont.innerHTML = ''; return; }
-            cont.innerHTML =
-                `<div class="section-label" style="margin-bottom:7px">Odabrano (${odabraneK.length})</div>` +
-                odabraneK.map(k => `
-          <div class="odabrana-knjiga">
-            <span>${esc(k.naziv)}</span>
-            <button onclick="ukloniKnjigu(${k.id})">×</button>
-          </div>`).join('');
+        function updateRezime() {
+            /* Clan */
+            const clanEl = document.getElementById('rezimeClan');
+            if (selektovaniClanModal) {
+                clanEl.textContent = selektovaniClanModal.ime + ' ' + selektovaniClanModal.prezime;
+                clanEl.style.color = 'var(--black)';
+            } else {
+                clanEl.textContent = 'Nije odabran';
+                clanEl.style.color = 'var(--gray-mid)';
+            }
+
+            /* Knjige */
+            const knjigeEl = document.getElementById('rezimeKnjige');
+            const brojEl = document.getElementById('rezimeBrojKnjiga');
+            if (odabraneK.length) {
+                brojEl.textContent = '(' + odabraneK.length + ')';
+                knjigeEl.innerHTML = odabraneK.map(k => `
+                        <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:white;border:1px solid var(--gray-light);margin-bottom:5px">
+                            <span style="font-size:13px;font-weight:600;color:var(--black);text-transform:none;letter-spacing:0;font-family:'Barlow',sans-serif">${esc(k.naziv)}</span>
+                            <button onclick="ukloniKnjigu(${k.id})" style="background:none;border:none;cursor:pointer;color:var(--orange);font-size:16px;font-weight:700;line-height:1;padding:0;flex-shrink:0">×</button>
+                        </div>`).join('');
+            } else {
+                brojEl.textContent = '';
+                knjigeEl.innerHTML = '<span style="font-size:13px;color:var(--gray-mid);font-family:Barlow,sans-serif;text-transform:none;letter-spacing:0;font-weight:400">Nisu odabrane</span>';
+            }
         }
 
-        function closeModal() {
-            document.getElementById('modalOverlay').classList.remove('open');
-        }
+        function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
 
         async function kreirajPozajmicu() {
-            const idClan = parseInt(document.getElementById('mClan').value);
+            const idClan = selektovaniClanModal?.id;
             const rok = document.getElementById('mRok').value;
-
             if (!idClan) { showToast('Izaberite člana.', true); return; }
             if (!odabraneK.length) { showToast('Dodajte bar jednu knjigu.', true); return; }
             if (!rok) { showToast('Unesite rok vraćanja.', true); return; }
 
+            const rokISO = rok + 'T00:00:00';
+            const today = new Date().toISOString().split('T')[0] + 'T00:00:00';
+            const payload = {
+                id: 0,
+                idClan: parseInt(idClan),
+                idBibliotekar: 0,
+                datumOd: today,
+                imePrezimeClana: '',
+                imePrezimeBibliotekar: '',
+                brojKnjiga: odabraneK.length,
+                status: '',
+                stavke: odabraneK.map(k => ({
+                    id: 0,
+                    idPozajmica: 0,
+                    idKnjige: parseInt(k.id),
+                    rokPozajmice: rokISO,
+                    nazivKnjige: k.naziv || '',
+                    datumVracanja: null
+                }))
+            };
+
             try {
-                await API.addPozajmica({
-                    idClan,
-                    stavke: odabraneK.map(k => ({ idKnjige: k.id, rokPozajmice: rok }))
+                const res = await fetch('/api/pozajmica', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'same-origin',
+                    body: JSON.stringify(payload)
                 });
-                showToast('Pozajmica kreirana.');
+                const data = await res.json();
+
+                if (!res.ok || (data.signal === false)) {
+                    // Show detailed error from backend
+                    let errMsg = data.poruka || data.title || JSON.stringify(data.errors || data) || ('Greška: ' + res.status);
+                    showToast(errMsg, true);
+                    console.error('Server odgovor:', JSON.stringify(data));
+                    return;
+                }
+
                 closeModal();
+                showToast('Pozajmica kreirana.');
+                await new Promise(r => setTimeout(r, 500));
                 await ucitaj();
             } catch (ex) {
-                showToast(ex.message, true);
+                showToast('Mrežna greška: ' + ex.message, true);
             }
         }
 
-        /* ─── Helpers ─── */
-        async function doLogout() {
-            try { await API.logout(); } catch { }
-            window.location.replace('/login.html');
-        }
-
-        function fmtDatum(d) {
-            if (!d) return '—';
-            const dt = new Date(d);
-            return dt.toLocaleDateString('sr-Latn', { day: '2-digit', month: '2-digit', year: 'numeric' });
-        }
-
-        function badgeCls(s) {
-            if (s === 'Aktivna') return 'badge-info';
-            if (s === 'Zakasnelo') return 'badge-danger';
-            if (s === 'Vraceno') return 'badge-success';
-            return 'badge-muted';
-        }
-
-        function esc(s) {
-            return String(s)
-                .replace(/&/g, '&amp;').replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-        }
-
+        async function doLogout() { try { await API.logout(); } catch { } window.location.replace('/login.html'); }
+        function fmtDatum(d) { if (!d) return '—'; return new Date(d).toLocaleDateString('sr-Latn', { day: '2-digit', month: '2-digit', year: 'numeric' }); }
+        function badgeCls(s) { if (s === 'Aktivna') return 'badge-info'; if (s === 'Zakasnelo') return 'badge-danger'; if (s === 'Vraceno') return 'badge-success'; return 'badge-muted'; }
+        function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
         let toastTimer;
-        function showToast(msg, isError) {
-            const t = document.getElementById('toast');
-            t.textContent = msg;
-            t.className = 'toast show' + (isError ? ' error' : '');
-            clearTimeout(toastTimer);
-            toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
-        }
+        function showToast(msg, isError) { const t = document.getElementById('toast'); t.textContent = msg; t.className = 'toast show' + (isError ? ' error' : ''); clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('show'), 3000); }
     </script>
 </body>
 </html>

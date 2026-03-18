@@ -4,77 +4,107 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Biblioteka — Pregled</title>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/shared.css">
 </head>
 <body>
-    <div class="app-shell">
-        <div class="main-content" id="mainContent" style="display:none">
 
-            <div class="page-header">
-                <div>
-                    <div class="page-title" id="welcomeMsg">Pregled</div>
-                    <div class="page-subtitle">Aktivnost biblioteke danas</div>
-                </div>
-            </div>
-
-            <div class="stats-row">
-                <div class="stat-card">
-                    <div class="stat-value" id="statKnjige">—</div>
-                    <div class="stat-label">Knjiga u katalogu</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="statClanovi">—</div>
-                    <div class="stat-label">Registrovanih članova</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="statAktivne">—</div>
-                    <div class="stat-label">Aktivnih pozajmica</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="statZakasnjele" style="color:var(--danger)">—</div>
-                    <div class="stat-label">Zakasnjele pozajmice</div>
-                </div>
-            </div>
-
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">Nedavne pozajmice</div>
-                        <a href="/pozajmice.html" class="btn btn-sm btn-secondary">Sve →</a>
-                    </div>
-                    <div class="table-wrap">
-                        <table>
-                            <thead><tr><th>Član</th><th>Datum</th><th>Status</th></tr></thead>
-                            <tbody id="tbRecentPoz"></tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title" style="color:var(--danger)">Zakasnjele pozajmice</div>
-                        <a href="/pozajmice.html?filter=Zakasnelo" class="btn btn-sm btn-secondary">Prikaži sve →</a>
-                    </div>
-                    <div class="table-wrap">
-                        <table>
-                            <thead><tr><th>Član</th><th>Knjiga</th><th>Rok</th></tr></thead>
-                            <tbody id="tbLatePoz"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <div class="logo-mark">B</div>
+            <span class="logo-text">Biblioteka</span>
         </div>
-    </div>
+        <nav class="sidebar-nav">
+            <p class="nav-section-label">Navigacija</p>
+            <div class="folder-tabs">
+                <a href="/index.html" class="folder-tab active" style="margin-left:0px"><span class="tab-num">01</span>Pregled</a>
+                <a href="/knjige.html" class="folder-tab" style="margin-left:10px"><span class="tab-num">02</span>Knjige</a>
+                <a href="/clanovi.html" class="folder-tab" style="margin-left:20px"><span class="tab-num">03</span>Članovi</a>
+                <a href="/pozajmice.html" class="folder-tab" style="margin-left:30px"><span class="tab-num">04</span>Pozajmice<span class="tab-badge" id="badgePoz" style="display:none"></span></a>
+            </div>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="user-avatar" id="userInitials">—</div>
+            <div class="user-info">
+                <div class="user-name" id="userName">—</div>
+                <div class="user-role">Bibliotekar</div>
+            </div>
+            <button class="logout-btn" onclick="doLogout()" title="Odjavi se">↩</button>
+        </div>
+    </aside>
+
+    <main class="main">
+
+        <div class="page-header">
+            <div class="page-breadcrumb">Biblioteka / Pregled</div>
+            <div class="page-title-row">
+                <div>
+                    <h1 class="page-title" id="welcomeMsg">Pregled</h1>
+                    <p class="page-subtitle">Aktivnost biblioteke danas</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-grid" id="statsGrid" style="display:none">
+            <div class="stat-card accent">
+                <div class="stat-value" id="statKnjige">—</div>
+                <div class="stat-label">Knjiga u katalogu</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="statClanovi">—</div>
+                <div class="stat-label">Registrovanih članova</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="statAktivne">—</div>
+                <div class="stat-label">Aktivnih pozajmica</div>
+            </div>
+            <div class="stat-card danger">
+                <div class="stat-value" id="statZakasnjele">—</div>
+                <div class="stat-label">Zakasnjele pozajmice</div>
+            </div>
+        </div>
+
+        <div class="cards-grid" id="cardsGrid" style="display:none">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Nedavne pozajmice</div>
+                    <a href="/pozajmice.html" class="btn-secondary" style="padding:6px 14px;font-size:11px">Sve →</a>
+                </div>
+                <table>
+                    <thead><tr><th>Član</th><th>Datum</th><th>Status</th></tr></thead>
+                    <tbody id="tbRecentPoz">
+                        <tr><td colspan="3" class="state-cell" style="padding:20px"><span class="spinner"></span>Učitavanje...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title danger">Zakasnjele pozajmice</div>
+                    <a href="/pozajmice.html?filter=Zakasnelo" class="btn-secondary" style="padding:6px 14px;font-size:11px">Sve →</a>
+                </div>
+                <table>
+                    <thead><tr><th>Član</th><th>Knjiga</th><th>Rok</th></tr></thead>
+                    <tbody id="tbLatePoz">
+                        <tr><td colspan="3" class="state-cell" style="padding:20px"><span class="spinner"></span>Učitavanje...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
 
     <script src="/api.js"></script>
-    <script src="/sidebar.js"></script>
     <script>
         (async () => {
-            const status = await requireAuth();
+            const status = await requireAuth().catch(() => null);
             if (!status) return;
-            initPage('index', status);
-            document.getElementById('welcomeMsg').textContent = `Dobrodošli, ${status.ime || ''}!`;
+
+            if (status.ime) {
+                document.getElementById('welcomeMsg').textContent = `Dobrodošli, ${status.ime}!`;
+                document.getElementById('userName').textContent = status.ime;
+                const p = status.ime.trim().split(' ');
+                document.getElementById('userInitials').textContent = p.length >= 2 ? p[0][0] + p[1][0] : p[0].substring(0, 2);
+            }
 
             const [knjige, clanovi, pozajmice] = await Promise.all([
                 API.getKnjige().catch(() => []),
@@ -87,41 +117,57 @@
             document.getElementById('statAktivne').textContent = pozajmice.filter(p => p.status === 'Aktivna' || p.status === 'Zakasnelo').length;
             document.getElementById('statZakasnjele').textContent = pozajmice.filter(p => p.status === 'Zakasnelo').length;
 
-            const emptyRow = (cols, msg) => `<tr><td colspan="${cols}"><div class="empty-state" style="padding:20px">
-        <div class="empty-state-text">${msg}</div></div></td></tr>`;
+            const zak = pozajmice.filter(p => p.status === 'Zakasnelo').length;
+            const badge = document.getElementById('badgePoz');
+            if (zak) { badge.textContent = zak; badge.style.display = ''; }
+
+            document.getElementById('statsGrid').style.display = '';
+            document.getElementById('cardsGrid').style.display = '';
 
             const recent = [...pozajmice].sort((a, b) => new Date(b.datumOd) - new Date(a.datumOd)).slice(0, 8);
-            document.getElementById('tbRecentPoz').innerHTML = recent.length === 0
-                ? emptyRow(3, 'Nema pozajmica')
+            document.getElementById('tbRecentPoz').innerHTML = !recent.length
+                ? `<tr><td colspan="3" class="state-cell" style="padding:20px">Nema pozajmica</td></tr>`
                 : recent.map(p => `<tr onclick="location.href='/pozajmice.html'">
-            <td style="font-weight:500">${p.imePrezimeClana || '—'}</td>
-            <td style="color:var(--muted)">${fmtDatum(p.datumOd)}</td>
-            <td><span class="badge ${sBadge(p.status)}">${p.status || '—'}</span></td>
+            <td style="font-weight:600">${esc(p.imePrezimeClana || '—')}</td>
+            <td style="color:var(--gray-dark)">${fmtDatum(p.datumOd)}</td>
+            <td><span class="badge ${badgeCls(p.status)}">${esc(p.status || '—')}</span></td>
           </tr>`).join('');
 
-            const zak = pozajmice.filter(p => p.status === 'Zakasnelo');
-            if (!zak.length) {
-                document.getElementById('tbLatePoz').innerHTML = emptyRow(3, 'Nema zakasnjenih');
+            const zakPoz = pozajmice.filter(p => p.status === 'Zakasnelo');
+            if (!zakPoz.length) {
+                document.getElementById('tbLatePoz').innerHTML = `<tr><td colspan="3" class="state-cell" style="padding:20px">Nema zakasnjenih ✓</td></tr>`;
             } else {
                 const rows = [];
-                zak.forEach(p => (p.stavke || []).filter(s => !s.datumVracanja && new Date(s.rokPozajmice) < new Date()).forEach(s => {
+                zakPoz.forEach(p => (p.stavke || []).filter(s => !s.datumVracanja && new Date(s.rokPozajmice) < new Date()).forEach(s => {
                     rows.push(`<tr onclick="location.href='/pozajmice.html?filter=Zakasnelo'">
-            <td style="font-weight:500">${p.imePrezimeClana || '—'}</td>
-            <td style="max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${s.nazivKnjige || '—'}</td>
-            <td style="color:var(--danger);font-weight:700">${fmtDatum(s.rokPozajmice)}</td>
+            <td style="font-weight:600">${esc(p.imePrezimeClana || '—')}</td>
+            <td style="color:var(--gray-dark);max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(s.nazivKnjige || '—')}</td>
+            <td style="color:#b83320;font-weight:700;font-family:'Barlow Condensed',sans-serif">${fmtDatum(s.rokPozajmice)}</td>
           </tr>`);
                 }));
-                document.getElementById('tbLatePoz').innerHTML = rows.slice(0, 8).join('');
+                document.getElementById('tbLatePoz').innerHTML = rows.slice(0, 8).join('') || `<tr><td colspan="3" class="state-cell" style="padding:20px">Nema zakasnjenih</td></tr>`;
             }
-
-            document.getElementById('mainContent').style.display = '';
         })();
 
-        function sBadge(s) {
+        function badgeCls(s) {
             if (s === 'Aktivna') return 'badge-info';
             if (s === 'Zakasnelo') return 'badge-danger';
             if (s === 'Vraceno') return 'badge-success';
             return 'badge-muted';
+        }
+
+        function fmtDatum(d) {
+            if (!d) return '—';
+            return new Date(d).toLocaleDateString('sr-Latn', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        }
+
+        function esc(s) {
+            return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+
+        async function doLogout() {
+            try { await API.logout(); } catch { }
+            window.location.replace('/login.html');
         }
     </script>
 </body>
