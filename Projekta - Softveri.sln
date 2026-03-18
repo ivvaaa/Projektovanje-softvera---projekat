@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing", "Testing\Testing.csproj", "{DA92B894-95EE-48A8-80D8-7105F83C0AB1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BibliotekAPI", "BibliotekAPI\BibliotekAPI.csproj", "{6806E679-BC6A-4463-A925-6C8494F35412}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{DA92B894-95EE-48A8-80D8-7105F83C0AB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA92B894-95EE-48A8-80D8-7105F83C0AB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA92B894-95EE-48A8-80D8-7105F83C0AB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6806E679-BC6A-4463-A925-6C8494F35412}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6806E679-BC6A-4463-A925-6C8494F35412}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6806E679-BC6A-4463-A925-6C8494F35412}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6806E679-BC6A-4463-A925-6C8494F35412}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

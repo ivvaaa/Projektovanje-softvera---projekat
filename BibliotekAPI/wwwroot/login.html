@@ -1,180 +1,357 @@
 <!DOCTYPE html>
 <html lang="sr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Biblioteka — Prijava</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root { --accent: #2d5be3; --text: #1a1814; --muted: #7a7268; --border: #e2ddd6; --bg: #f4f2ee; }
-body { font-family: 'DM Sans', sans-serif; background: var(--bg); min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteka — Prijava</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
 
-.login-wrap {
-  display: grid;
-  grid-template-columns: 1fr 420px;
-  min-height: 100vh;
-  width: 100%;
-}
+        :root {
+            --accent: #ff6b2b;
+            --bg: #f5f0e8;
+            --surface: #fff;
+            --text: #1a1a1a;
+            --muted: rgba(26,26,26,.45);
+            --border: rgba(26,26,26,.12)
+        }
 
-.login-left {
-  background: #1a1814;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 64px;
-  position: relative;
-  overflow: hidden;
-}
-.login-left::before {
-  content: '';
-  position: absolute;
-  top: -100px; left: -100px;
-  width: 400px; height: 400px;
-  background: radial-gradient(circle, rgba(45,91,227,.25) 0%, transparent 70%);
-}
-.login-left::after {
-  content: '';
-  position: absolute;
-  bottom: -80px; right: -80px;
-  width: 300px; height: 300px;
-  background: radial-gradient(circle, rgba(45,91,227,.15) 0%, transparent 70%);
-}
-.login-logo {
-  display: flex; align-items: center; gap: 12px; margin-bottom: 64px; position: relative; z-index: 1;
-}
-.login-logo-icon {
-  width: 40px; height: 40px; background: var(--accent); border-radius: 10px;
-  display: flex; align-items: center; justify-content: center; font-size: 20px;
-}
-.login-logo-text { color: #fff; font-size: 16px; font-weight: 600; }
+        body {
+            font-family: 'Space Grotesk',sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh
+        }
 
-.login-heading { font-size: 36px; font-weight: 600; color: #fff; line-height: 1.2; letter-spacing: -.03em; margin-bottom: 16px; position: relative; z-index: 1; }
-.login-subhead { font-size: 15px; color: rgba(255,255,255,.5); max-width: 380px; line-height: 1.6; position: relative; z-index: 1; }
+        .login-wrap {
+            display: grid;
+            grid-template-columns: 1fr 460px;
+            min-height: 100vh
+        }
 
-.login-features { margin-top: 48px; display: flex; flex-direction: column; gap: 14px; position: relative; z-index: 1; }
-.login-feature { display: flex; align-items: center; gap: 10px; color: rgba(255,255,255,.6); font-size: 13px; }
-.login-feature-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; flex-shrink: 0; }
+        /* LEFT */
+        .login-left {
+            background: var(--text);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 48px 56px;
+            position: relative;
+            overflow: hidden
+        }
 
-.login-right {
-  background: #fff;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 48px 40px;
-}
-.login-form-title { font-size: 22px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
-.login-form-sub { font-size: 13px; color: var(--muted); margin-bottom: 32px; }
+        .login-bg-text {
+            position: absolute;
+            bottom: -60px;
+            left: -16px;
+            font-family: 'Syne',sans-serif;
+            font-size: 280px;
+            font-weight: 800;
+            line-height: 1;
+            letter-spacing: -.06em;
+            color: rgba(255,255,255,.04);
+            user-select: none;
+            white-space: nowrap
+        }
 
-.form-group { margin-bottom: 16px; }
-.form-label { display: block; font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 6px; letter-spacing: .05em; text-transform: uppercase; }
-.form-control {
-  width: 100%; padding: 10px 14px;
-  border: 1.5px solid var(--border);
-  border-radius: 9px; font-size: 14px;
-  font-family: inherit; color: var(--text);
-  background: var(--bg); transition: border-color .15s;
-}
-.form-control:focus { outline: none; border-color: var(--accent); background: #fff; }
+        .login-top {
+            position: relative;
+            z-index: 1
+        }
 
-.btn-login {
-  width: 100%; padding: 11px;
-  background: var(--accent); color: #fff;
-  border: none; border-radius: 9px;
-  font-size: 14px; font-weight: 600;
-  font-family: inherit; cursor: pointer;
-  transition: background .15s, transform .1s;
-  margin-top: 8px;
-}
-.btn-login:hover { background: #1e47cc; }
-.btn-login:active { transform: scale(.99); }
-.btn-login:disabled { opacity: .6; cursor: not-allowed; }
+        .login-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 72px
+        }
 
-.error-msg {
-  background: #fdeaea; color: #d63a3a;
-  border-radius: 8px; padding: 10px 14px;
-  font-size: 13px; margin-bottom: 16px;
-  display: none;
-}
-.error-msg.show { display: block; }
+        .login-logo-mark {
+            width: 36px;
+            height: 36px;
+            background: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Syne',sans-serif;
+            font-size: 15px;
+            font-weight: 800;
+            color: #fff
+        }
 
-@media (max-width: 768px) {
-  .login-wrap { grid-template-columns: 1fr; }
-  .login-left { display: none; }
-  .login-right { padding: 32px 24px; }
-}
-</style>
+        .login-logo-name {
+            font-family: 'Syne',sans-serif;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: #f5f0e8
+        }
+
+        .login-heading {
+            font-family: 'Syne',sans-serif;
+            font-size: 80px;
+            font-weight: 800;
+            line-height: .88;
+            letter-spacing: -.05em;
+            color: #f5f0e8;
+            text-transform: uppercase
+        }
+
+            .login-heading em {
+                color: var(--accent);
+                font-style: normal;
+                display: block
+            }
+
+        .login-bottom {
+            position: relative;
+            z-index: 1
+        }
+
+        .login-tagline {
+            font-size: 13px;
+            color: rgba(245,240,232,.45);
+            max-width: 320px;
+            line-height: 1.65;
+            margin-bottom: 36px
+        }
+
+        .login-features {
+            border-top: 1px solid rgba(255,255,255,.1)
+        }
+
+        .login-feature {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(255,255,255,.08);
+            color: rgba(245,240,232,.5);
+            font-size: 12px;
+            font-weight: 500
+        }
+
+        .feat-num {
+            font-family: 'Syne',sans-serif;
+            font-size: 10px;
+            font-weight: 800;
+            color: var(--accent);
+            letter-spacing: .1em;
+            min-width: 28px
+        }
+
+        /* RIGHT */
+        .login-right {
+            background: var(--surface);
+            border-left: 2px solid var(--text);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 64px 52px
+        }
+
+        .login-eyebrow {
+            font-family: 'Syne',sans-serif;
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 16px
+        }
+
+        .login-form-title {
+            font-family: 'Syne',sans-serif;
+            font-size: 36px;
+            font-weight: 800;
+            letter-spacing: -.04em;
+            text-transform: uppercase;
+            line-height: .95;
+            margin-bottom: 10px
+        }
+
+        .login-form-sub {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 36px;
+            line-height: 1.6
+        }
+
+        .form-group {
+            margin-bottom: 16px
+        }
+
+        .form-label {
+            display: block;
+            font-family: 'Syne',sans-serif;
+            font-size: 9px;
+            font-weight: 800;
+            color: var(--muted);
+            margin-bottom: 8px;
+            letter-spacing: .14em;
+            text-transform: uppercase
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid rgba(26,26,26,.15);
+            background: #f9f6f0;
+            color: var(--text);
+            font-family: 'Space Grotesk',sans-serif;
+            font-size: 14px;
+            transition: border-color .15s;
+            outline: none
+        }
+
+            .form-control::placeholder {
+                color: var(--muted)
+            }
+
+            .form-control:focus {
+                border-color: var(--accent);
+                background: #fff
+            }
+
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background: var(--text);
+            color: #f5f0e8;
+            border: none;
+            font-family: 'Syne',sans-serif;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all .18s;
+            margin-top: 8px;
+            position: relative;
+            overflow: hidden
+        }
+
+            .btn-login::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 0;
+                height: 3px;
+                background: var(--accent);
+                transition: width .3s
+            }
+
+            .btn-login:hover {
+                background: #2a2a2a
+            }
+
+                .btn-login:hover::after {
+                    width: 100%
+                }
+
+            .btn-login:disabled {
+                opacity: .5;
+                cursor: not-allowed
+            }
+
+        .error-msg {
+            background: rgba(230,57,70,.06);
+            color: #e63946;
+            border-left: 3px solid #e63946;
+            padding: 11px 16px;
+            font-family: 'Syne',sans-serif;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            display: none
+        }
+
+            .error-msg.show {
+                display: block
+            }
+
+        @media(max-width:900px) {
+            .login-wrap {
+                grid-template-columns: 1fr
+            }
+
+            .login-left {
+                display: none
+            }
+        }
+    </style>
 </head>
 <body>
-<div class="login-wrap">
-  <div class="login-left">
-    <div class="login-logo">
-      <div class="login-logo-icon">📚</div>
-      <span class="login-logo-text">Biblioteka</span>
+    <div class="login-wrap">
+        <div class="login-left">
+            <div class="login-bg-text">BIB</div>
+            <div class="login-top">
+                <div class="login-logo">
+                    <div class="login-logo-mark">B</div>
+                    <span class="login-logo-name">Biblioteka</span>
+                </div>
+                <h1 class="login-heading">
+                    Sistem<br>za
+                    <em>upravljanje</em>
+                </h1>
+            </div>
+            <div class="login-bottom">
+                <p class="login-tagline">Evidencija pozajmica, upravljanje katalogom i praćenje članova — sve na jednom mestu.</p>
+                <div class="login-features">
+                    <div class="login-feature"><span class="feat-num">01</span> Knjige i katalog</div>
+                    <div class="login-feature"><span class="feat-num">02</span> Upravljanje članovima</div>
+                    <div class="login-feature"><span class="feat-num">03</span> Praćenje pozajmica i rokova</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="login-right">
+            <div class="login-eyebrow">Biblioteka / Prijava</div>
+            <h2 class="login-form-title">Dobrodošli<br>nazad</h2>
+            <p class="login-form-sub">Unesite vaše podatke za pristup sistemu.</p>
+            <div class="error-msg" id="errorMsg"></div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label class="form-label">Korisničko ime</label>
+                    <input class="form-control" id="username" type="text" placeholder="npr. iva">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Lozinka</label>
+                    <input class="form-control" id="password" type="password" placeholder="••••••••">
+                </div>
+                <button class="btn-login" id="btnLogin" type="submit">Prijavi se →</button>
+            </form>
+        </div>
     </div>
-    <h1 class="login-heading">Sistem za upravljanje bibliotekom</h1>
-    <p class="login-subhead">Evidencija pozajmica knjiga, upravljanje članovima i katalogom — sve na jednom mestu.</p>
-    <div class="login-features">
-      <div class="login-feature"><div class="login-feature-dot"></div>Upravljanje knjigama i katalogom</div>
-      <div class="login-feature"><div class="login-feature-dot"></div>Registracija i pretraga članova</div>
-      <div class="login-feature"><div class="login-feature-dot"></div>Praćenje pozajmica i rokova vraćanja</div>
-    </div>
-  </div>
-
-  <div class="login-right">
-    <h2 class="login-form-title">Dobrodošli</h2>
-    <p class="login-form-sub">Prijavite se da biste pristupili sistemu.</p>
-
-    <div class="error-msg" id="errorMsg">Neispravno korisničko ime ili lozinka.</div>
-
-    <form id="loginForm">
-      <div class="form-group">
-        <label class="form-label" for="username">Korisničko ime</label>
-        <input class="form-control" id="username" type="text" autocomplete="username" placeholder="Unesite korisničko ime">
-      </div>
-      <div class="form-group">
-        <label class="form-label" for="password">Lozinka</label>
-        <input class="form-control" id="password" type="password" autocomplete="current-password" placeholder="Unesite lozinku">
-      </div>
-      <button class="btn-login" id="btnLogin" type="submit">Prijavi se</button>
-    </form>
-  </div>
-</div>
-
-<script src="api.js"></script>
-<script>
-// Ako je vec ulogovan, idi na index
-(async () => {
-  try {
-    const s = await API.authStatus();
-    if (s.ulogovan) window.location.href = '/index.html';
-  } catch {}
-})();
-
-document.getElementById('loginForm').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const btn = document.getElementById('btnLogin');
-  const err = document.getElementById('errorMsg');
-  const username = document.getElementById('username').value.trim();
-  const password = document.getElementById('password').value;
-
-  if (!username || !password) { err.textContent = 'Unesite korisničko ime i lozinku.'; err.classList.add('show'); return; }
-
-  btn.disabled = true;
-  btn.textContent = 'Prijava u toku...';
-  err.classList.remove('show');
-
-  try {
-    await API.login(username, password);
-    window.location.href = '/index.html';
-  } catch (ex) {
-    err.textContent = ex.message || 'Neispravni kredencijali.';
-    err.classList.add('show');
-    btn.disabled = false;
-    btn.textContent = 'Prijavi se';
-  }
-});
-</script>
+    <script src="/api.js"></script>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('btnLogin');
+            const err = document.getElementById('errorMsg');
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            if (!username || !password) { err.textContent = 'Unesite korisničko ime i lozinku.'; err.classList.add('show'); return; }
+            btn.disabled = true; btn.textContent = 'Prijava...';
+            err.classList.remove('show');
+            try {
+                await API.login(username, password);
+                window.location.href = '/index.html';
+            } catch (ex) {
+                err.textContent = ex.message || 'Neispravni kredencijali.';
+                err.classList.add('show');
+                btn.disabled = false; btn.textContent = 'Prijavi se →';
+            }
+        });
+    </script>
 </body>
 </html>

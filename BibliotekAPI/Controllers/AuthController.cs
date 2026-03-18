@@ -3,10 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BibliotekAPI.Controllers
 {
-    /// <summary>
-    /// Autentifikacija bibliotekara.
-    /// Zamenjuje TCP socket logiku iz ClientHandler-a za operaciju PrijaviBibliotekar.
-    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
@@ -18,19 +14,37 @@ namespace BibliotekAPI.Controllers
             _kontroler = kontroler;
         }
 
+        // DTO — jednostavan objekat bez validacije, samo za prijem podataka
+        public class LoginRequest
+        {
+            public string Username { get; set; } = "";
+            public string Password { get; set; } = "";
+        }
+
         /// <summary>
         /// SK9 — Prijava bibliotekara.
         /// POST /api/auth/login
-        /// Body: { "username": "...", "password": "..." }
         /// </summary>
         [HttpPost("login")]
-        public IActionResult Login([FromBody] Bibliotekar bibliotekar)
+        public IActionResult Login([FromBody] LoginRequest request)
         {
+            if (string.IsNullOrWhiteSpace(request.Username) ||
+                string.IsNullOrWhiteSpace(request.Password))
+            {
+                return BadRequest(new { signal = false, poruka = "Unesite korisničko ime i lozinku." });
+            }
+
             try
             {
+                // Kreiramo Bibliotekar objekat tek ovde, nakon validacije
+                var bibliotekar = new Bibliotekar
+                {
+                    Username = request.Username,
+                    Password = request.Password
+                };
+
                 Bibliotekar ulogovan = _kontroler.PrijaviBibliotekara(bibliotekar);
 
-                // Čuvamo ID u sesiji (kao što je ClientHandler čuvao referencu)
                 HttpContext.Session.SetString("bibliotekarId", ulogovan.Id.ToString());
                 HttpContext.Session.SetString("bibliotekarIme", ulogovan.ImePrezime);
 
@@ -43,7 +57,7 @@ namespace BibliotekAPI.Controllers
             }
             catch (Exception ex)
             {
-                return Unauthorized(new { signal = false, poruka = ex.Message });
+                return Ok(new { signal = false, poruka = ex.Message });
             }
         }
 

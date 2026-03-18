@@ -1,127 +1,116 @@
 <!DOCTYPE html>
 <html lang="sr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Biblioteka — Pregled</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteka — Pregled</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-<div class="app-shell">
-  <div class="main-content" id="mainContent" style="display:none">
-    <div class="page-header">
-      <div>
-        <div class="page-title" id="welcomeMsg">Dobrodošli</div>
-        <div class="page-subtitle">Pregled aktivnosti biblioteke</div>
-      </div>
+    <div class="app-shell">
+        <div class="main-content" id="mainContent" style="display:none">
+            <div class="page-header">
+                <div>
+                    <div class="page-title" id="welcomeMsg">Pregled</div>
+                    <div class="page-subtitle">Aktivnost biblioteke danas</div>
+                </div>
+            </div>
+
+            <div class="stats-row">
+                <div class="stat-card" style="background:var(--accent);border:none">
+                    <div class="stat-value" style="color:#fff" id="statKnjige">—</div>
+                    <div class="stat-label" style="color:rgba(255,255,255,.65)">Knjiga u katalogu</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="statClanovi">—</div>
+                    <div class="stat-label">Registrovanih članova</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="statAktivne">—</div>
+                    <div class="stat-label">Aktivnih pozajmica</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="statZakasnjele" style="color:var(--danger)">—</div>
+                    <div class="stat-label">Zakasnjele pozajmice</div>
+                </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Nedavne pozajmice</div>
+                        <a href="/pozajmice.html" class="btn btn-sm btn-secondary">Sve →</a>
+                    </div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>Član</th><th>Datum</th><th>Status</th></tr></thead>
+                            <tbody id="tbRecentPoz"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title" style="color:var(--danger)">▲ Zakasnjele</div>
+                        <a href="/pozajmice.html?filter=Zakasnelo" class="btn btn-sm btn-secondary">Prikaži sve →</a>
+                    </div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>Član</th><th>Knjiga</th><th>Rok</th></tr></thead>
+                            <tbody id="tbLatePoz"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="stats-row" id="statsRow">
-      <div class="stat-card"><div class="stat-value" id="statKnjige">—</div><div class="stat-label">Knjiga u katalogu</div></div>
-      <div class="stat-card"><div class="stat-value" id="statClanovi">—</div><div class="stat-label">Registrovanih članova</div></div>
-      <div class="stat-card"><div class="stat-value" id="statAktivne">—</div><div class="stat-label">Aktivnih pozajmica</div></div>
-      <div class="stat-card"><div class="stat-value" id="statZakasnjele" style="color:var(--danger)">—</div><div class="stat-label">Zakasnjele pozajmice</div></div>
-    </div>
+    <script src="/api.js"></script>
+    <script src="/sidebar.js"></script>
+    <script>
+        (async () => {
+            const status = await requireAuth();
+            if (!status) return;
+            initPage('index', status);
+            document.getElementById('welcomeMsg').textContent = `Dobrodošli, ${status.ime || ''}!`;
 
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
-      <!-- Poslednje pozajmice -->
-      <div class="card">
-        <div class="card-header">
-          <div class="card-title">Nedavne pozajmice</div>
-          <a href="pozajmice.html" class="btn btn-sm btn-secondary">Sve pozajmice →</a>
-        </div>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Član</th><th>Datum</th><th>Status</th></tr></thead>
-            <tbody id="tbRecentPoz"></tbody>
-          </table>
-        </div>
-      </div>
+            const [knjige, clanovi, pozajmice] = await Promise.all([
+                API.getKnjige().catch(() => []),
+                API.getClanovi().catch(() => []),
+                API.getPozajmice().catch(() => [])
+            ]);
 
-      <!-- Zakasnjele pozajmice -->
-      <div class="card">
-        <div class="card-header">
-          <div class="card-title" style="color:var(--danger)">⚠ Zakasnjele pozajmice</div>
-          <a href="pozajmice.html" class="btn btn-sm btn-secondary">Prikaži sve →</a>
-        </div>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Član</th><th>Knjiga</th><th>Rok</th></tr></thead>
-            <tbody id="tbLatePoz"></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+            document.getElementById('statKnjige').textContent = knjige.length;
+            document.getElementById('statClanovi').textContent = clanovi.length;
+            document.getElementById('statAktivne').textContent = pozajmice.filter(p => p.status === 'Aktivna' || p.status === 'Zakasnelo').length;
+            document.getElementById('statZakasnjele').textContent = pozajmice.filter(p => p.status === 'Zakasnelo').length;
 
-<script src="api.js"></script>
-<script src="sidebar.js"></script>
-<script>
-(async () => {
-  await initPage('index');
+            const empty = (cols, msg) => `<tr><td colspan="${cols}" style="padding:28px;text-align:center;color:var(--muted);font-family:Syne,sans-serif;font-size:10px;letter-spacing:.1em;text-transform:uppercase">${msg}</td></tr>`;
 
-  const status = await API.authStatus();
-  document.getElementById('welcomeMsg').textContent = `Dobrodošli, ${status.ime || ''}!`;
+            const recent = [...pozajmice].sort((a, b) => new Date(b.datumOd) - new Date(a.datumOd)).slice(0, 8);
+            document.getElementById('tbRecentPoz').innerHTML = recent.length === 0 ? empty(3, 'Nema pozajmica')
+                : recent.map(p => `<tr onclick="location.href='/pozajmice.html'" style="cursor:pointer">
+            <td style="font-weight:500">${p.imePrezimeClana || '—'}</td>
+            <td style="color:var(--muted)">${fmtDatum(p.datumOd)}</td>
+            <td><span class="badge ${p.status === 'Aktivna' ? 'badge-info' : p.status === 'Zakasnelo' ? 'badge-danger' : 'badge-success'}">${p.status || '—'}</span></td>
+          </tr>`).join('');
 
-  // Paralelno učitaj sve podatke
-  const [knjige, clanovi, pozajmice] = await Promise.all([
-    API.getKnjige().catch(() => []),
-    API.getClanovi().catch(() => []),
-    API.getPozajmice().catch(() => [])
-  ]);
-
-  document.getElementById('statKnjige').textContent = knjige.length;
-  document.getElementById('statClanovi').textContent = clanovi.length;
-
-  const aktivne = pozajmice.filter(p => p.status === 'Aktivna' || p.status === 'Zakasnelo');
-  const zakasnjele = pozajmice.filter(p => p.status === 'Zakasnelo');
-  document.getElementById('statAktivne').textContent = aktivne.length;
-  document.getElementById('statZakasnjele').textContent = zakasnjele.length;
-
-  // Nedavne pozajmice (poslednje 8)
-  const recent = [...pozajmice].sort((a,b) => new Date(b.datumOd) - new Date(a.datumOd)).slice(0, 8);
-  const tbR = document.getElementById('tbRecentPoz');
-  if (recent.length === 0) {
-    tbR.innerHTML = '<tr><td colspan="3" class="empty-state" style="padding:24px;text-align:center;color:var(--muted)">Nema pozajmica</td></tr>';
-  } else {
-    tbR.innerHTML = recent.map(p => `
-      <tr onclick="location.href='pozajmice.html'" style="cursor:pointer">
-        <td>${p.imePrezimeClana || '—'}</td>
-        <td>${fmtDatum(p.datumOd)}</td>
-        <td><span class="badge ${statusBadge(p.status)}">${p.status || '—'}</span></td>
-      </tr>`).join('');
-  }
-
-  // Zakasnjele — sa stavkama
-  const tbL = document.getElementById('tbLatePoz');
-  if (zakasnjele.length === 0) {
-    tbL.innerHTML = '<tr><td colspan="3" style="padding:24px;text-align:center;color:var(--muted)">Nema zakasnjenih 🎉</td></tr>';
-  } else {
-    const rows = [];
-    zakasnjele.forEach(p => {
-      (p.stavke || []).filter(s => !s.datumVracanja && new Date(s.rokPozajmice) < new Date()).forEach(s => {
-        rows.push(`<tr onclick="location.href='pozajmice.html'" style="cursor:pointer">
-          <td>${p.imePrezimeClana || '—'}</td>
-          <td style="max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${s.nazivKnjige || '—'}</td>
-          <td style="color:var(--danger);font-weight:600">${fmtDatum(s.rokPozajmice)}</td>
-        </tr>`);
-      });
-    });
-    tbL.innerHTML = rows.slice(0,8).join('');
-  }
-
-  document.getElementById('mainContent').style.display = '';
-})();
-
-function statusBadge(s) {
-  if (s === 'Aktivna') return 'badge-info';
-  if (s === 'Zakasnelo') return 'badge-danger';
-  if (s === 'Vraceno') return 'badge-success';
-  return 'badge-muted';
-}
-</script>
+            const zak = pozajmice.filter(p => p.status === 'Zakasnelo');
+            if (zak.length === 0) {
+                document.getElementById('tbLatePoz').innerHTML = empty(3, 'Nema zakasnjenih ✓');
+            } else {
+                const rows = [];
+                zak.forEach(p => (p.stavke || []).filter(s => !s.datumVracanja && new Date(s.rokPozajmice) < new Date()).forEach(s => {
+                    rows.push(`<tr onclick="location.href='/pozajmice.html?filter=Zakasnelo'" style="cursor:pointer">
+            <td style="font-weight:500">${p.imePrezimeClana || '—'}</td>
+            <td style="max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${s.nazivKnjige || '—'}</td>
+            <td style="color:var(--danger);font-family:Syne,sans-serif;font-size:11px;font-weight:700">${fmtDatum(s.rokPozajmice)}</td>
+          </tr>`);
+                }));
+                document.getElementById('tbLatePoz').innerHTML = rows.slice(0, 8).join('');
+            }
+            document.getElementById('mainContent').style.display = '';
+        })();
+    </script>
 </body>
 </html>
